@@ -1,17 +1,18 @@
-import store from ".";
-import { _setCurrentAccount, _logout, accounts } from "./index";
+import { _login, _logout } from "./index";
+import store from "../index";
+import { mockAccounts } from "../../mock/users";
 
 // Giriş yapma fonksiyonu
-export const login = (username, password) => {
-  const account = accounts.find(
-    (acc) => acc.username === username && acc.password === password
+export const login = (email, password) => {
+  const account = mockAccounts.find(
+    (acc) => acc.email === email && acc.password === password
   );
-
+  console.log(account, "aaa");
   if (account) {
-    store.dispatch(_setCurrentAccount(account)); // Hesap bulunduysa giriş yap.
-    return account; // Başarılı giriş için kullanıcı bilgisi döndür.
+    store.dispatch(_login(account)); // Redux store'a kaydediyoruz
+    return { success: true, account };
   } else {
-    return null; // Giriş başarısız.
+    return { success: false, error: "Geçersiz email veya şifre" };
   }
 };
 
