@@ -7,7 +7,6 @@ export default function LoginPage() {
   const [currentForm, setCurrentForm] = useState("login");
   const currentAccount = useAccount();
   console.log(currentAccount, "aaa");
-
   return (
     <>
       <div className=" bg-black flex flex-col min-h-screen justify-between items-center  ">
@@ -25,7 +24,7 @@ export default function LoginPage() {
             </svg>
           </div>
           <div className="min-w-[45vw] flex h-screen  justify-start px-4">
-            <div className="min-w-[437px] h-full max-w-[550px] w-full px-5 flex flex-col justify-center  text-[#e7e9ea] text-left">
+            <div className="min-w-[437px] h-full max-w-[500px] w-full px-5 flex flex-col gap-y-5 justify-center  text-[#e7e9ea] text-left">
               {/* Yazılar için sabit bir kapsayıcı */}
 
               <div className="flex flex-col gap-y-3">
@@ -39,9 +38,16 @@ export default function LoginPage() {
                 </span>
               </div>
               {/* Form alanı */}
-              <div className="mt-8">
-                {currentForm === "login" && <LoginForm />}
-                {currentForm === "register" && <RegisterForm />}
+              <div>
+                {currentForm === "login" && (
+                  <LoginForm setCurrentForm={setCurrentForm} />
+                )}
+                {currentForm === "register" && (
+                  <RegisterForm setCurrentForm={setCurrentForm} />
+                )}
+                {/* {currentForm === "verification" && (
+                  <VerificationForm setCurrentForm={setCurrentForm} />
+                )} */}
               </div>
             </div>
           </div>

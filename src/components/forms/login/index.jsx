@@ -1,43 +1,66 @@
-import Button from "../../Button";
-import Separator from "../../separator";
+/* eslint-disable react/prop-types */
+import { Formik, Form } from "formik";
+import CustomButton from "../../Button";
+import Separator from "../../separator/index";
+import { LoginSchema } from "../../../schema/auth";
+import CustomInput from "../../Inputs/Input";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../../store/auth/actions";
+import { showToast } from "../../../utils/toast";
 
-function LoginForm() {
+export default function LoginForm({ setCurrentForm }) {
+  const navigate = useNavigate();
+
   return (
-    <>
-      <div className="w-full flex flex-col gap-y-5 max-w-[350px]">
-        <div className="w-full flex flex-col gap-y-3 ">
-          <div className="flex flex-col items-start justify-start gap-y-1">
-            <label htmlFor="email" className="font-semibold text-[15px]">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="w-full outline-none bg-[#e7e9ea] text-black px-2 py-1.5 rounded-sm"
+    <Formik
+      initialValues={{ email: "", password: "" }}
+      validationSchema={LoginSchema}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          const response = login(values.email, values.password);
+          console.log(response);
+          if (response.success) {
+            showToast("success", "Giriş Başarılı");
+            navigate("/");
+          } else {
+            showToast("error", `${response.error}`);
+            console.log("first");
+          }
+          setSubmitting(false);
+        }, 1000);
+      }}
+    >
+      {({ isSubmitting }) => (
+        <Form className="w-full flex flex-col gap-y-5 max-w-[330px]">
+          <CustomInput
+            label={"Email"}
+            placeholder="Email adresinizi girin"
+            name={"email"}
+            type={"email"}
+          />
+          <CustomInput
+            label={"Şifre"}
+            placeholder="Şifrenizi girin"
+            name={"password"}
+            type={"password"}
+          />
+          <div className="flex flex-col gap-y-2.5 mt-2">
+            <CustomButton
+              className={"secondary"}
+              label="Giriş Yap"
+              type="submit"
+              isLoading={isSubmitting}
             />
-          </div>
 
-          <div className="flex flex-col items-start justify-start gap-y-1">
-            <label htmlFor="password" className="font-semibold text-[15px]">
-              Şifre
-            </label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              className="w-full outline-none text-black px-2 py-1.5 rounded-sm"
+            <Separator />
+            <CustomButton
+              className={"primary"}
+              label="Kayıt Ol"
+              onClick={() => setCurrentForm("register")}
             />
           </div>
-        </div>
-        <div className="w-full flex flex-col gap-y-3">
-          <Button label={"Giriş Yap"} onClick={() => {}} />
-          <Separator />
-          <Button label={"Kayıt Ol"} onClick={() => {}} />
-        </div>
-      </div>
-    </>
+        </Form>
+      )}
+    </Formik>
   );
 }
-
-export default LoginForm;

@@ -1,27 +1,45 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
+import { PacmanLoader } from "react-spinners";
 
-function Button({ label, type, ...props }) {
+function CustomButton({ label, className, isLoading, ...props }) {
   return (
     <button
       className={classnames(
-        "w-full rounded-sm py-1.5 bg-[#e7e9ea] hover:bg-white text-black font-semibold",
+        "w-full h-[35px] rounded-md  bg-[#e7e9ea] flex items-center justify-center hover:bg-white text-black font-semibold",
         {
-          "": type === 1,
-          "bg-[#a1a1a1] text-white": type === 2,
+          "!bg-[#1d9bf0] !text-[#e7e9ea] hover:!bg-[#1a8cd8]":
+            className === "primary",
+          "!bg-transparent !text-[#1d9bf0]  border border-[#536471] hover:!bg-[#1d9bf01a]":
+            className === "secondary",
         }
       )}
+      disabled={isLoading} // Butonu, yükleme sırasında devre dışı bırakıyoruz
       {...props}
     >
-      {label}
+      {isLoading ? (
+        <PacmanLoader
+          //pulseloader
+          color="#fff"
+          loading={isLoading}
+          size={13}
+          margin={4}
+          speedMultiplier={0.8}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      ) : (
+        label
+      )}
     </button>
   );
 }
 
 // Prop validation
-Button.propTypes = {
+CustomButton.propTypes = {
   label: PropTypes.string.isRequired,
-  type: PropTypes.oneOf([1, 2, 3]),
+  className: PropTypes.string,
+  isLoading: PropTypes.bool,
 };
 
-export default Button;
+export default CustomButton;

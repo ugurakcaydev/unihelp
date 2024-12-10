@@ -6,7 +6,6 @@ import { useModal } from "../../store/modal/hooks";
 
 function MainLayout() {
   const modal = useModal();
-  console.log(modal);
   return (
     <div className="w-[1263px] mx-auto flex ">
       {modal && <Modal />}

@@ -1,25 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { mockAccounts } from "../../mock/users";
+
+// Kullanıcı bilgilerini localStorage'dan alıyoruz
+const savedAccount = JSON.parse(localStorage.getItem("currentAccount")) || null;
 
 const initialState = {
-  currentAccount: null, // Giriş yapılmadığında null olacak.
+  currentAccount: savedAccount,
 };
 
 const auth = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    _setCurrentAccount: (state, action) => {
-      state.currentAccount = action.payload; // Kullanıcıyı giriş yaptıktan sonra atar.
+    _login: (state, action) => {
+      state.currentAccount = action.payload;
+      localStorage.setItem("currentAccount", JSON.stringify(action.payload)); // Login olduğunda localStorage'a kaydediyoruz
     },
     _logout: (state) => {
-      state.currentAccount = null; // Çıkış yapıldığında null yapar.
+      state.currentAccount = null;
+      localStorage.removeItem("currentAccount"); // Logout olduğunda localStorage'dan siliyoruz
     },
   },
 });
 
-export const { _setCurrentAccount, _logout } = auth.actions;
-export default auth.reducer;
+export const { _login, _logout } = auth.actions;
 
-// Mock hesapları dışa aktarma
-export const accounts = mockAccounts;
+export default auth.reducer;
