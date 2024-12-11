@@ -1,12 +1,11 @@
-import { useAccount } from "../../store/auth/hooks";
+
 import LoginForm from "../../components/forms/login";
 import { useState } from "react";
 import RegisterForm from "../../components/forms/register";
 
 export default function LoginPage() {
   const [currentForm, setCurrentForm] = useState("login");
-  const currentAccount = useAccount();
-  console.log(currentAccount, "aaa");
+ 
   return (
     <>
       <div className=" bg-black flex flex-col min-h-screen justify-between items-center  ">
@@ -52,15 +51,7 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-        {/* <div className="w-full flex items-center justify-center gap-x-5 px-4 py-3 text-[#71767b] text-[13px] flex-wrap   ">
-          {footer.map((f, index) => (
-            <Link to="/" key={index} className="my-[4px] hover:underline ">
-              <span>{f}</span>
-            </Link>
-          ))}
-
-          <span className="my-[5px]">&copy; {date.getFullYear()} X Corp.</span>
-        </div> */}
+      
       </div>
     </>
   );
