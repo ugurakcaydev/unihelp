@@ -1,3 +1,7 @@
+import store from "../store";
+
+const states = store.getState();
+console.log(states, "aaaa");
 export const footer = [
   "Hakkımızda",
   "Yardım Merkezi",
@@ -160,8 +164,7 @@ export const mainMenu = [
   },
 
   {
-    //path: `/${states?.auth?.currentAccount?.fullName}`,
-    path: "/profile",
+    path: `/${states?.auth?.currentAccount?.username}`,
     title: "Profil",
     icon: {
       active: (
@@ -189,7 +192,7 @@ export const topics = [
     title: "Haberler-Gündemdekiler",
     topic: {
       type: "tag",
-      value: "sondakika",
+      value: "bim-101",
     },
     postCount: 8624,
   },
@@ -197,7 +200,7 @@ export const topics = [
     title: "Türkiye tarihinde gündemde",
     topic: {
       type: "query",
-      value: "Operasyon Çocuğu",
+      value: "YM-403",
     },
     postCount: 16000,
   },
@@ -205,7 +208,7 @@ export const topics = [
     title: "Türkiye tarihinde gündemde",
     topic: {
       type: "query",
-      value: "Arap",
+      value: "Mitat Uysal",
     },
     postCount: 57000,
   },
@@ -213,7 +216,7 @@ export const topics = [
     title: "Türkiye tarihinde gündemde",
     topic: {
       type: "tag",
-      value: "dilanpolat",
+      value: "LAB-303",
     },
   },
 ];

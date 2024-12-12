@@ -35,10 +35,7 @@ function Menu() {
             {({ isActive }) => (
               <div
                 className={classNames(
-                  " py-2 px-2.5 rounded-full  transition-colors inline-flex items-center gap-5 group-hover:bg-[color:var(--background-third)] desktop:py-3",
-                  {
-                    "font-bold": isActive && menu.title !== "Premium",
-                  }
+                  " py-2 px-2.5 rounded-full  transition-colors inline-flex items-center gap-5 group-hover:bg-[color:var(--background-third)] desktop:py-3"
                 )}
               >
                 <div className="w-[26.25px] h-[26.25px] relative">
