@@ -13,9 +13,10 @@ function HomePage() {
         <Tab.Items>
           <Tab.Item id="for-you">Sana özel</Tab.Item>
           <Tab.Item id="following">Takip edilenler</Tab.Item>
+        
         </Tab.Items>
       </StickyHeader>
-
+      
       <Tab.Content id="for-you">
         <Comment /> {/* post gönderme kısmının komponenti */}
         <ForYou />
