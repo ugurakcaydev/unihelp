@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     "./layouts/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/daisyui/dist/**/*.js",
   ],
   theme: {
     extend: {
@@ -16,6 +17,13 @@ export default {
         desktop2k: "2560px",
       },
     },
+    variants: {},
+    plugins: [],
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    darkTheme: "light", // name of one of the included themes for dark mode
+    themeRoot: ":root", // The element that receives theme color CSS variables
+  },
 };

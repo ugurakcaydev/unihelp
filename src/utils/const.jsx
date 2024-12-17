@@ -1,7 +1,7 @@
 import store from "../store";
 
 const states = store.getState();
-console.log(states, "aaaa");
+
 export const footer = [
   "Hakkımızda",
   "Yardım Merkezi",
@@ -219,4 +219,10 @@ export const topics = [
       value: "LAB-303",
     },
   },
+];
+
+export const WhoCanAnswer = [
+  { id: "1", name: "everyone", text: "Herkes Yanıtlayabilir" },
+  { id: "2", name: "yourFollowers", text: "Takip Ettiğin Hesaplar" },
+  { id: "3", name: "verifiedAccounts", text: "Doğrulanmış Hesaplar" },
 ];

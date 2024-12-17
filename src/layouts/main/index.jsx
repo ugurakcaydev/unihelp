@@ -39,6 +39,11 @@ function MainLayout() {
       "--color-base",
       appearance.color.base
     );
+
+    document.documentElement.style.setProperty(
+      "--box-shadow",
+      appearance.boxShadow
+    );
     document.documentElement.style.setProperty(
       "--color-base-secondary",
       appearance.color.baseSecondary
