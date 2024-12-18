@@ -43,7 +43,7 @@ function ProfilePage() {
                   : "text-gray-600"
               }`}
             >
-              {tab}a
+              {tab}
             </button>
           ))}
         </div>
