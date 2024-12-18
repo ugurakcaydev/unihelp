@@ -124,7 +124,7 @@ function TextInputBottom({ textLength, setPoll }) {
                   "radial-progress w-full h-full absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-sm after:!hidden flex items-center justify-center transition-all duration-500"
                 )}
                 style={{
-                  "--value": textLength / 2.8,
+                  "--value": textLength / 2,
                   "--thickness": "1.5px",
                   color:
                     kalan <= 10

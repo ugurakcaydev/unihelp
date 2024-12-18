@@ -46,7 +46,7 @@ export default function Comment() {
         </div>
         <div className=" pt-[4px] flex flex-col flex-1 justify-center ">
           <div className="flex flex-col w-full  border-b border-[color:var(--background-third)]">
-            <div className="py-3 w-full text-xl h-full">
+            <div className="pt-3 h-auto max-h-[250px] overflow-hidden w-full text-xl ">
               <textarea
                 ref={textareaRef}
                 onClick={() => {
@@ -55,9 +55,9 @@ export default function Comment() {
                 id="auto-expanding-textarea"
                 onInput={checkTextLength}
                 className={classNames(
-                  " w-full max-h-[24px] h-auto placeholder:text-[color:var(--color-base-secondary)]  bg-[color:var(--background-primary)] outline-none text-[20px] text-[color:var(--color-base)]  overflow-y-hidden  resize-none leading-6",
+                  " w-full   placeholder:text-[color:var(--color-base-secondary)] overflow-hidden bg-[color:var(--background-primary)] outline-none text-[20px] text-[color:var(--color-base)]   resize-none leading-6",
                   {
-                    "max-h-max ": active === true,
+                    " ": active === true,
                   }
                 )}
                 placeholder={"Soru sor"}
