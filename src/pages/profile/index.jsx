@@ -76,7 +76,7 @@ function ProfilePage() {
           </div>
 
          
-          <div className="flex mt-4 pt-2 space-x-4 w-full border-b border-gray-300">
+          <div className="flex mt-4 pt-2 w-full border-b border-gray-300">
             {tabs.map((tab) => (
               <button
                 key={tab}
