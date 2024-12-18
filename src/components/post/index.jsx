@@ -1,11 +1,8 @@
-import React from "react";
-
 // eslint-disable-next-line react/prop-types
 function Post({ post }) {
   console.log({ post });
   return (
-    <div className="max-w-xl mx-auto my-4 border rounded-lg shadow-lg bg-white">
-   
+    <div className="w-full mx-auto   bg-white">
       <div className="flex justify-between items-start mt-4 mx-2">
         <div className="flex">
           <img
@@ -26,12 +23,14 @@ function Post({ post }) {
               </a>
             </div>
             <p className="text-gray-800 text-left">
-            İnsan hakları, insanlığın ortak mirası ve evrensel değerler sistemimizin temel taşıdır. Doğuş Üniversitesi olarak, daha adil ve eşit bir dünya inşa etmek için dayanışmayı önemsiyor ve bu sorumlulukla hareket ediyoruz. ⚖️
+              İnsan hakları, insanlığın ortak mirası ve evrensel değerler
+              sistemimizin temel taşıdır. Doğuş Üniversitesi olarak, daha adil
+              ve eşit bir dünya inşa etmek için dayanışmayı önemsiyor ve bu
+              sorumlulukla hareket ediyoruz. ⚖️
             </p>
-           
           </div>
         </div>
-       
+
         <button className="p-2 hover:bg-gray-200 rounded-full">
           <svg
             viewBox="0 0 24 24"
@@ -47,7 +46,6 @@ function Post({ post }) {
         </button>
       </div>
 
-      
       <div className="w-auto my-3 ml-[4.5rem] mr-5">
         <img
           src="https://via.placeholder.com/600x350" // Post görseli
@@ -55,7 +53,6 @@ function Post({ post }) {
           className="w-full h-auto object-cover rounded-2xl"
         />
 
-       
         <div className="flex justify-between text-gray-500 py-3 text-sm">
           <button className="flex items-center space-x-1 hover:text-blue-500">
             <svg
@@ -93,13 +90,9 @@ function Post({ post }) {
             </svg>
             <span>2</span>
           </button>
-          
         </div>
       </div>
-      
     </div>
-    
-    
   );
 }
 
