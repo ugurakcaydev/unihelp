@@ -7,6 +7,7 @@ import { useState } from "react";
 export default function ForYou() {
   const [posts, setPosts] = useState(postData);
   return (
+   
     <VList
       onRangeChange={async (start, end) => {
         if (end + 1 === posts.length) {
@@ -14,9 +15,11 @@ export default function ForYou() {
         }
       }}
     >
+      
       {posts.map((post, key) => (
         <Post post={post} key={post.id + key} />
       ))}
     </VList>
+     
   );
 }

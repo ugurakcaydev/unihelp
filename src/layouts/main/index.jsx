@@ -5,7 +5,7 @@ import Modal from "../../modals";
 import { useModal } from "../../store/modal/hooks";
 import { useEffect } from "react";
 import { useAppearance } from "../../store/appearance";
-import Post from "../../components/post";
+
 
 function MainLayout() {
   const modal = useModal();
@@ -58,7 +58,7 @@ function MainLayout() {
       <main className="flex-1 flex gap-[30px]">
         <main className="flex-1 max-w-[600px] text-center border-x border-[color:var(--background-third)]">
           <Outlet />
-          <Post/>
+         
         </main>
         <RightBar />
       </main>

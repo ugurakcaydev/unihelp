@@ -3,6 +3,7 @@ import StickyHeader from "../../components/sticky-header";
 import { useAccount } from "../../store/auth/hooks";
 import ForYou from "./for-you";
 import Comment from "./comment";
+import Post from "../../components/post";
 
 function HomePage() {
   const currentUser = useAccount();
@@ -13,12 +14,15 @@ function HomePage() {
         <Tab.Items>
           <Tab.Item id="for-you">Sana özel</Tab.Item>
           <Tab.Item id="following">Takip edilenler</Tab.Item>
-        
+          
         </Tab.Items>
+       
       </StickyHeader>
-      
+     
       <Tab.Content id="for-you">
+     
         <Comment /> {/* post gönderme kısmının komponenti */}
+        <Post/>
         <ForYou />
       </Tab.Content>
       <Tab.Content id="following">
