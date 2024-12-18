@@ -2,7 +2,7 @@ import OutletHeader from "../../components/OutletHeader";
 
 function NotificationsPage() {
   return (
-    <div className="w-full h-[300vh]">
+    <div className="w-full ">
       <OutletHeader title="Bildirimler" returnButton={true} />
 
       <div></div>

@@ -1,9 +1,7 @@
-import Footer from "../../../components/Footer";
+// import Footer from "../../../components/Footer";
 import Topics from "../../../components/topics/index";
-import Premium from "./Premium";
+//import Premium from "./Premium";
 import Search from "./Search";
-
-
 
 export default function RightBar() {
   return (
@@ -12,11 +10,10 @@ export default function RightBar() {
       <WhoFollow />
       */}
       <Search />
-      <Premium />
-      
-      
+      {/* <Premium /> */}
+
       <Topics />
-      <Footer />
+      {/* <Footer /> */}
     </aside>
   );
 }

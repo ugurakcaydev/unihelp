@@ -6,11 +6,9 @@ import { useModal } from "../../store/modal/hooks";
 import { useEffect } from "react";
 import { useAppearance } from "../../store/appearance";
 
-
 function MainLayout() {
   const modal = useModal();
   const appearance = useAppearance();
-  console.log(appearance);
 
   useEffect(() => {
     document.documentElement.style.setProperty(
@@ -58,7 +56,6 @@ function MainLayout() {
       <main className="flex-1 flex gap-[30px]">
         <main className="flex-1 max-w-[600px] text-center border-x border-[color:var(--background-third)]">
           <Outlet />
-         
         </main>
         <RightBar />
       </main>

@@ -1,10 +1,10 @@
 import Topic from "./topic";
-import SidebarSection from "../SidebarSection";
+import SidebarSection from "../sidebarSection";
 import { topics } from "../../utils/const";
 
 export default function Topics() {
   return (
-    <SidebarSection title="Neler oluyor?" more="/trends">
+    <SidebarSection title="İlginizi çekebilecek başlıklar" more="/trends">
       {topics.map((topic, index) => (
         <Topic item={topic} key={index} />
       ))}

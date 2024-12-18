@@ -48,7 +48,7 @@ function Search() {
             onClick={() => setQuery("")}
             className="flex items-center justify-center w-[22px] h-[22px] absolute rounded-full text-black bg-[color:var(--color-primary)] top-1/2 -translate-y-1/2 min-w-[22px] right-3 "
           >
-            <svg fill="currentColor" width={10} height={10} viewBox="0 0 15 15">
+            <svg fill="#fff" width={10} height={10} viewBox="0 0 15 15">
               <path d="M6.09 7.5L.04 1.46 1.46.04 7.5 6.09 13.54.04l1.42 1.42L8.91 7.5l6.05 6.04-1.42 1.42L7.5 8.91l-6.04 6.05-1.42-1.42L6.09 7.5z" />
             </svg>
           </button>

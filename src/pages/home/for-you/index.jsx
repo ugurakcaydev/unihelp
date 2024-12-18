@@ -13,9 +13,7 @@ export default function ForYou() {
           setPosts((prev) => [...prev, ...postData]);
         }
       }}
-      onScroll={(s, e) => {
-        console.log(s, e, "se");
-      }}
+      onScroll={(s, e) => {}}
     >
       {posts.map((post, key) => (
         <Post post={post} key={post.id + key} />

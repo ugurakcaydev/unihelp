@@ -6,7 +6,6 @@ import modals from "../routes/modals";
 export default function Modal({ onClose }) {
   const modal = useModal();
   const currentModal = modals.find((m) => m.name === modal.name);
-  console.log(modal, currentModal);
 
   function handleBackgroundClick(e) {
     // Tıklanan alan modalın arkasındaysa modalı kapat

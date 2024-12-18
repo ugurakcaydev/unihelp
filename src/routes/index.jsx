@@ -5,6 +5,8 @@ import LoginPage from "../pages/login";
 import MainLayout from "../layouts/main";
 import ProfilePage from "../pages/profile";
 import NotificationsPage from "../pages/notifications";
+import MarksPage from "../pages/marks";
+import ExplorePage from "../pages/explore";
 
 const routes = createBrowserRouter([
   {
@@ -21,12 +23,20 @@ const routes = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/:fullName",
+        path: "/profile/:fullName",
         element: <ProfilePage />,
       },
       {
         path: "/notifications",
         element: <NotificationsPage />,
+      },
+      {
+        path: "/explore",
+        element: <ExplorePage />,
+      },
+      {
+        path: "/marks",
+        element: <MarksPage />,
       },
     ],
   },

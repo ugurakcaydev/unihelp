@@ -10,7 +10,7 @@ import { useAccount } from "../../../store/auth/hooks";
 import TextInputBottom from "../../../components/textInputBottom";
 import PollForm from "../../../components/commentPollForm";
 import { WhoCanAnswer } from "../../../utils/const";
-import { CheckedIcon } from "../../../assets/Icons/icons";
+import { CheckedIcon } from "../../../constant/icons";
 
 export default function Comment() {
   const currentAccount = useAccount();
@@ -39,7 +39,7 @@ export default function Comment() {
       <div className=" px-4 flex ">
         <div className="mr-3 pt-3">
           <img
-            src={currentAccount.avatar}
+            src={currentAccount?.avatar}
             className="w-10 h-10 bg-gray-300 rounded-full object-cover"
             alt=""
           />

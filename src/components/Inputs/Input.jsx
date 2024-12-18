@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useField } from "formik";
 import { useState } from "react";
-import { CloseEyeIcon, EyeIcon } from "../../assets/Icons/icons";
+import { CloseEyeIcon, EyeIcon } from "../../constant/icons";
+
 
 function CustomInput({ type, isRequired, label, name, ...props }) {
   const [field, meta] = useField(name); // useField ile Formik'ten field ve meta alınır
