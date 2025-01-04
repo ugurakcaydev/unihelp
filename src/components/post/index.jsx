@@ -38,9 +38,12 @@ export default function Post({ post }) {
 
   return (
     <div className=" flex relative px-4 py-3 gap-3 border-b border-[color:var(--background-third)]  before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]">
-      <Link className="w-10 h-10 rounded-full" to={`/${post.account.fullName}`}>
+      <Link
+        className="w-10 h-10 rounded-full"
+        to={`/profile/${post.account.fullName}`}
+      >
         <img
-          src={"https://via.placeholder.com/40x40"}
+          src={post.account.avatar}
           className="w-10 h-10 rounded-full object-cover "
           alt=""
         />
@@ -49,7 +52,7 @@ export default function Post({ post }) {
         <header className=" mb-0.5 relative flex items-center justify-between">
           <div className="leading-5 flex items-center gap-2">
             <Link
-              to={`/${post.account.fullName}`}
+              to={`/profile/${post.account.fullName}`}
               className="hover:underline flex items-center font-bold"
             >
               {post.account.fullName}

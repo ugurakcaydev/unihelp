@@ -5,7 +5,7 @@ export const showToast = (value, message) => {
     case "success":
       toast.success(message, {
         position: "top-right",
-        autoClose: 4000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
@@ -21,7 +21,7 @@ export const showToast = (value, message) => {
     case "error":
       toast.error(message, {
         position: "top-right",
-        autoClose: 4000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
@@ -35,7 +35,7 @@ export const showToast = (value, message) => {
     case "info":
       toast.info(message, {
         position: "top-right",
-        autoClose: 4000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
@@ -49,7 +49,7 @@ export const showToast = (value, message) => {
     case "warning":
       toast.warn(message, {
         position: "top-right",
-        autoClose: 4000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
@@ -63,7 +63,7 @@ export const showToast = (value, message) => {
     default:
       toast(message || "Bilinmeyen durum!", {
         position: "top-right",
-        autoClose: 4000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,

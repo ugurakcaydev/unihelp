@@ -1,13 +1,14 @@
 import Tab from "../../components/tab";
 import StickyHeader from "../../components/sticky-header";
-
 import ForYou from "./for-you";
 import Comment from "./comment";
 
+
 function HomePage() {
+
   return (
     <Tab activeTab="for-you">
-      <StickyHeader title="Anasayfa">
+      <StickyHeader>
         <Tab.Items>
           <Tab.Item id="for-you">Sana özel</Tab.Item>
           <Tab.Item id="following">Takip edilenler</Tab.Item>

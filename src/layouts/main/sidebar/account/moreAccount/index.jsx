@@ -20,7 +20,7 @@ function MoreAccount() {
         }}
         className="text-center px-3 py-2.5 font-bold w-full transition-all cursor-pointer hover:bg-[color:var(--background-third)] rounded-md"
       >
-        {currentAccount?.name} hesabından çıkış yap
+        {currentAccount?.name ?? "name"} hesabından çıkış yap
       </button>
     </>
   );

@@ -1,54 +1,64 @@
 import OutletHeader from "../../components/OutletHeader";
-import { useState } from "react";
+
+import Tab from "../../components/tab";
+import StickyHeader from "../../components/sticky-header";
+import { useAccount } from "../../store/auth/hooks";
+import classNames from "classnames";
+import { PenIcon } from "../../constant/icons";
+import ProfilePostsTab from "./posts";
+import ProfileAnswersTab from "./answers";
+import ProfileLikesTab from "./likes";
+import { setModal } from "../../store/modal/actions";
 
 function ProfilePage() {
-  const [activeTab, setActiveTab] = useState("Gönderiler");
-
-  const tabs = ["Gönderiler", "Cevaplar", "Beğeniler"];
-
-  const tabContent = {
-    Gönderiler: <div>Posts</div>,
-    Cevaplar: <div>Cevaplar</div>,
-    Beğeniler: <div>Beğeniler</div>,
-  };
+  const user = useAccount();
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <OutletHeader title="Profil" returnButton={true} />
-      <div className="relative flex flex-col items-center mt-[5rem]">
-        <div className="w-28 h-28 rounded-full bg-gray-600 absolute -top-14 border-4 border-black flex items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-y-4 min-h-[250px]">
+        <div className="w-28 h-28 group relative rounded-full bg-gray-600  border-2 border-[color:var(--color-secondary)] flex items-center justify-center">
           <img
             src="https://via.placeholder.com/150"
-            alt="Profile Placeholder"
+            alt="Profile avatar"
             className="w-full h-full rounded-full"
           />
-        </div>
-
-        <div className="mt-16 text-center">
-          <h1 className="text-2xl font-bold">UNİHELP</h1>
-          <p className="text-gray-400">@unihelp</p>
-          <button className="mt-2 bg-[color:var(--color-primary)] text-white px-3 py-1 rounded-full ">
-            Profilinizi Düzenleyin
+          <button
+            onClick={() => {
+              setModal("profileEdit");
+            }}
+            className={classNames(
+              "w-9 h-9 rounded-full flex items-center justify-center bg-[color:var(--background-secondary)] border border-[color:var(--color-secondary)] opacity-0 absolute -top-1 -right-1 group-hover:opacity-100 duration-500 transition-all ease-in-out"
+            )}
+          >
+            <PenIcon className={"text-[color:var(--color-secondary)]"} />
           </button>
         </div>
-
-        <div className="flex mt-4 pt-2 space-x-4 w-full border-b border-gray-300">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`flex-1 py-3 px-3 text-center font-semibold hover:bg-gray-200  ${
-                activeTab === tab
-                  ? "border-b-[3px] border-[color:var(--color-primary)] "
-                  : "text-gray-600"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="flex flex-col items-center justify-start gap-y-1">
+          <h1 className="text-2xl font-bold">{user?.name ?? "name"}</h1>
+          <p className="text-gray-400">@{user?.username}</p>
         </div>
+      </div>
+      <div className="">
+        <Tab activeTab="posts">
+          <StickyHeader>
+            <Tab.Items>
+              <Tab.Item id="posts">Gönderiler</Tab.Item>
+              <Tab.Item id="answers">Cevaplar</Tab.Item>
+              <Tab.Item id="likes">Beğeniler</Tab.Item>
+            </Tab.Items>
+          </StickyHeader>
 
-        <div className="w-full">{tabContent[activeTab]}</div>
+          <Tab.Content id="posts">
+            <ProfilePostsTab />
+          </Tab.Content>
+          <Tab.Content id="answers">
+            <ProfileAnswersTab />
+          </Tab.Content>
+          <Tab.Content id="likes">
+            <ProfileLikesTab />
+          </Tab.Content>
+        </Tab>
       </div>
     </div>
   );

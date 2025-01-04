@@ -174,8 +174,4 @@ export const topics = [
   },
 ];
 
-export const WhoCanAnswer = [
-  { id: "1", name: "everyone", text: "Herkes Yanıtlayabilir" },
-  { id: "2", name: "yourFollowers", text: "Takip Ettiğin Hesaplar" },
-  { id: "3", name: "verifiedAccounts", text: "Doğrulanmış Hesaplar" },
-];
+export const tags = ["HTML", "CSS", "JS", "Python", "R"];

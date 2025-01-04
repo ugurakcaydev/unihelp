@@ -4,7 +4,6 @@ import RegisterForm from "../../components/forms/register";
 
 export default function LoginPage() {
   const [currentForm, setCurrentForm] = useState("login");
-
   return (
     <>
       <div className=" bg-black flex flex-col min-h-screen justify-between items-center  ">

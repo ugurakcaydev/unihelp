@@ -10,27 +10,28 @@ import classNames from "classnames";
 import { Link } from "react-router-dom";
 function Account() {
   const account = useAccount();
+  console.log(account);
   return (
     <Popover className="relative w-full mb-3 mr-1 mt-auto">
       {account ? (
         <PopoverButton
           className={classNames(
-            "flex max-h-[65.06px] justify-between items-center w-full p-3 rounded-full  transition-all hover:bg-[color:var(--background-third)] outline-none",
+            "flex max-h-[60px] justify-between items-center w-full p-3 rounded-full  transition-all hover:bg-[color:var(--background-third)] outline-none",
             {
               "bg-[color:var(--background-third)]": !account,
             }
           )} //p-2 olacak en büyük font size olduğunda p-2 olmasa da oluyormuş
         >
-          <div className="flex gap-x-2 items-center">
+          <div className="flex gap-x-2.5 items-center">
             <img
               className="w-10 h-10 rounded-full bg-[color:var(--background-secondary)] "
-              src={account?.avatar}
+              src={account?.avatar || "https://placehold.co/40x40"}
               alt=""
             />
             {/*p-1 gidecek en büyük font size olduğunda*/}
-            <div className="flex flex-col p-[0.20rem]  ">
+            <div className="flex flex-col   ">
               <span className="text-[0.938rem] text-[color:var(--color-base)] font-bold text-left flex items-center justify-start  ">
-                {account?.name}
+                {account?.name ?? "name"}
                 <svg
                   viewBox="0 0 24 24"
                   width={18.75}
@@ -63,7 +64,7 @@ function Account() {
       ) : (
         <Link
           to={"/login"}
-          className="w-full flex items-center justify-center text-lg font-semibol bg-[color:var(--color-primary)] text-[color:var(--background-primary)] max-h-[65.06px] p-3 outline-none shadow-sm rounded-full transition-all hover:scale-[.98]"
+          className="!bg-transparent  border border-[color:var(--color-primary)] hover:!bg-[#1d9bf01a] w-full flex items-center justify-center text-lg font-semibol  text-[color:var(--color-primary)] max-h-[65.06px] py-2 outline-none shadow-sm rounded-full transition-all hover:scale-[.98]"
         >
           Giriş Yap
         </Link>
@@ -78,7 +79,7 @@ function Account() {
         leaveTo="transform scale-95 opacity-0"
       >
         {account && (
-          <PopoverPanel className="w-[300px] absolute left-1/2 -translate-x-1/2 bottom-[80px] p-3 border border-[color:var(color-secondary)] shadow-sm rounded-xl overflow-hidden flex flex-col justify-between items-start ">
+          <PopoverPanel className="w-[270px] absolute left-1/2 -translate-x-1/2 bottom-[65px] p-2 border border-[color:var(color-secondary)] shadow-sm rounded-xl overflow-hidden flex flex-col justify-between items-start ">
             <MoreAccount />
           </PopoverPanel>
         )}

@@ -1,9 +1,9 @@
 import { PropTypes } from "prop-types";
 import { ReturnButton } from "../../constant/icons";
 
-function OutletHeader({ title, iconArray, returnButton }) {
+function OutletHeader({ title = "Sabit Başlık", iconArray, returnButton }) {
   return (
-    <div className="w-full h-[53px] flex items-center border-b border-b-[color:var(--background-third)] sticky top-0 z-[2]  ">
+    <div className="w-full bg-white h-[53px] flex items-center border-b border-b-[color:var(--background-third)] sticky top-0 z-[4]  ">
       <div className="w-full flex items-center justify-between px-3 ">
         <div className="flex items-center justify-start gap-x-4">
           {returnButton && <ReturnButton href={"/"} />}
@@ -22,9 +22,5 @@ export default OutletHeader;
 OutletHeader.propTypes = {
   title: PropTypes.string.isRequired,
   iconArray: PropTypes.array,
-  returnButton: PropTypes.boolean,
-};
-
-OutletHeader.defaultProps = {
-  title: "Sabit Başlık",
+  returnButton: PropTypes.bool,
 };

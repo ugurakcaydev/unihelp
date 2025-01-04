@@ -4,7 +4,7 @@ import { mainMenu } from "../../../../utils/const";
 
 function Menu() {
   return (
-    <nav className="mt-0.5 w-full">
+    <nav className="mt-1.5 w-full">
       {mainMenu.map((menu, index) => {
         return (
           <NavLink to={menu?.path} className="py-[3px] block group" key={index}>

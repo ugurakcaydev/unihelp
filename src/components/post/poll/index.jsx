@@ -39,7 +39,7 @@ export default function Poll({ poll: pollData }) {
           >
             <div
               style={{ width: (answer.votes / poll.votes) * 100 + "%" }}
-              className="absolute top-0 left-0 h-full bg-[color:var(--background-secondary)] opacity-50 z-[-1]"
+              className="absolute top-0 left-0 h-full bg-[color:var(--background-third)] opacity-80 z-[-1]"
             />
             <div className="flex items-center gap-1">
               {answer.text}

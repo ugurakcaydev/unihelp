@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import { PacmanLoader } from "react-spinners";
+import {  PulseLoader } from "react-spinners";
 
 function CustomButton({ label, className, isLoading, ...props }) {
   return (
@@ -18,11 +18,11 @@ function CustomButton({ label, className, isLoading, ...props }) {
       {...props}
     >
       {isLoading ? (
-        <PacmanLoader
+        <PulseLoader
           //pulseloader
           color="#fff"
           loading={isLoading}
-          size={13}
+          size={5}
           margin={4}
           speedMultiplier={0.8}
           aria-label="Loading Spinner"

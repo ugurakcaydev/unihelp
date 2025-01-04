@@ -17,7 +17,7 @@ export default function Modal({ onClose }) {
   return (
     <div
       onClick={handleBackgroundClick}
-      className="fixed inset-0 bg-[color:var(--background-modal)] flex items-center justify-center z-30"
+      className="fixed inset-0 bg-black/10 flex items-center justify-center z-30"
     >
       <div
         className={classNames(

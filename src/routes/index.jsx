@@ -7,16 +7,26 @@ import ProfilePage from "../pages/profile";
 import NotificationsPage from "../pages/notifications";
 import MarksPage from "../pages/marks";
 import ExplorePage from "../pages/explore";
+import ProtectedRoute from "./ProtectedRoute";
+import RedirectRoute from "./RedirectRoute";
 
 const routes = createBrowserRouter([
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <RedirectRoute>
+        <LoginPage />
+      </RedirectRoute>
+    ),
   },
 
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,

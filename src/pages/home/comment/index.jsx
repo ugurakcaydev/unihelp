@@ -9,15 +9,48 @@ import { useState, useRef, useEffect } from "react";
 import { useAccount } from "../../../store/auth/hooks";
 import TextInputBottom from "../../../components/textInputBottom";
 import PollForm from "../../../components/commentPollForm";
-import { WhoCanAnswer } from "../../../utils/const";
-import { CheckedIcon } from "../../../constant/icons";
+import { tags } from "../../../utils/const";
+import { CheckedIcon, XIcon } from "../../../constant/icons";
+import { IoIosArrowForward } from "react-icons/io";
 
 export default function Comment() {
   const currentAccount = useAccount();
   const [active, setActive] = useState(false);
-  const [whosCanAnswer, setWhoCanAnswer] = useState(WhoCanAnswer[0]);
   const [textLength, setTextLength] = useState(0);
+  const [poll, setPoll] = useState(false);
   const textareaRef = useRef();
+
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [searchTagQuery, setSearchTagQuery] = useState("");
+
+  const handleAddTag = (tag) => {
+    if (selectedTags.length < 3 && !selectedTags.includes(tag)) {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  const handleRemoveTag = (tag) => {
+    setSelectedTags((prev) => prev.filter((t) => t !== tag));
+  };
+
+  const handleInputChange = (e) => {
+    setSearchTagQuery(e.target.value);
+  };
+
+  const filteredTags = tags.filter((tag) =>
+    tag.toLowerCase().includes(searchTagQuery.toLowerCase())
+  );
+
+  const handleCustomTagAdd = () => {
+    if (
+      searchTagQuery &&
+      !selectedTags.includes(searchTagQuery) &&
+      selectedTags.length < 3
+    ) {
+      setSelectedTags((prev) => [...prev, searchTagQuery]);
+      setSearchTagQuery("");
+    }
+  };
 
   const checkTextLength = () => {
     const textarea = textareaRef.current;
@@ -30,23 +63,20 @@ export default function Comment() {
     setTextLength(textarea.value.length);
   };
   useEffect(() => {}, [textLength]);
-
-  //*Anket
-  const [poll, setPoll] = useState(false);
-
+  console.log(selectedTags);
   return (
     <div className=" pt-1 border-b border-[color:var(--background-third)]">
       <div className=" px-4 flex ">
         <div className="mr-3 pt-3">
           <img
-            src={currentAccount?.avatar}
+            src={currentAccount?.avatar || "https://placehold.co/40x40"}
             className="w-10 h-10 bg-gray-300 rounded-full object-cover"
-            alt=""
+            alt="avatar"
           />
         </div>
         <div className=" pt-[4px] flex flex-col flex-1 justify-center ">
           <div className="flex flex-col w-full  border-b border-[color:var(--background-third)]">
-            <div className="pt-3 h-auto max-h-[250px] overflow-hidden w-full text-xl ">
+            <div className="pt-3 h-auto  overflow-hidden w-full text-xl ">
               <textarea
                 ref={textareaRef}
                 onClick={() => {
@@ -68,9 +98,11 @@ export default function Comment() {
             {active && (
               <Listbox
                 as="div"
-                value={whosCanAnswer}
-                onChange={setWhoCanAnswer}
-                className={classNames("relative outline-none")}
+                value={selectedTags}
+                onChange={(newTag) => handleAddTag(newTag)}
+                className={classNames(
+                  "relative outline-none flex items-center justify-start gap-x-1  mb-2"
+                )}
               >
                 <ListboxButton
                   as="button"
@@ -78,48 +110,83 @@ export default function Comment() {
                     setActive(true);
                   }}
                   className={classNames(
-                    "flex items-center justify-start gap-x-1 text-center font-bold text-[14px]  min-h-[24px] hover:bg-[#1d7df01a]  w-fit text-[color:var(--color-primary)] rounded-full -ml-2 px-3 py-1 mb-2"
+                    "flex items-center justify-start gap-x-1 text-center font-bold text-[14px]  min-h-[24px] hover:bg-[#1d7df01a]  w-fit text-[color:var(--color-primary)] rounded-full -ml-2 px-3 py-1"
                   )}
                 >
-                  {whosCanAnswer.text}
+                  Tag Seçiniz (max 3)
                 </ListboxButton>
 
                 <ListboxOptions
                   as="ul"
                   anchor="bottom"
                   className={classNames(
-                    "w-[320px] min-w-[260px] min-h-[30px] max-h-[480px] h-auto absolute bg-[color:var(--background-primary)] shadow-md rounded-2xl overflow-hidden z-10 "
+                    " min-w-[230px] min-h-[250px] max-h-[480px] h-auto absolute bg-[color:var(--background-primary)] shadow-md rounded-2xl overflow-hidden z-10 "
                   )}
                 >
                   <div className="w-full h-auto flex flex-col items-start justify-start relative ">
-                    <div className="flex flex-col items-start justify-start text-left border-b border-b-[color:var(--background-third)] p-3">
-                      <h3 className="break-words text-[15px] font-semibold ">
-                        Kimler yanıtlayabilir ?
-                      </h3>
-                      <p className="text-[14px] font-normal text-[color:var(--color-base-secondary)]">
-                        Bu gönderiyi kimlerin yanıtlayabileceğini seç.
-                        Bahsedilen herkes yanıt verebilir.
-                      </p>
+                    <div className="w-full relative flex flex-col items-start justify-start text-left border-b border-b-[color:var(--background-third)] p-3">
+                      <div className="w-full h-auto relative">
+                        <input
+                          value={searchTagQuery}
+                          onChange={handleInputChange}
+                          type="text"
+                          className="w-full outline-none border px-2 py-2 text-sm"
+                        />
+                        {searchTagQuery && !tags.includes(searchTagQuery) && (
+                          <button
+                            className="absolute top-1/2 -translate-y-1/2 right-2 p-1 hover:bg-zinc-100 rounded-full"
+                            onClick={handleCustomTagAdd}
+                          >
+                            <IoIosArrowForward />
+                          </button>
+                        )}
+                      </div>
                     </div>
                     <div className="flex flex-col items-start justify-start w-full">
-                      {WhoCanAnswer.map((item) => (
-                        <ListboxOption
-                          as="li"
-                          value={item}
-                          className="py-3 hover:bg-[#f7f9f9] w-full text-left flex items-center justify-start gap-x-1  cursor-pointer "
-                          key={item.id}
-                        >
-                          <span className="px-3">{item.text}</span>
-                          {whosCanAnswer.id === item.id && (
-                            <CheckedIcon
-                              className={"text-[color:var(--color-primary)]"}
-                            />
-                          )}
-                        </ListboxOption>
-                      ))}
+                      {filteredTags.map((tag) => {
+                        let isSelected = selectedTags.some(
+                          (selectedTag) => selectedTag === tag
+                        );
+                        return (
+                          <ListboxOption
+                            as="li"
+                            value={tag}
+                            className="py-2 hover:bg-[#f7f9f9] w-full text-left flex items-center max-h-[200px] overflow-y-auto justify-start gap-x-1 text-sm  cursor-pointer "
+                            key={tag}
+                          >
+                            <button
+                              type="button"
+                              onClick={() => handleAddTag(tag)}
+                              className="px-4"
+                            >
+                              {tag}
+                            </button>
+                            {isSelected && (
+                              <CheckedIcon className="text-[color:var(--color-primary)] w-5" />
+                            )}
+                          </ListboxOption>
+                        );
+                      })}
                     </div>
                   </div>
                 </ListboxOptions>
+                <div className=" flex flex-wrap gap-2">
+                  {selectedTags &&
+                    selectedTags.length > 0 &&
+                    selectedTags.map((tag) => (
+                      <div
+                        key={tag}
+                        className="flex items-center text-xs font-semibold bg-zinc-100 px-3 py-1 rounded-full"
+                      >
+                        {tag}
+
+                        <XIcon
+                          onClick={() => handleRemoveTag(tag)}
+                          className={"size-3 ml-2  text-red-500 cursor-pointer"}
+                        />
+                      </div>
+                    ))}
+                </div>
               </Listbox>
             )}
           </div>
