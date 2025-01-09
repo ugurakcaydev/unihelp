@@ -32,6 +32,7 @@ export const posts = [
     stats: {
       comments: 43535,
       like: 96946,
+      bookmark: false,
     },
   },
 
@@ -51,6 +52,7 @@ export const posts = [
     stats: {
       comments: 43535,
       like: 96946,
+      bookmark: true,
     },
   },
 ];
@@ -119,6 +121,7 @@ export const profilePosts = [
     stats: {
       comments: 43535,
       like: 96946,
+      bookmark: false,
     },
   },
 ];

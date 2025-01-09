@@ -174,4 +174,6 @@ export const topics = [
   },
 ];
 
+export const bookmark = [];
+
 export const tags = ["HTML", "CSS", "JS", "Python", "R"];

@@ -63,7 +63,7 @@ export default function Comment() {
     setTextLength(textarea.value.length);
   };
   useEffect(() => {}, [textLength]);
-  console.log(selectedTags);
+  
   return (
     <div className=" pt-1 border-b border-[color:var(--background-third)]">
       <div className=" px-4 flex ">
@@ -182,7 +182,7 @@ export default function Comment() {
 
                         <XIcon
                           onClick={() => handleRemoveTag(tag)}
-                          className={"size-3 ml-2  text-red-500 cursor-pointer"}
+                          className={"w-4 h-3 ml-2  text-red-500 cursor-pointer"}
                         />
                       </div>
                     ))}
