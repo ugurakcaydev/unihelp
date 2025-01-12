@@ -3,7 +3,6 @@ import { useField } from "formik";
 import { useState } from "react";
 import { CloseEyeIcon, EyeIcon } from "../../constant/icons";
 
-
 function CustomInput({ type, isRequired, label, name, ...props }) {
   const [field, meta] = useField(name); // useField ile Formik'ten field ve meta alınır
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +20,7 @@ function CustomInput({ type, isRequired, label, name, ...props }) {
           {...field}
           {...props}
           id={name}
+          autoComplete="off"
           type={type !== "password" ? type : showPassword ? "text" : "password"}
           className={`w-full outline-none border placeholder:text-sm ${
             meta.touched && meta.error ? "border-red-500" : "border-white"

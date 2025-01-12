@@ -2,7 +2,7 @@
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const currentAccount = localStorage.getItem("currentAccount"); 
+  const currentAccount = localStorage.getItem("currentAccount");
 
   if (!currentAccount) {
     // currentAccount yoksa giriş sayfasına yönlendir
