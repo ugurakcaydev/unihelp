@@ -13,12 +13,29 @@ import VerificationForm from "../verificationCode";
 export default function RegisterForm({ setCurrentForm }) {
   const [onSuccess, setOnSuccess] = useState(false);
   const [user, setUser] = useState({});
+
+  const signUp_ = async (username, email, password) => {
+    try {
+      const response = await apiClient.signUp(username, email, password);
+      if (response.status === 200 || response.status === 201) {
+        setUser(response.data);
+      }
+      return response;
+    } catch (error) {
+      console.error("Failed to sign in:", error);
+      throw error;
+    }
+  };
+
   const mutation = useMutation({
     mutationFn: (values) =>
-      apiClient.signUp(values.username, values.email, values.password),
+      signUp_(
+        values.username.trim(),
+        values.email.trim(),
+        values.password.trim()
+      ),
     onSuccess: () => {
       showToast("success", "Kayıt Başarılı");
-      setUser(mutation.data);
       setOnSuccess(true);
     },
     onError: (error) => {
@@ -63,6 +80,7 @@ export default function RegisterForm({ setCurrentForm }) {
                   className={"secondary"}
                   label="Kayıt Ol"
                   type="submit"
+                  isLoading={mutation.isLoading}
                 />
                 <Separator />
                 <Button

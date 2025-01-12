@@ -8,7 +8,7 @@ export const apiClient = {
         email,
         password,
       });
-      console.log(response, "response");
+
       return response;
     } catch (error) {
       console.error("Failed to sign in:", error);
@@ -20,13 +20,27 @@ export const apiClient = {
   signUp: async (username, email, password) => {
     try {
       const response = await api.post("/auth/signup", {
-        username,
-        email,
-        password,
+        username: username,
+        email: email,
+        password: password,
       });
+
       return response;
     } catch (error) {
       console.error("Failed to sign in:", error);
+      throw error;
+    }
+  },
+
+  //Email verification
+  emailVerification: async (account_id, code) => {
+    try {
+      const response = await api.post(`/auth/verify/${account_id}`, {
+        code,
+      });
+      return response;
+    } catch (error) {
+      console.error("Failed to verify account:", error);
       throw error;
     }
   },

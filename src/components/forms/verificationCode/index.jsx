@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { showToast } from "../../../utils/toast";
 import { apiClient } from "../../../services/apiClient";
@@ -8,7 +9,7 @@ function VerificationForm({ user, setCurrentForm }) {
   const [code, setCode] = useState(Array(6).fill(""));
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  console.log(user, "userr");
   const isDisabled = code.some((digit) => digit === "");
 
   const handleChange = (value, index) => {
@@ -30,16 +31,15 @@ function VerificationForm({ user, setCurrentForm }) {
       setError("Lütfen tüm kutuları doldurun!");
       return;
     }
-    setError(""); // Hata mesajını temizle
+    setError("");
     setIsSubmitting(true);
 
     try {
       const response = await apiClient.emailVerification(
-        // burayı yap
-        email,
+        user.id,
         verificationCode
       );
-      if (response.statusCode === 200 && response.success) {
+      if (response.status === 200) {
         showToast("success", "E-posta başarıyla onaylandı.");
         setIsSubmitting(false);
         setTimeout(() => {
@@ -47,7 +47,8 @@ function VerificationForm({ user, setCurrentForm }) {
         }, 500);
       }
     } catch (error) {
-      if (error.response.data.message[0] === "Verification code is invalid!") {
+      console.log(error);
+      if (error.response.data.detail === "Invalid verification code") {
         setError("Girilen kod yanlış!");
       }
       setIsSubmitting(false);
@@ -59,7 +60,9 @@ function VerificationForm({ user, setCurrentForm }) {
     <div className="w-[70%] flex flex-col items-start justify-start   rounded-lg">
       <div className="text-sm  mb-4">
         <span className="font-semibold underline underline-offset-2">
-          {"test@gmail.com"}
+          {user?.authorizedAccount?.email
+            ? user?.authorizedAccount?.email
+            : "test@gmail.com"}
         </span>{" "}
         adresine gönderilen doğrulama kodunu girin.
       </div>
