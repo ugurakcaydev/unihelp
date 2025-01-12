@@ -8,27 +8,28 @@ export const LoginSchema = Yup.object().shape({
   password: Yup.string()
     .trim()
     .required("Şifre Zorunlu")
-    .min(6, "Şifre 6 karakterden az olamaz!")
+    .min(4, "Şifre 4 karakterden az olamaz!")
     .max(50, "Şifre 50 karakterden fazla olamaz!"),
 });
 
 export const RegisterSchema = Yup.object().shape({
+  username: Yup.string().required("Gerekli"),
   email: Yup.string()
     .email("Geçerli bir e-mail adresi giriniz !")
     .required("Gerekli"),
   password: Yup.string()
     .trim()
     .required("Gerekli")
-    .min(6, "Şifreniz 6 karakterden kısa olamaz")
-    .max(50, "Şifreniz 50 karakterden uzun olamaz")
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&+.])(?=.{6,})/,
-      "Şifre en az bir küçük harf, bir büyük harf, bir rakam ve bir özel karakter içermelidir."
-    ),
-  repassword: Yup.string()
-    .trim()
-    .required("Gerekli")
-    .oneOf([Yup.ref("password")], "Şifreler eşleşmiyor !"),
+    .min(4, "Şifreniz 4 karakterden kısa olamaz")
+    .max(50, "Şifreniz 50 karakterden uzun olamaz"),
+  // .matches(
+  //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&+.])(?=.{6,})/,
+  //   "Şifre en az bir küçük harf, bir büyük harf, bir rakam ve bir özel karakter içermelidir."
+  // ),
+  // repassword: Yup.string()
+  //   .trim()
+  //   .required("Gerekli")
+  //   .oneOf([Yup.ref("password")], "Şifreler eşleşmiyor !"),
 });
 
 export const ForgotPasswordSchema = Yup.object().shape({

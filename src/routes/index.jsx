@@ -14,20 +14,20 @@ const routes = createBrowserRouter([
   {
     path: "/login",
     element: (
-      // <RedirectRoute>
-      //   <LoginPage />
-      // </RedirectRoute>
-      <LoginPage />
+      <RedirectRoute>
+        <LoginPage />
+      </RedirectRoute>
+      // <LoginPage />
     ),
   },
 
   {
     path: "/",
     element: (
-      // <ProtectedRoute>
-      //   <MainLayout />
-      // </ProtectedRoute>
-      <MainLayout />
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+      // <MainLayout />
     ),
     children: [
       {

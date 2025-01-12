@@ -7,14 +7,13 @@ import Separator from "../../separator/index";
 import { LoginSchema } from "../../../schema/auth";
 import CustomInput from "../../Inputs/Input";
 import { showToast } from "../../../utils/toast";
-import { mockAccounts } from "../../../mock/users";
 
 export default function LoginForm({ setCurrentForm }) {
   const navigate = useNavigate();
 
   // Login için mutation
   const mutation = useMutation({
-    mutationFn: (values) => login(values.email, values.password),
+    mutationFn: (values) => login(values.email.trim(), values.password.trim()),
     onSuccess: () => {
       showToast("success", "Giriş Başarılı");
       navigate("/");
@@ -30,10 +29,7 @@ export default function LoginForm({ setCurrentForm }) {
       initialValues={{ email: "", password: "" }}
       validationSchema={LoginSchema}
       onSubmit={(values) => {
-        // mutation.mutate(values); // Mutation'ı tetikleme
-        const isUser = mockAccounts.find((user) => user.email === values.email);
-        console.log(values,isUser,navigate, "values");
-        navigate("/");
+        mutation.mutate(values); // Mutation'ı tetikleme
       }}
     >
       {() => (
@@ -55,7 +51,7 @@ export default function LoginForm({ setCurrentForm }) {
               className={"secondary"}
               label="Giriş Yap"
               type="submit"
-              //isLoading={mutation.isLoading} // Mutation durumu
+              isLoading={mutation.isLoading}
             />
             <Separator />
             <CustomButton

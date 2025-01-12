@@ -7,8 +7,8 @@ function ProfileEditModal() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const imageURL = URL.createObjectURL(file); 
-      setSelectedImage(imageURL); 
+      const imageURL = URL.createObjectURL(file);
+      setSelectedImage(imageURL);
     }
   };
 
@@ -23,7 +23,7 @@ function ProfileEditModal() {
           />
         ) : (
           <img
-            src="https://via.placeholder.com/150"
+            src="https://placehold.co/150x150"
             alt="Profile avatar"
             className="w-full h-full rounded-full"
           />
@@ -34,7 +34,7 @@ function ProfileEditModal() {
         >
           <CameraIcon className={"text-white"} />
         </button>
-        
+
         <input
           id="fileInput"
           type="file"
@@ -42,13 +42,14 @@ function ProfileEditModal() {
           className="hidden"
           onChange={handleImageChange}
         />
-      </div> 
-      
-      <div className="font-bold translate-y-4 space-y-7 flex flex-col justify-center items-center"> 
-     
+      </div>
+
+      <div className="font-bold translate-y-4 space-y-7 flex flex-col justify-center items-center">
         <div>Kullanıcı Profil Fotoğrafınızı Burada Düzenleyebilirsiniz </div>
 
-        <button className="bg-[color:var(--color-primary)] text-white h-8 w-28 rounded-full hover:bg-[color:var(--color-secondary)]">Kaydet</button> 
+        <button className="bg-[color:var(--color-primary)] text-white h-8 w-28 rounded-full hover:bg-[color:var(--color-secondary)]">
+          Kaydet
+        </button>
       </div>
     </div>
   );

@@ -1,14 +1,14 @@
 import { _login, _logout } from "./index";
 import store from "../index";
-import { login as loginAuth } from "../../api/auth";
+import { apiClient } from "../../services/apiClient";
 
 // Giriş yapma fonksiyonu
 export const login = async (email, password) => {
   try {
-    const { response, status } = await loginAuth(email, password);
+    const { data, status } = await apiClient.signIn(email, password);
     if (status === 201 || status === 202) {
-      store.dispatch(_login(response.data.authorizedAccount));
-      return { success: true, account: response.data.authorizedAccount };
+      store.dispatch(_login(data));
+      return { success: true, account: data.authorizedAccount };
     } else {
       return Promise.reject({
         message: "Geçersiz kullanıcı adı veya şifre",

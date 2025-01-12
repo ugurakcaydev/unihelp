@@ -45,9 +45,6 @@ export default function LoginPage() {
                 {currentForm === "register" && (
                   <RegisterForm setCurrentForm={setCurrentForm} />
                 )}
-                {/* {currentForm === "verification" && (
-                  <VerificationForm setCurrentForm={setCurrentForm} />
-                )} */}
               </div>
             </div>
           </div>

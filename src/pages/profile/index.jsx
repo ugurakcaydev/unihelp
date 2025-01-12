@@ -19,7 +19,7 @@ function ProfilePage() {
       <div className="flex flex-col items-center justify-center gap-y-4 min-h-[250px]">
         <div className="w-28 h-28 group relative rounded-full bg-gray-600  border-2 border-[color:var(--color-secondary)] flex items-center justify-center">
           <img
-            src="https://via.placeholder.com/150"
+            src="https://placehold.co/150x150"
             alt="Profile avatar"
             className="w-full h-full rounded-full"
           />
