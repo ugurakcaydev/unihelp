@@ -63,7 +63,7 @@ export default function Comment() {
     setTextLength(textarea.value.length);
   };
   useEffect(() => {}, [textLength]);
-  
+
   return (
     <div className=" pt-1 border-b border-[color:var(--background-third)]">
       <div className=" px-4 flex ">
@@ -76,7 +76,7 @@ export default function Comment() {
         </div>
         <div className=" pt-[4px] flex flex-col flex-1 justify-center ">
           <div className="flex flex-col w-full  border-b border-[color:var(--background-third)]">
-            <div className="pt-3 h-auto  overflow-hidden w-full text-xl ">
+            <div className="py-3 h-auto  overflow-hidden w-full text-xl ">
               <textarea
                 ref={textareaRef}
                 onClick={() => {
@@ -95,7 +95,7 @@ export default function Comment() {
               {poll && <PollForm setPoll={setPoll} />}
             </div>
 
-            {active && (
+            {active && !poll && (
               <Listbox
                 as="div"
                 value={selectedTags}
@@ -170,6 +170,7 @@ export default function Comment() {
                     </div>
                   </div>
                 </ListboxOptions>
+
                 <div className=" flex flex-wrap gap-2">
                   {selectedTags &&
                     selectedTags.length > 0 &&
@@ -182,7 +183,9 @@ export default function Comment() {
 
                         <XIcon
                           onClick={() => handleRemoveTag(tag)}
-                          className={"w-4 h-3 ml-2  text-red-500 cursor-pointer"}
+                          className={
+                            "w-4 h-3 ml-2  text-red-500 cursor-pointer"
+                          }
                         />
                       </div>
                     ))}
