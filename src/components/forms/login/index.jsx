@@ -52,6 +52,7 @@ export default function LoginForm({ setCurrentForm }) {
               label="Giriş Yap"
               type="submit"
               isLoading={mutation.isLoading}
+              
             />
             <Separator />
             <CustomButton

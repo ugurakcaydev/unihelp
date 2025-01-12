@@ -14,26 +14,23 @@ export default function RegisterForm({ setCurrentForm }) {
   const [onSuccess, setOnSuccess] = useState(false);
   const [user, setUser] = useState({});
 
-  const signUp_ = async (username, email, password) => {
-    try {
-      const response = await apiClient.signUp(username, email, password);
-      if (response.status === 200 || response.status === 201) {
-        setUser(response.data);
-      }
-      return response;
-    } catch (error) {
-      console.error("Failed to sign in:", error);
-      throw error;
-    }
-  };
-
   const mutation = useMutation({
-    mutationFn: (values) =>
-      signUp_(
-        values.username.trim(),
-        values.email.trim(),
-        values.password.trim()
-      ),
+    mutationFn: async (values) => {
+      try {
+        const response = await apiClient.signUp(
+          values.username.trim(),
+          values.email.trim(),
+          values.password.trim()
+        );
+        if (response.status === 200 || response.status === 201) {
+          setUser(response.data);
+        }
+        return response;
+      } catch (error) {
+        console.error("Failed to sign in:", error);
+        throw error;
+      }
+    },
     onSuccess: () => {
       showToast("success", "Kayıt Başarılı");
       setOnSuccess(true);
@@ -43,6 +40,7 @@ export default function RegisterForm({ setCurrentForm }) {
         showToast("error", "Hatalı Giriş");
     },
   });
+
   return (
     <>
       {!onSuccess ? (
