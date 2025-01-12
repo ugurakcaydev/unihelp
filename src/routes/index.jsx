@@ -6,9 +6,9 @@ import MainLayout from "../layouts/main";
 import ProfilePage from "../pages/profile";
 import NotificationsPage from "../pages/notifications";
 import MarksPage from "../pages/marks";
-import ExplorePage from "../pages/explore";
 import ProtectedRoute from "./ProtectedRoute";
 import RedirectRoute from "./RedirectRoute";
+import PostDetail from "../pages/post-details";
 
 const routes = createBrowserRouter([
   {
@@ -43,8 +43,8 @@ const routes = createBrowserRouter([
         element: <NotificationsPage />,
       },
       {
-        path: "/explore",
-        element: <ExplorePage />,
+        path: "/:fullName/status/:id",
+        element: <PostDetail />,
       },
       {
         path: "/marks",
