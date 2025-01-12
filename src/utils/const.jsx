@@ -51,7 +51,7 @@ export const mainMenu = [
       ),
     },
   },
-  
+
   {
     path: "/notifications",
     title: "Bildirimler",
@@ -99,7 +99,9 @@ export const mainMenu = [
   },
 
   {
-    path: `/profile/${states?.auth?.currentAccount?.username}`,
+    path: `/profile/${states?.auth?.currentAccount?.authorizedAccount?.username
+      .toLocaleLowerCase("TR-tr")
+      .replace(/\s/g, "-")}`,
     title: "Profil",
     icon: {
       active: (

@@ -11,7 +11,7 @@ import ProfileLikesTab from "./likes";
 import { setModal } from "../../store/modal/actions";
 
 function ProfilePage() {
-  const user = useAccount();
+  const { authorizedAccount } = useAccount();
 
   return (
     <div className="w-full">
@@ -35,8 +35,10 @@ function ProfilePage() {
           </button>
         </div>
         <div className="flex flex-col items-center justify-start gap-y-1">
-          <h1 className="text-2xl font-bold">{user?.name ?? "name"}</h1>
-          <p className="text-gray-400">@{user?.username}</p>
+          <h1 className="text-2xl font-bold">
+            {authorizedAccount?.username ?? "name"}
+          </h1>
+          <p className="text-gray-400">@{authorizedAccount?.username}</p>
         </div>
       </div>
       <div className="">

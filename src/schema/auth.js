@@ -15,8 +15,13 @@ export const LoginSchema = Yup.object().shape({
 export const RegisterSchema = Yup.object().shape({
   username: Yup.string().required("Gerekli"),
   email: Yup.string()
-    .email("Geçerli bir e-mail adresi giriniz !")
-    .required("Gerekli"),
+    .email("Geçerli bir e-mail adresi giriniz!")
+    .required("Gerekli")
+    .test(
+      "is-dogus-email",
+      "E-posta adresi @dogus.edu.tr uzantılı olmalıdır!",
+      (value) => value && value.endsWith("@dogus.edu.tr")
+    ),
   password: Yup.string()
     .trim()
     .required("Gerekli")

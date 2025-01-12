@@ -8,30 +8,31 @@ import { useAccount } from "../../../../store/auth/hooks";
 import MoreAccount from "./moreAccount";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
+
 function Account() {
-  const account = useAccount();
-  console.log(account);
+  const { authorizedAccount } = useAccount();
+
   return (
     <Popover className="relative w-full mb-3 mr-1 mt-auto">
-      {account ? (
+      {authorizedAccount ? (
         <PopoverButton
           className={classNames(
             "flex max-h-[60px] justify-between items-center w-full p-3 rounded-full  transition-all hover:bg-[color:var(--background-third)] outline-none",
             {
-              "bg-[color:var(--background-third)]": !account,
+              "bg-[color:var(--background-third)]": !authorizedAccount,
             }
           )} //p-2 olacak en büyük font size olduğunda p-2 olmasa da oluyormuş
         >
           <div className="flex gap-x-2.5 items-center">
             <img
               className="w-10 h-10 rounded-full bg-[color:var(--background-secondary)] "
-              src={account?.avatar || "https://placehold.co/40x40"}
+              src={authorizedAccount?.avatar || "https://placehold.co/40x40"}
               alt=""
             />
             {/*p-1 gidecek en büyük font size olduğunda*/}
             <div className="flex flex-col   ">
               <span className="text-[0.938rem] text-[color:var(--color-base)] font-bold text-left flex items-center justify-start  ">
-                {account?.name ?? "name"}
+                {authorizedAccount?.username ?? "name"}
                 <svg
                   viewBox="0 0 24 24"
                   width={18.75}
@@ -47,7 +48,7 @@ function Account() {
               </span>
               <span className="text-[color:var(--color-base-secondary)] text-left">
                 {" "}
-                {account?.username}
+                {authorizedAccount?.username}
               </span>
             </div>
           </div>
@@ -78,7 +79,7 @@ function Account() {
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        {account && (
+        {authorizedAccount && (
           <PopoverPanel className="w-[270px] absolute left-1/2 -translate-x-1/2 bottom-[65px] p-2 border border-[color:var(color-secondary)] shadow-sm rounded-xl overflow-hidden flex flex-col justify-between items-start ">
             <MoreAccount />
           </PopoverPanel>

@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { Formik, Form } from "formik";
-import Button from "../../Button";
 import Separator from "../../separator";
 import { RegisterSchema } from "../../../schema/auth";
 import CustomInput from "../../Inputs/Input";
@@ -9,6 +8,7 @@ import { apiClient } from "../../../services/apiClient";
 import { showToast } from "../../../utils/toast";
 import { useState } from "react";
 import VerificationForm from "../verificationCode";
+import CustomButton from "../../Button";
 
 export default function RegisterForm({ setCurrentForm }) {
   const [onSuccess, setOnSuccess] = useState(false);
@@ -76,14 +76,14 @@ export default function RegisterForm({ setCurrentForm }) {
                 type={"password"}
               />
               <div className="flex flex-col gap-y-2.5 mt-2 ">
-                <Button
+                <CustomButton
                   className={"secondary"}
                   label="Kayıt Ol"
                   type="submit"
                   isLoading={mutation.isLoading}
                 />
                 <Separator />
-                <Button
+                <CustomButton
                   label="Giriş Yap"
                   className={"primary"}
                   onClick={() => setCurrentForm("login")}
