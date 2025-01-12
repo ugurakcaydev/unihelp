@@ -2,7 +2,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import StatsModal from "~/modals/stats";
 
 import { numberFormat } from "../../utils/format";
@@ -35,12 +35,15 @@ export default function Post({ post }) {
       : post.stats.like + 1;
     setLikePost(!likePost);
   };
-  const navigate = useNavigate()
 
   return (
-    <button onClick={(e)=>{
-      e.preventDefault();
-      navigate(`/${post.account.fullName.toLocaleLowerCase("TR-tr").trim().replace(/ /g, "-")}/status/${post.id}`)}} className=" flex relative px-4 py-3 gap-3 border-b border-[color:var(--background-third)]  before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]">
+    <Link
+      to={`/${post.account.fullName
+        .toLocaleLowerCase("TR-tr")
+        .trim()
+        .replace(/ /g, "-")}/status/${post.id}`}
+      className=" flex relative px-4 py-3 gap-3 border-b border-[color:var(--background-third)]  before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]"
+    >
       <Link
         className="w-10 h-10 rounded-full"
         to={`/profile/${post.account.fullName}`}
@@ -368,7 +371,7 @@ export default function Post({ post }) {
           </div>
         </div>
       </div>
-    </button>
+    </Link>
   );
 }
 
