@@ -8,7 +8,7 @@ function MarksPage() {
   return (
     <div>
       <OutletHeader title="Yer İşaretleri" returnButton={true} />
-      <div className="w-full  p-4 ">
+      <div className="w-full flex flex-col items-start justify-start ">
         {markedPosts.length === 0 ? (
           <div className="w-full flex flex-col items-center justify-center gap-y-3">
             <h1 className="text-lg font-semibold">Buralar boş görünüyor...</h1>

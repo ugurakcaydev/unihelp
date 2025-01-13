@@ -5,6 +5,11 @@ export const LoginSchema = Yup.object().shape({
     .trim()
     .email("Geçerli bir e-mail adresi giriniz !")
     .required("Email Zorunlu"),
+    // .test(
+    //   "is-dogus-email",
+    //   "E-posta adresi @dogus.edu.tr uzantılı olmalıdır!",
+    //   (value) => value && value.endsWith("@dogus.edu.tr")
+    // ),
   password: Yup.string()
     .trim()
     .required("Şifre Zorunlu")
@@ -17,11 +22,11 @@ export const RegisterSchema = Yup.object().shape({
   email: Yup.string()
     .email("Geçerli bir e-mail adresi giriniz!")
     .required("Gerekli"),
-    // .test(
-    //   "is-dogus-email",
-    //   "E-posta adresi @dogus.edu.tr uzantılı olmalıdır!",
-    //   (value) => value && value.endsWith("@dogus.edu.tr")
-    // ),
+  // .test(
+  //   "is-dogus-email",
+  //   "E-posta adresi @dogus.edu.tr uzantılı olmalıdır!",
+  //   (value) => value && value.endsWith("@dogus.edu.tr")
+  // ),
   password: Yup.string()
     .trim()
     .required("Gerekli")

@@ -8,7 +8,7 @@ export default function Poll({ poll: pollData }) {
       {!poll.voted &&
         poll.answers.map((answer) => (
           <button
-            onClick={() => {
+            onClick={(e) => {
               setPoll({
                 ...poll,
                 voted: true,
@@ -24,6 +24,8 @@ export default function Poll({ poll: pollData }) {
                   return a;
                 }),
               });
+              e.stopPropagation();
+              e.preventDefault();
             }}
             className="h-8 border border-[color:var(--color-primary)] rounded-full text-[color:var(--color-primary)] font-bold hover:bg-[color:var(--color-primary-alpha)] transition-colors"
             key={answer.id}
