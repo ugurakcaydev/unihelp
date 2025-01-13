@@ -1,5 +1,5 @@
 import Topic from "./topic";
-import SidebarSection from "../sidebarSection";
+import SidebarSection from "../sidebarSection/index";
 import { topics } from "../../utils/const";
 
 export default function Topics() {
