@@ -1,7 +1,6 @@
 import Topic from "./topic";
-
 import { topics } from "../../utils/const";
-import SidebarSection from "../sidebarSection";
+import SidebarSection from "../../components/sidebarSection/index";
 
 export default function Topics() {
   return (
