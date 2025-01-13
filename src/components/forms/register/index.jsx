@@ -23,10 +23,10 @@ export default function RegisterForm({ setCurrentForm }) {
       ),
     onSuccess: (response) => {
       if (response?.status === 200 || response?.status === 201) {
-        setUser(response.data); // Kullanıcıyı ayarla
-        showToast("success", "Kayıt Başarılı"); // Başarı mesajı göster
-        setIsSubmitting(false); // Submit durumunu kapat
-        setOnSuccess(true); // Başarı durumunu ayarla
+        setUser(response.data);
+        showToast("success", "Kayıt Başarılı");
+        setIsSubmitting(false);
+        setOnSuccess(true);
       }
     },
     onError: (error) => {
@@ -36,7 +36,7 @@ export default function RegisterForm({ setCurrentForm }) {
       } else {
         showToast("error", errorMessage);
       }
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
     },
   });
 
