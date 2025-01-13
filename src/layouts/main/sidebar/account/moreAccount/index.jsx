@@ -3,7 +3,7 @@ import { useAccount } from "../../../../../store/auth/hooks";
 import { useNavigate } from "react-router-dom"; // Yönlendirme için import
 
 function MoreAccount() {
-  const currentAccount = useAccount();
+  const { authorizedAccount } = useAccount();
   const navigate = useNavigate(); // Yönlendirme için hook'u çağır
 
   return (
@@ -11,7 +11,7 @@ function MoreAccount() {
       <button
         onClick={() => {
           const confirmLogout = window.confirm(
-            `${currentAccount?.name} hesabından çıkmak istediğinize emin misiniz?`
+            `${authorizedAccount?.username} hesabından çıkmak istediğinize emin misiniz?`
           );
           if (confirmLogout) {
             logout(); // Çıkış işlemi
@@ -20,7 +20,7 @@ function MoreAccount() {
         }}
         className="text-center px-3 py-2.5 font-bold w-full transition-all cursor-pointer hover:bg-[color:var(--background-third)] rounded-md"
       >
-        {currentAccount?.name ?? "name"} hesabından çıkış yap
+        {authorizedAccount?.username ?? "name"} hesabından çıkış yap
       </button>
     </>
   );

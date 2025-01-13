@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Formik, Form } from "formik";
 import Separator from "../../separator";
 import { RegisterSchema } from "../../../schema/auth";
@@ -13,31 +12,31 @@ import CustomButton from "../../Button";
 export default function RegisterForm({ setCurrentForm }) {
   const [onSuccess, setOnSuccess] = useState(false);
   const [user, setUser] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const mutation = useMutation({
-    mutationFn: async (values) => {
-      try {
-        const response = await apiClient.signUp(
-          values.username.trim(),
-          values.email.trim(),
-          values.password.trim()
-        );
-        if (response.status === 200 || response.status === 201) {
-          setUser(response.data);
-        }
-        return response;
-      } catch (error) {
-        console.error("Failed to sign in:", error);
-        throw error;
+    mutationFn: async (values) =>
+      apiClient.signUp(
+        values.username.trim(),
+        values.email.trim(),
+        values.password.trim()
+      ),
+    onSuccess: (response) => {
+      if (response?.status === 200 || response?.status === 201) {
+        setUser(response.data); // Kullanıcıyı ayarla
+        showToast("success", "Kayıt Başarılı"); // Başarı mesajı göster
+        setIsSubmitting(false); // Submit durumunu kapat
+        setOnSuccess(true); // Başarı durumunu ayarla
       }
     },
-    onSuccess: () => {
-      showToast("success", "Kayıt Başarılı");
-      setOnSuccess(true);
-    },
     onError: (error) => {
-      if (error.message === "Signin failed! Recheck all your credentials!")
+      const errorMessage = error?.message || "Bilinmeyen bir hata oluştu.";
+      if (errorMessage.includes("Signin failed")) {
         showToast("error", "Hatalı Giriş");
+      } else {
+        showToast("error", errorMessage);
+      }
+      setIsSubmitting(false); 
     },
   });
 
@@ -48,6 +47,7 @@ export default function RegisterForm({ setCurrentForm }) {
           initialValues={{ username: "", email: "", password: "" }}
           validationSchema={RegisterSchema}
           onSubmit={(values) => {
+            setIsSubmitting(true);
             mutation.mutate(values);
           }}
         >
@@ -78,7 +78,7 @@ export default function RegisterForm({ setCurrentForm }) {
                   className={"secondary"}
                   label="Kayıt Ol"
                   type="submit"
-                  isLoading={mutation.isLoading}
+                  isLoading={isSubmitting}
                 />
                 <Separator />
                 <CustomButton

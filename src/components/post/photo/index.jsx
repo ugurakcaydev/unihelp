@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 export default function Photo({ photos }) {
   switch (photos.length) {
     case 1:

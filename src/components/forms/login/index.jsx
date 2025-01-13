@@ -7,20 +7,24 @@ import Separator from "../../separator/index";
 import { LoginSchema } from "../../../schema/auth";
 import CustomInput from "../../Inputs/Input";
 import { showToast } from "../../../utils/toast";
+import { useState } from "react";
 
 export default function LoginForm({ setCurrentForm }) {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Login için mutation
   const mutation = useMutation({
     mutationFn: (values) => login(values.email.trim(), values.password.trim()),
     onSuccess: () => {
       showToast("success", "Giriş Başarılı");
+      setIsSubmitting(false);
       navigate("/");
     },
     onError: (error) => {
       if (error.message === "Signin failed! Recheck all your credentials!")
         showToast("error", "Kullanıcı adı veya Şifreniz yanlış");
+      setIsSubmitting(false);
     },
   });
 
@@ -29,7 +33,8 @@ export default function LoginForm({ setCurrentForm }) {
       initialValues={{ email: "", password: "" }}
       validationSchema={LoginSchema}
       onSubmit={(values) => {
-        mutation.mutate(values); // Mutation'ı tetikleme
+        setIsSubmitting(true);
+        mutation.mutate(values);
       }}
     >
       {() => (
@@ -51,8 +56,7 @@ export default function LoginForm({ setCurrentForm }) {
               className={"secondary"}
               label="Giriş Yap"
               type="submit"
-              isLoading={mutation.isLoading}
-              
+              isLoading={isSubmitting}
             />
             <Separator />
             <CustomButton

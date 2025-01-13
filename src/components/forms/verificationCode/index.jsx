@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import { useState } from "react";
 import { showToast } from "../../../utils/toast";
 import { apiClient } from "../../../services/apiClient";
@@ -9,7 +9,7 @@ function VerificationForm({ user, setCurrentForm }) {
   const [code, setCode] = useState(Array(6).fill(""));
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  console.log(user, "userr");
+
   const isDisabled = code.some((digit) => digit === "");
 
   const handleChange = (value, index) => {

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-/* eslint-disable react/prop-types */
+
 
 export function LogoIcon({ className }) {
   return (

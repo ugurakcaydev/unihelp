@@ -126,27 +126,18 @@ export default function Post({ post }) {
           )} */}
           <div className="flex items-center justify-between -ml-1.5 mt-1.5">
             <div className="flex items-center justify-start gap-x-3">
+              {/* Like Post Icon */}
               <button
-                onClick={() => {
+                onClick={(e) => {
                   controlLikePost(post);
+                  e.stopPropagation();
+                  e.preventDefault();
                 }}
                 className={classNames(
                   " group flex items-center gap-px hover:cursor-pointer",
                   {}
                 )}
               >
-                {/* {likePost && (
-                <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#f918801a] rounded-full group-hover:text-[#f91880]">
-                  <svg viewBox="0 0 24 24" className="size-5">
-                    <g>
-                      <path
-                        fill="currentColor"
-                        d="M20.884 13.19c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"
-                      ></path>
-                    </g>
-                  </svg>
-                </div>
-              )} */}
                 <div
                   className={classNames(
                     "size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#f918801a] rounded-full group-hover:text-[#f91880]",
@@ -184,6 +175,7 @@ export default function Post({ post }) {
                   {numberFormat(post.stats.like)}
                 </span>
               </button>
+              {/* Comment Post Icon */}
               <button
                 // onClick={() => controlReplyThePost(post)}
                 className=" group flex items-center gap-px hover:cursor-pointer"
@@ -202,6 +194,7 @@ export default function Post({ post }) {
               </button>
             </div>
             <div className="flex items-center justify-end gap-x-2">
+              {/* Share Post Icon */}
               <div className="size-9 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] hover:bg-[#1d9bf01a] rounded-full hover:text-[#1d9bf0] hover:cursor-pointer">
                 <svg viewBox="0 0 24 24" className="size-[18px]">
                   <path
@@ -211,6 +204,7 @@ export default function Post({ post }) {
                 </svg>
               </div>
 
+              {/* Bookmark Post Icon */}
               <div className="size-9 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] hover:bg-[#1d9bf01a] rounded-full hover:text-[#1d9bf0] hover:cursor-pointer">
                 {post.stats.bookmark ? (
                   <svg

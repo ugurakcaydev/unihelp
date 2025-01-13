@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import { useField } from "formik";
 import { useState } from "react";
 import { CloseEyeIcon, EyeIcon } from "../../constant/icons";
