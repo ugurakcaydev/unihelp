@@ -4,7 +4,7 @@ export default function Poll({ poll: pollData }) {
   const [poll, setPoll] = useState(pollData);
 
   return (
-    <div className="mt-3 grid gap-1">
+    <div className="w-full mt-3 grid gap-1">
       {!poll.voted &&
         poll.answers.map((answer) => (
           <button

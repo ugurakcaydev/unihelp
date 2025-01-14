@@ -11,6 +11,9 @@ import {
   HeartIcon,
   ShareIcon,
 } from "../../icons";
+import { posts } from "../../mock/posts";
+import Photo from "../../components/post/photo";
+import Poll from "../../components/post/poll";
 
 export default function PostDetail(post) {
   const { id } = useParams();
@@ -20,6 +23,8 @@ export default function PostDetail(post) {
 
   useEffect(() => {}, [setLikePost]);
 
+  const currentPost = posts.find((post) => post.id === id);
+
   const controlLikePost = (post) => {
     const updatedPost = { ...post };
     updatedPost.stats.like = likePost
@@ -27,7 +32,15 @@ export default function PostDetail(post) {
       : post.stats.like + 1;
     setLikePost(!likePost);
   };
-  console.log(id);
+
+  if (!currentPost) {
+    return (
+      <div className="w-full h-auto py-6 flex items-center justify-center">
+        Aradığınız gönderi bulunamadı
+      </div>
+    );
+  }
+  console.log(currentPost);
   return (
     <div className="w-full flex flex-col">
       <OutletHeader title="Gönderi" returnButton={true} />
@@ -37,14 +50,14 @@ export default function PostDetail(post) {
           <div className="leading-5 flex items-center gap-2">
             <button
               onClick={(e) => {
-                navigate(`/profile/${post?.account?.fullName}`);
+                navigate(`/profile/${currentPost.account.fullName}`);
                 e.stopPropagation();
                 e.preventDefault();
               }}
               className="hover:underline flex items-center font-bold"
             >
-              Post Detail
-              {post?.account?.verified && (
+              {currentPost.account.fullName}
+              {currentPost.account.verified && (
                 <svg
                   className="text-[#1d9bf0] ml-0.5 size-6 "
                   viewBox="0 0 22 22"
@@ -61,19 +74,16 @@ export default function PostDetail(post) {
 
         {/* Content */}
         <div className="w-full flex flex-col items-start justify-start mt-3 gap-y-3">
-          <p className="text-left ">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil
-            debitis aliquam in consequatur eius tempore quisquam laborum, iusto
-            temporibus fugiat sapiente adipisci maiores molestiae harum quas
-            suscipit vero beatae dolorem.
-          </p>
-          <div className="w-full">
-            <img
-              src={"https://placehold.co/512x290"}
-              alt=""
-              className="w-full border max-h-[510px] object-cover border-[color:var(--background-third)] rounded-2xl"
-            />
-          </div>
+          <div
+            className="flex items-start justify-start text-left"
+            dangerouslySetInnerHTML={{
+              __html: currentPost.content.replace(/\n/g, "<br>"),
+            }}
+          />
+          {currentPost.type === "photo" && (
+            <Photo photos={currentPost.photos} />
+          )}
+          {currentPost.type === "poll" && <Poll poll={currentPost.poll} />}
           <div className="flex items-center justify-start text-[15px] gap-x-1 text-[#536471] px-2 ">
             <span>ÖS 6:58 · 13 Oca 2025</span>
             <div>·</div>
@@ -112,7 +122,7 @@ export default function PostDetail(post) {
                     }
                   )}
                 >
-                  {numberFormat(post?.stats?.like || 30)}
+                  {numberFormat(currentPost?.stats?.like || 30)}
                 </span>
               </button>
 
@@ -125,7 +135,7 @@ export default function PostDetail(post) {
                   <CommentIcon />
                 </div>
                 <span className="text-[1rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
-                  {numberFormat(post?.stats?.comments || 30)}
+                  {numberFormat(currentPost?.stats?.comments || 30)}
                 </span>
               </button>
 
@@ -135,14 +145,14 @@ export default function PostDetail(post) {
                 className=" group flex items-center gap-px hover:cursor-pointer"
               >
                 <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
-                  {post?.stats?.bookmark ? (
+                  {currentPost?.stats?.bookmark ? (
                     <FillBookmarkIcon />
                   ) : (
                     <BookmarkIcon />
                   )}
                 </div>
                 <span className="text-[1rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
-                  {numberFormat(post?.stats?.bookmark || 30)}
+                  {numberFormat(currentPost?.stats?.bookmark || "")}
                 </span>
               </button>
             </div>
@@ -153,15 +163,13 @@ export default function PostDetail(post) {
             </div>
           </div>
         </div>
+      </div>
+      <div className="w-full h-full p-3 flex flex-col">
+        {/* Yorum Yapma Textarea */}
+        <div>a</div>
 
-        {/* <div
-          className="flex items-start justify-start text-left"
-          dangerouslySetInnerHTML={{
-            __html: post?.content?.replace(/\n/g, "<br>"),
-          }}
-        />
-        {post?.type === "photo" && <Photo photos={post.photos} />}
-        {post?.type === "poll" && <Poll poll={post.poll} />} */}
+        {/* Önceden Yapılmış Yorumlar */}
+        <div>b</div>
       </div>
     </div>
   );

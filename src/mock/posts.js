@@ -48,6 +48,7 @@ export const posts = [
       avatar: "https://placehold.co/40x40",
       username: "dou",
       fullName: "Doğuş Üniversitesi (DOU)",
+      verified: true,
     },
     stats: {
       comments: 43535,
