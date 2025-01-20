@@ -15,11 +15,11 @@ import { IoIosArrowForward } from "react-icons/io";
 
 export default function Comment() {
   const currentAccount = useAccount();
+  const textareaRef = useRef();
+  
+  const [type, setType] = useState("comment");
   const [active, setActive] = useState(false);
   const [textLength, setTextLength] = useState(0);
-  const [poll, setPoll] = useState(false);
-  const textareaRef = useRef();
-
   const [selectedTags, setSelectedTags] = useState([]);
   const [searchTagQuery, setSearchTagQuery] = useState("");
 
@@ -65,7 +65,7 @@ export default function Comment() {
   useEffect(() => {}, [textLength]);
 
   return (
-    <div className=" pt-1 border-b border-[color:var(--background-third)]">
+    <div className="w-full pt-1 border-b border-[color:var(--background-third)]">
       <div className=" px-4 flex ">
         <div className="mr-3 pt-3">
           <img
@@ -74,9 +74,9 @@ export default function Comment() {
             alt="avatar"
           />
         </div>
-        <div className=" pt-[4px] flex flex-col flex-1 justify-center ">
+        <div className="flex flex-col flex-1 justify-center ">
           <div className="flex flex-col w-full  border-b border-[color:var(--background-third)]">
-            <div className="py-3 h-auto  overflow-hidden w-full text-xl ">
+            <div className="py-4 h-auto  overflow-hidden w-full text-xl ">
               <textarea
                 ref={textareaRef}
                 onClick={() => {
@@ -84,18 +84,13 @@ export default function Comment() {
                 }}
                 id="auto-expanding-textarea"
                 onInput={checkTextLength}
-                className={classNames(
-                  " w-full   placeholder:text-[color:var(--color-base-secondary)] overflow-hidden bg-[color:var(--background-primary)] outline-none text-[20px] text-[color:var(--color-base)]   resize-none leading-6",
-                  {
-                    " ": active === true,
-                  }
-                )}
-                placeholder={"Soru sor"}
+                className=" w-full   placeholder:text-[color:var(--color-base-secondary)] overflow-hidden bg-[color:var(--background-primary)] outline-none text-[20px] text-[color:var(--color-base)]   resize-none leading-6"
+                placeholder={"Soru Sorunuz..."}
               />
-              {poll && <PollForm setPoll={setPoll} />}
+              {type === "poll" && <PollForm setType={setType} />}
             </div>
 
-            {active && !poll && (
+            {active && type === "comment" && (
               <Listbox
                 as="div"
                 value={selectedTags}
@@ -193,7 +188,7 @@ export default function Comment() {
               </Listbox>
             )}
           </div>
-          <TextInputBottom textLength={textLength} setPoll={setPoll} />
+          <TextInputBottom textLength={textLength} setType={setType} />
         </div>
       </div>
     </div>

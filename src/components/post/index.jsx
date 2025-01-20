@@ -1,39 +1,15 @@
-import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import StatsModal from "~/modals/stats";
-
-import { numberFormat } from "../../utils/format";
 import Poll from "./poll";
 import Photo from "./photo";
-import {
-  BookmarkIcon,
-  CommentIcon,
-  FillBookmarkIcon,
-  FillHeartIcon,
-  HeartIcon,
-  ShareIcon,
-} from "../../icons";
+import GetBottomIcons from "./bottomIcons";
+import { routeFormat } from "../../utils/routeFormat";
 
 export default function Post({ post }) {
-  // const [photos, setPhotos] = useState([]);
-
-  // useEffect(() => {
-  //   if (post.photos) {
-  //     setTimeout(() => {
-  //       setPhotos(post.photos);
-  //     }, 1000);
-  //   }
-  // }, [post.photos]);
-
   const [likePost, setLikePost] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {}, [setLikePost]);
-
-  // const controlReplyThePost = (post) => {
-  //   setModal("replyThePost", post);
-  // };
 
   const controlLikePost = (post) => {
     const updatedPost = { ...post };
@@ -45,16 +21,13 @@ export default function Post({ post }) {
 
   return (
     <Link
-      to={`/${post.account.fullName
-        .toLocaleLowerCase("TR-tr")
-        .trim()
-        .replace(/ /g, "-")}/status/${post.id}`}
+      to={`/${routeFormat(post.account.fullName)}/status/${post.id}`}
       className=" flex relative px-4 py-3 gap-3 border-b border-[color:var(--background-third)]  before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]"
     >
       <div className="w-10 h-10 rounded-full">
         <button
           onClick={(e) => {
-            navigate(`/profile/${post.account.fullName}`);
+            navigate(`/profile/${routeFormat(post.account.fullName)}`);
             e.stopPropagation();
             e.preventDefault();
           }}
@@ -71,7 +44,7 @@ export default function Post({ post }) {
           <div className="leading-5 flex items-center gap-2">
             <button
               onClick={(e) => {
-                navigate(`/profile/${post.account.fullName}`);
+                navigate(`/profile/${routeFormat(post.account.fullName)}`);
                 e.stopPropagation();
                 e.preventDefault();
               }}
@@ -106,88 +79,34 @@ export default function Post({ post }) {
           />
           {post.type === "photo" && <Photo photos={post.photos} />}
           {post.type === "poll" && <Poll poll={post.poll} />}
-          {/* {post.photos && (
-            <div
-              className={classNames(
-                "mt-3 border-2 max-w-full max-h-[510px] h-auto border-[#2f3336] gap-1 rounded-xl grid grid-cols-1 grid-rows-1 overflow-hidden",
-                {
-                  "!grid !grid-cols-2 !grid-rows-2 !max-h-[288px]":
-                    photos.length > 1,
-                }
-              )}
-            >
-              {photos.map((photo, index) => (
-                <div
-                  key={index}
-                  className={classNames(
-                    "object-cover rounded-xl w-full h-full  ",
-                    {}
-                  )}
-                >
-                  <img
-                    src={photo}
-                    className="object-cover w-full h-full cursor-pointer "
-                    alt=""
-                  />
-                </div>
-              ))}
-            </div>
-          )} */}
+
           <div className="flex items-center justify-between -ml-1.5 mt-1.5">
             <div className="flex items-center justify-start gap-x-2">
               {/* Like Post Icon */}
-              <button
-                onClick={(e) => {
+              <GetBottomIcons
+                name={"like"}
+                quantity={post.stats.like}
+                isActive={likePost}
+                onClick={() => {
                   controlLikePost(post);
-                  e.stopPropagation();
-                  e.preventDefault();
                 }}
-                className={classNames(
-                  " group flex items-center gap-px hover:cursor-pointer",
-                  {}
-                )}
-              >
-                <div
-                  className={classNames(
-                    "size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#f918801a] rounded-full group-hover:text-[#f91880]"
-                  )}
-                >
-                  {likePost ? <FillHeartIcon /> : <HeartIcon />}
-                </div>
-                <span
-                  className={classNames(
-                    "text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#f91880]",
-                    {
-                      "!text-[#f91880]": likePost === true,
-                    }
-                  )}
-                >
-                  {numberFormat(post.stats.like)}
-                </span>
-              </button>
+              />
               {/* Comment Post Icon */}
-              <button
-                // onClick={() => controlReplyThePost(post)}
-                className=" group flex items-center gap-px hover:cursor-pointer"
-              >
-                <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
-                  <CommentIcon />
-                </div>
-                <span className="text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
-                  {numberFormat(post.stats.comments)}
-                </span>
-              </button>
+              <GetBottomIcons
+                name={"comment"}
+                quantity={post.stats.comments}
+                onClick={() => {}}
+              />
             </div>
             <div className="flex items-center justify-end gap-x-1">
               {/* Share Post Icon */}
-              <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] hover:bg-[#1d9bf01a] rounded-full hover:text-[#1d9bf0] hover:cursor-pointer">
-                <ShareIcon />
-              </div>
-
+              <GetBottomIcons name={"share"} onClick={() => {}} />
               {/* Bookmark Post Icon */}
-              <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] hover:bg-[#1d9bf01a] rounded-full hover:text-[#1d9bf0] hover:cursor-pointer">
-                {post.stats.bookmark ? <FillBookmarkIcon /> : <BookmarkIcon />}
-              </div>
+              <GetBottomIcons
+                name={"bookmark"}
+                onClick={() => {}}
+                isActive={post.stats.bookmark}
+              />
             </div>
           </div>
         </div>

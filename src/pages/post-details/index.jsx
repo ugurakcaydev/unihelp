@@ -1,31 +1,28 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import OutletHeader from "../../components/OutletHeader";
 import { numberFormat } from "../../utils/format";
-import classNames from "classnames";
 import { useEffect, useState } from "react";
-import {
-  BookmarkIcon,
-  CommentIcon,
-  FillBookmarkIcon,
-  FillHeartIcon,
-  HeartIcon,
-  ShareIcon,
-} from "../../icons";
 import { posts } from "../../mock/posts";
 import Photo from "../../components/post/photo";
 import Poll from "../../components/post/poll";
-import Line from "../../components/line";
+import CommentPostDetail from "./comment";
+import GetBottomIcons from "../../components/post/bottomIcons";
+import ReceivedCommentCard from "./received-comments";
+import { comments } from "../../mock/comments";
+import { routeFormat } from "../../utils/routeFormat";
 
-export default function PostDetail(post,textLength) {
-  let kalan = 200 - textLength;
+export default function PostDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [likePost, setLikePost] = useState(null);
 
   useEffect(() => {}, [setLikePost]);
-
   const currentPost = posts.find((post) => post.id === id);
+
+  const commentsData = comments.filter(
+    (comment) => comment.comment.id === currentPost.id
+  );
 
   const controlLikePost = (post) => {
     const updatedPost = { ...post };
@@ -42,14 +39,26 @@ export default function PostDetail(post,textLength) {
       </div>
     );
   }
-  console.log(currentPost);
+
   return (
     <div className="w-full flex flex-col">
       <OutletHeader title="Gönderi" returnButton={true} />
       <div className="w-full flex flex-col items-start justify-start p-3">
         <header className="w-full flex items-center justify-start gap-x-3">
-          <div className="w-10 h-10 rounded-full bg-zinc-300"></div>
-          <div className="leading-5 flex items-center gap-2">
+          <Link
+            to={`/profile/${routeFormat(currentPost.account.fullName)}`}
+            className="w-10 h-10 rounded-full "
+          >
+            <img
+              src={currentPost.account.avatar}
+              className="w-10 h-10 rounded-full  "
+              alt=""
+            />
+          </Link>
+          <Link
+            to={`/profile/${routeFormat(currentPost.account.fullName)}`}
+            className="leading-5 flex items-center gap-2"
+          >
             <button
               onClick={(e) => {
                 navigate(`/profile/${currentPost.account.fullName}`);
@@ -71,7 +80,7 @@ export default function PostDetail(post,textLength) {
                 </svg>
               )}
             </button>
-          </div>
+          </Link>
         </header>
 
         {/* Content */}
@@ -98,183 +107,56 @@ export default function PostDetail(post,textLength) {
           </div>
           <div className="w-full border-y border-y-[#eff3f4] flex items-center justify-between p-1">
             <div className="flex items-center justify-start gap-x-4">
-              <button
-                onClick={(e) => {
-                  controlLikePost(post);
-                  e.stopPropagation();
-                  e.preventDefault();
+              {/* Like Post Icon */}
+              <GetBottomIcons
+                name={"like"}
+                quantity={currentPost.stats.like}
+                isActive={likePost}
+                onClick={() => {
+                  controlLikePost(currentPost);
                 }}
-                className={classNames(
-                  " group flex items-center gap-px hover:cursor-pointer",
-                  {}
-                )}
-              >
-                <div
-                  className={classNames(
-                    "size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#f918801a] rounded-full group-hover:text-[#f91880]"
-                  )}
-                >
-                  {likePost ? <FillHeartIcon /> : <HeartIcon />}
-                </div>
-                <span
-                  className={classNames(
-                    "text-[1rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#f91880]",
-                    {
-                      "!text-[#f91880]": likePost === true,
-                    }
-                  )}
-                >
-                  {numberFormat(currentPost?.stats?.like || 30)}
-                </span>
-              </button>
-
-              {/* Comment Icon */}
-              <button
-                // onClick={() => controlReplyThePost(post)}
-                className=" group flex items-center gap-px hover:cursor-pointer"
-              >
-                <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
-                  <CommentIcon />
-                </div>
-                <span className="text-[1rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
-                  {numberFormat(currentPost?.stats?.comments || 30)}
-                </span>
-              </button>
+              />
+              {/* Comment Post Icon */}
+              <GetBottomIcons
+                name={"comment"}
+                quantity={currentPost.stats.comments}
+                onClick={() => {}}
+              />
 
               {/* Bookmark Post Icon */}
-              <button
-                // onClick={() => controlReplyThePost(post)}
-                className=" group flex items-center gap-px hover:cursor-pointer"
-              >
-                <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
-                  {currentPost?.stats?.bookmark ? (
-                    <FillBookmarkIcon />
-                  ) : (
-                    <BookmarkIcon />
-                  )}
-                </div>
-                <span className="text-[1rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
-                  {numberFormat(currentPost?.stats?.bookmark || "")}
-                </span>
-              </button>
-            </div>
-
-            {/* Share Post Icon */}
-            <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] hover:bg-[#1d9bf01a] rounded-full hover:text-[#1d9bf0] hover:cursor-pointer">
-              <ShareIcon />
-            </div>
-          </div>
-        </div>
-      </div>
-      <Line/>
-      {/* Yorumlar ve Yorum Yapma */}
-    <div className="w-full h-full ml-2 flex flex-col">
-        <div className="text-sm flex justify-start ">
-          <span className="text-[color:var(--color-primary)] mr-2">Süleyman Akyasan</span>
-          <span>kişisine cevap veriliyor</span>
-        </div>
-
-        {/* Yorum Yapma Textarea */}
-       
-        <div className="flex items-center justify-between rounded-md pt-2">
-          {/* Kullanıcı Girdisi */}
-          <div className="flex items-center">
-            <div className="h-full rounded-full flex items-center justify-center">
-              <img
-                src="https://placehold.co/40x40"
-                alt="Profile avatar"
-                className="w-full h-full rounded-full"
+              <GetBottomIcons
+                name={"bookmark"}
+                onClick={() => {}}
+                isActive={currentPost?.stats?.bookmark || ""}
+                quantity={currentPost?.stats?.bookmark || 0}
               />
             </div>
-            <input
-              type="text"
-              placeholder="Cevabınızı buraya yazınız"
-              className="ml-4 outline-none border-none"
-            />
+            {/* Share Post Icon */}
+            <GetBottomIcons name={"share"} onClick={() => {}} />
           </div>
-           <button className=" bg-[color:var(--color-base)] px-5 py-1.5 rounded-full text-white pointer-events-auto cursor-pointer -translate-x-1/2">
-               Gönder
-           </button>
-        </div>
-
-        
-      {/* Kullanıcı Yorumu */}
-      <div className="mt-3">
-      <Line size={90}  />
-     
-        <div className="flex items-center space-x-3 mt-4">
-       
-          <div>
-            <img
-              src="https://placehold.co/40x40"
-              alt="Profile avatar"
-              className="w-full h-full rounded-full"
-            />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex space-x-2">
-              <span className="font-semibold">Uğurun Kürt</span>
-              <span className="text-gray-500">·</span>
-              <span className="text-gray-500">3h</span>
-            </div>
-            <p>Sen katılma amk sen katılırsan ben çıkıyorum valla</p>
-          </div>
-        </div>
-
-      
-
-        {/* İçerik */}
-        <div className="flex items-center justify-start gap-x-4  ">
-          {/* Like Butonu */}
-          <button
-            onClick={(e) => {
-              controlLikePost(post);
-              e.stopPropagation();
-              e.preventDefault();
-            }}
-            className={classNames(
-              "group flex items-center gap-px hover:cursor-pointer"
-            )}
-          >
-            <div
-              className={classNames(
-                "size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#f918801a] rounded-full group-hover:text-[#f91880]"
-              )}
-            >
-              {likePost ? <FillHeartIcon /> : <HeartIcon />}
-            </div>
-            <span
-              className={classNames(
-                "text-[1rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#f91880]",
-                { "!text-[#f91880]": likePost === true }
-              )}
-            >
-              {numberFormat(currentPost?.stats?.like || 30)}
-            </span>
-          </button>
-
-         
-
-          {/* Bookmark Butonu */}
-          <button className="group flex items-center gap-px hover:cursor-pointer">
-            <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
-              {currentPost?.stats?.bookmark ? <FillBookmarkIcon /> : <BookmarkIcon />}
-            </div>
-            <span className="text-[1rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
-              {numberFormat(currentPost?.stats?.bookmark || "")}
-            </span>
-          </button>
-        
-
         </div>
       </div>
-      
-        
 
-    </div>
-    
-    
+      {/* Kullanıcı Yanıtı ve Yorumlar */}
+      <div className="w-full h-full flex flex-col ">
+        {/* Kullanıcı Yanıtı */}
+        <CommentPostDetail />
 
+        {/* Yorumlar */}
+        <div className="w-full flex flex-col items-start justify-start  ">
+          {commentsData.length === 0 && (
+            <div className="w-full flex flex-col items-center justify-center gap-y-3 p-4 min-h-[100px]">
+              <h2 className="text-lg font-semibold">
+                Buralar boş görünüyor...
+              </h2>
+              <span>İlk yorumu sen yap.</span>
+            </div>
+          )}
+          {commentsData.map((comment, index) => (
+            <ReceivedCommentCard key={index} comment={comment} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

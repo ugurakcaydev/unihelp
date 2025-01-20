@@ -1,4 +1,5 @@
 import store from "../store";
+import { routeFormat } from "./routeFormat";
 
 const states = store.getState();
 
@@ -134,8 +135,8 @@ export const mainMenu = [
   },
 
   {
-    path: `/profile/${states?.auth?.currentAccount?.authorizedAccount?.username.toLocaleLowerCase(
-      "TR-tr"
+    path: `/profile/${routeFormat(
+      states?.auth?.currentAccount?.authorizedAccount?.username
     )}`,
     title: "Profil",
     icon: {

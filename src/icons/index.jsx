@@ -1,4 +1,4 @@
-export const LogoIcon = (className) => {
+export const LogoIcon = ({ className }) => {
   return (
     <svg
       className={`w-full p-[32px] ${className}`}
@@ -16,7 +16,7 @@ export const LogoIcon = (className) => {
   );
 };
 
-export const HeartIcon = (className) => {
+export const HeartIcon = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ export const HeartIcon = (className) => {
   );
 };
 
-export const FillHeartIcon = (className) => {
+export const FillHeartIcon = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ export const FillHeartIcon = (className) => {
   );
 };
 
-export const BookmarkIcon = (className) => {
+export const BookmarkIcon = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@ export const BookmarkIcon = (className) => {
   );
 };
 
-export const FillBookmarkIcon = (className) => {
+export const FillBookmarkIcon = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@ export const FillBookmarkIcon = (className) => {
   );
 };
 
-export const CommentIcon = (className) => {
+export const CommentIcon = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +111,7 @@ export const CommentIcon = (className) => {
   );
 };
 
-export const ShareIcon = (className) => {
+export const ShareIcon = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +128,7 @@ export const ShareIcon = (className) => {
   );
 };
 
-export const BellIcon = (className) => {
+export const BellIcon = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,7 @@ export const BellIcon = (className) => {
   );
 };
 
-export const ActiveBellIcon = (className) => {
+export const ActiveBellIcon = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -160,6 +160,19 @@ export const ActiveBellIcon = (className) => {
         d="M5.25 9a6.75 6.75 0 0 1 13.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 0 1-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 1 1-7.48 0 24.585 24.585 0 0 1-4.831-1.244.75.75 0 0 1-.298-1.205A8.217 8.217 0 0 0 5.25 9.75V9Zm4.502 8.9a2.25 2.25 0 1 0 4.496 0 25.057 25.057 0 0 1-4.496 0Z"
         clipRule="evenodd"
       />
+    </svg>
+  );
+};
+
+export const PhotoIcon = ({ className }) => {
+  return (
+    <svg className={`size-5 ${className}`} viewBox="0 0 24 24">
+      <g>
+        <path
+          fill="currentColor"
+          d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"
+        ></path>
+      </g>
     </svg>
   );
 };

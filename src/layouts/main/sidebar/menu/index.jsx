@@ -33,10 +33,7 @@ function Menu() {
         );
       })}
 
-      {/* <More />
-      <div className="py-3 mt-2 w-[90%]">
-        <Button size="large">Gönder</Button>
-      </div> */}
+     
     </nav>
   );
 }

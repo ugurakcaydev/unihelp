@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Days, Hours, Minutes } from "../../utils/times";
 import ListBoxComponent from "../listbox";
 
-export default function PollForm({ setPoll }) {
+export default function PollForm({ setType }) {
   const date = new Date();
 
   const [options, setOptions] = useState(["", ""]);
@@ -101,7 +101,7 @@ export default function PollForm({ setPoll }) {
 
         <div className="w-full flex-1 justify-center items-center rounded-b-2xl p-2 transition-all duration-200 hover:bg-[#f4212e1a]">
           <button
-            onClick={() => setPoll(false)}
+            onClick={() => setType("comment")}
             className="w-full text-[15px] text-[#f4212e]"
           >
             Anketi kaldır
