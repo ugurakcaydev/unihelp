@@ -18,9 +18,9 @@ function MoreAccount() {
             navigate("/login"); // Çıkıştan sonra yönlendirme
           }
         }}
-        className="text-center px-3 py-2.5 font-bold w-full transition-all cursor-pointer hover:bg-[color:var(--background-third)] rounded-md"
+        className="text-center p-3 font-bold text-sm w-full transition-all cursor-pointer hover:bg-[color:var(--background-third)] rounded-md"
       >
-        {authorizedAccount?.username ?? "name"} hesabından çıkış yap
+        {authorizedAccount?.username ?? "name"} hesabından çıkış yap.
       </button>
     </>
   );

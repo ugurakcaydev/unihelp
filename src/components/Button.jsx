@@ -1,16 +1,16 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import {  PulseLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 function CustomButton({ label, className, isLoading, ...props }) {
   return (
     <button
       className={classnames(
-        "w-full h-[35px] rounded-md  bg-[#e7e9ea] flex items-center justify-center hover:bg-white text-black font-semibold",
+        "w-full h-[35px] rounded-md flex items-center justify-center border  text-black font-semibold",
         {
-          "!bg-[#1d9bf0] !text-[#e7e9ea] hover:!bg-[#1a8cd8]":
+          "!bg-[#1d9bf0] !text-[#e7e9ea] border-[#fff] hover:!bg-[#1a8cd8]":
             className === "primary",
-          "!bg-transparent !text-[#1d9bf0]  border border-[#536471] hover:!bg-[#1d9bf01a]":
+          "!bg-transparent !text-[#1d9bf0]   border-[#1d9bf0] hover:!bg-[#f9f9f9]":
             className === "secondary",
         }
       )}
@@ -18,12 +18,11 @@ function CustomButton({ label, className, isLoading, ...props }) {
       {...props}
     >
       {isLoading ? (
-        <PulseLoader
+        <ClipLoader
           //pulseloader
-          color="#fff"
+          color={className === "primary" ? "#e7e9ea" : "#1d9bf0"}
           loading={isLoading}
-          size={5}
-          margin={4}
+          size={20}
           speedMultiplier={0.8}
           aria-label="Loading Spinner"
           data-testid="loader"

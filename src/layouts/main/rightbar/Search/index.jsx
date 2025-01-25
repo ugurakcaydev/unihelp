@@ -1,11 +1,12 @@
 import classNames from "classnames";
 import { useState, useRef } from "react";
 import { useClickAway } from "react-use";
+import { VerifiedIcon } from "../../../../icons";
+import { Link } from "react-router-dom";
 
 function Search() {
   const [query, setQuery] = useState("");
   const [focus, setFocus] = useState(false);
-
   const ref = useRef();
   useClickAway(ref, () => {
     setFocus(false);
@@ -46,7 +47,7 @@ function Search() {
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="flex items-center justify-center w-[22px] h-[22px] absolute rounded-full text-black bg-[color:var(--color-primary)] top-1/2 -translate-y-1/2 min-w-[22px] right-3 "
+            className="flex items-center justify-center size-5 p-1 absolute rounded-full text-black bg-[color:var(--color-primary)] top-1/2 -translate-y-1/2 right-3 "
           >
             <svg fill="#fff" width={10} height={10} viewBox="0 0 15 15">
               <path d="M6.09 7.5L.04 1.46 1.46.04 7.5 6.09 13.54.04l1.42 1.42L8.91 7.5l6.05 6.04-1.42 1.42L7.5 8.91l-6.04 6.05-1.42-1.42L6.09 7.5z" />
@@ -55,10 +56,103 @@ function Search() {
         )}
       </label>
       {focus && (
-        <div className="w-[350px] absolute top-full -left-px -translate-y-1 bg-[color:var(--background-primary)] shadow-md  max-h-[calc(80vh-53px)] rounded-lg  text-center min-h-[100px]">
-          <p className="p-3 pt-5 text-[color:var(--color-base-secondary)] text-center leading-5">
-            Kişileri, listeleri veya anahtar kelimeleri aramayı dene
-          </p>
+        <div className="w-[350px] absolute top-full -left-px -translate-y-1 bg-[color:var(--background-primary)] shadow-md  max-h-[calc(80vh-53px)] rounded-lg flex items-start justify-start  text-center min-h-[100px]">
+          {query.length === 0 && (
+            <p className=" px-4 py-8 text-[color:var(--color-base-secondary)] text-center leading-5 text-[15px]">
+              Kişileri, listeleri veya anahtar kelimeleri aramayı dene
+            </p>
+          )}
+          {query.length > 0 && (
+            <div className="w-full h-full overflow-y-auto">
+              <div className="w-full h-auto *:text-left">
+                <Link to={`/search?q=${query}`}>
+                  <div className="w-full text-[15px] hover:bg-[color:var(--background-secondary)] border-b-2 border-b-[color:var(--background-secondary)] p-4 text-[color:var(--color-base-secondary)]">
+                    <span> {`"${query}" ara`}</span>
+                  </div>
+                </Link>
+                <div className="w-full flex flex-col items-center justify-start max-h-[350px] overflow-y-auto ">
+                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
+                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
+                      <img
+                        src="https://placehold.co/40"
+                        alt=""
+                        className="rounded-full w-full h-full"
+                      />
+                    </div>
+                    <div className="flex items-center justify-start gap-x-1">
+                      <span className="text-sm font-semibold">
+                        Doğuş Üniversitesi (DOU)
+                      </span>
+                      <VerifiedIcon />
+                    </div>
+                  </button>
+                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
+                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
+                      <img
+                        src="https://placehold.co/40"
+                        alt=""
+                        className="rounded-full w-full h-full"
+                      />
+                    </div>
+                    <span className="text-sm font-semibold">
+                      Süleyman Akyasan
+                    </span>
+                  </button>
+                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
+                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
+                      <img
+                        src="https://placehold.co/40"
+                        alt=""
+                        className="rounded-full w-full h-full"
+                      />
+                    </div>
+                    <span className="text-sm font-semibold">
+                      Abdulkadir Demirkaya
+                    </span>
+                  </button>
+                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
+                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
+                      <img
+                        src="https://placehold.co/40"
+                        alt=""
+                        className="rounded-full w-full h-full"
+                      />
+                    </div>
+                    <span className="text-sm font-semibold">Uğur Akçay</span>
+                  </button>
+                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
+                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
+                      <img
+                        src="https://placehold.co/40"
+                        alt=""
+                        className="rounded-full w-full h-full"
+                      />
+                    </div>
+                    <div className="flex items-center justify-start gap-x-1">
+                      <span className="text-sm font-semibold">Mitat Uysal</span>
+                      <VerifiedIcon />
+                    </div>
+                  </button>
+                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
+                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
+                      <img
+                        src="https://placehold.co/40"
+                        alt=""
+                        className="rounded-full w-full h-full"
+                      />
+                    </div>
+                    <div className="flex items-center justify-start gap-x-1">
+                      <span className="text-sm font-semibold">
+                        Berrin Aslan Öztezcan
+                      </span>
+                      <VerifiedIcon />
+                    </div>
+                  </button>
+                </div>
+              </div>
+              {/* <SearchList query={query} /> */}
+            </div>
+          )}
         </div>
       )}
     </div>

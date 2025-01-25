@@ -22,8 +22,9 @@ export default function LoginForm({ setCurrentForm }) {
       navigate("/");
     },
     onError: (error) => {
-      if (error.message === "Signin failed! Recheck all your credentials!")
+      if (error.message === "Signin failed! Recheck all your credentials!") {
         showToast("error", "Kullanıcı adı veya Şifreniz yanlış");
+      }
       setIsSubmitting(false);
     },
   });
@@ -44,12 +45,14 @@ export default function LoginForm({ setCurrentForm }) {
             placeholder="Email adresinizi girin"
             name={"email"}
             type={"email"}
+            isRequired={true}
           />
           <CustomInput
             label={"Şifre"}
             placeholder="Şifrenizi girin"
             name={"password"}
             type={"password"}
+            isRequired={true}
           />
           <div className="flex flex-col gap-y-2.5 mt-2">
             <CustomButton

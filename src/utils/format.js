@@ -8,3 +8,14 @@ export const numberFormat = (value) => {
   }
   return Intl.NumberFormat("tr", config).format(value);
 };
+
+export const capitalizeFullName = (name) => {
+  return name
+    .split(" ") // Boşluklardan böl
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // İlk harfi büyük, geri kalanı küçük yap
+    .join(" "); // Tekrar birleştir
+};
+
+export const routeFormat = (route) => {
+  return route?.toLowerCase("TR-tr").trim();
+};

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // Kullanıcı bilgilerini localStorage'dan alıyoruz
-const savedAccount = JSON.parse(localStorage.getItem("currentAccount")) || null;
+const savedAccount = JSON.parse(localStorage.getItem("currentAccount")) || {};
 
 const initialState = {
   currentAccount: savedAccount,
@@ -16,7 +16,7 @@ const auth = createSlice({
       localStorage.setItem("currentAccount", JSON.stringify(action.payload)); // Login olduğunda localStorage'a kaydediyoruz
     },
     _logout: (state) => {
-      state.currentAccount = null;
+      state.currentAccount = {};
       localStorage.removeItem("currentAccount"); // Logout olduğunda localStorage'dan siliyoruz
     },
   },

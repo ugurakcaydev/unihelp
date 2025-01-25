@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 
 function Account() {
   const { authorizedAccount } = useAccount();
-
   return (
     <Popover className="relative w-full mb-3 mr-1 mt-auto">
       {authorizedAccount ? (

@@ -9,6 +9,8 @@ import MarksPage from "../pages/marks";
 import ProtectedRoute from "./ProtectedRoute";
 import RedirectRoute from "./RedirectRoute";
 import PostDetail from "../pages/post-details";
+import SearchPage from "../pages/search";
+import TestPage from "../pages/test";
 
 const routes = createBrowserRouter([
   {
@@ -17,17 +19,14 @@ const routes = createBrowserRouter([
       <RedirectRoute>
         <LoginPage />
       </RedirectRoute>
-      // <LoginPage />
     ),
   },
-
   {
     path: "/",
     element: (
       <ProtectedRoute>
         <MainLayout />
       </ProtectedRoute>
-      // <MainLayout />
     ),
     children: [
       {
@@ -35,20 +34,28 @@ const routes = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/profile/:fullName",
-        element: <ProfilePage />,
-      },
-      {
         path: "/notifications",
         element: <NotificationsPage />,
+      },
+      {
+        path: "/marks",
+        element: <MarksPage />,
+      },
+      {
+        path: "/search",
+        element: <SearchPage />,
       },
       {
         path: "/:fullName/status/:id",
         element: <PostDetail />,
       },
       {
-        path: "/marks",
-        element: <MarksPage />,
+        path: "/testt",
+        element: <TestPage />,
+      },
+      {
+        path: "/:fullName",
+        element: <ProfilePage />,
       },
     ],
   },

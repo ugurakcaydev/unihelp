@@ -10,8 +10,13 @@ import ProfileAnswersTab from "./answers";
 import ProfileLikesTab from "./likes";
 import { setModal } from "../../store/modal/actions";
 
+import { useParams } from "react-router-dom";
+import { capitalizeFullName } from "../../utils/format";
+
 function ProfilePage() {
-  const { authorizedAccount } = useAccount();
+  // const { authorizedAccount } = useAccount();
+  const { fullName } = useParams();
+  const CapitalizeFullName = capitalizeFullName(fullName);
 
   return (
     <div className="w-full">
@@ -35,10 +40,8 @@ function ProfilePage() {
           </button>
         </div>
         <div className="flex flex-col items-center justify-start gap-y-1">
-          <h1 className="text-2xl font-bold">
-            {authorizedAccount?.username ?? "name"}
-          </h1>
-          <p className="text-gray-400">@{authorizedAccount?.username}</p>
+          <h1 className="text-2xl font-bold">{CapitalizeFullName ?? "name"}</h1>
+          <p className="text-gray-400">@{CapitalizeFullName}</p>
         </div>
       </div>
       <div className="">

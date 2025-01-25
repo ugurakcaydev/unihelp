@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "./api";
 
 export const apiClient = {
@@ -41,6 +42,30 @@ export const apiClient = {
       return response;
     } catch (error) {
       console.error("Failed to verify account:", error);
+      throw error;
+    }
+  },
+
+  //Create Post
+  createPost: async (post) => {
+    try {
+      const response = await api.post("/posts", post);
+      return response;
+    } catch (error) {
+      console.error("Failed to create post:", error);
+      throw error;
+    }
+  },
+
+  //get city
+  getCity: async (name) => {
+    try {
+      const response = await axios.get(
+        `https://turkiyeapi.herokuapp.com/api/v1/provinces?name=${name}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get city:", error);
       throw error;
     }
   },

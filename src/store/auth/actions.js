@@ -7,7 +7,7 @@ export const login = async (email, password) => {
   try {
     const { data, status } = await apiClient.signIn(email, password);
     if (status === 201 || status === 202) {
-      store.dispatch(_login(data));
+      store.dispatch(_login(data)); // login işlemi başarılıysa
       return { success: true, account: data.authorizedAccount };
     } else {
       return Promise.reject({
@@ -24,5 +24,5 @@ export const login = async (email, password) => {
 
 // Çıkış yapma fonksiyonu
 export const logout = () => {
-  store.dispatch(_logout());
+  store.dispatch(_logout()); // Logout işlemi başarılıysa
 };

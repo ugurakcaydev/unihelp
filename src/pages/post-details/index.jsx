@@ -9,7 +9,7 @@ import CommentPostDetail from "./comment";
 import GetBottomIcons from "../../components/post/bottomIcons";
 import ReceivedCommentCard from "./received-comments";
 import { comments } from "../../mock/comments";
-import { routeFormat } from "../../utils/routeFormat";
+import { routeFormat } from "../../utils/format";
 
 export default function PostDetail() {
   const { id } = useParams();
@@ -46,7 +46,7 @@ export default function PostDetail() {
       <div className="w-full flex flex-col items-start justify-start p-3">
         <header className="w-full flex items-center justify-start gap-x-3">
           <Link
-            to={`/profile/${routeFormat(currentPost.account.fullName)}`}
+            to={`/${routeFormat(currentPost.account.fullName)}`}
             className="w-10 h-10 rounded-full "
           >
             <img
@@ -56,12 +56,12 @@ export default function PostDetail() {
             />
           </Link>
           <Link
-            to={`/profile/${routeFormat(currentPost.account.fullName)}`}
+            to={`/${routeFormat(currentPost.account.fullName)}`}
             className="leading-5 flex items-center gap-2"
           >
             <button
               onClick={(e) => {
-                navigate(`/profile/${currentPost.account.fullName}`);
+                navigate(`/${currentPost.account.fullName}`);
                 e.stopPropagation();
                 e.preventDefault();
               }}

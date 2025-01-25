@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { routeFormat } from "../../../utils/routeFormat";
+import { routeFormat } from "../../../utils/format";
 
 function ReceivedCommentCard({ comment }) {
   return (
     <div className="flex relative px-3 py-4 gap-x-3 border-b border-[color:var(--background-third)]  before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]">
       <Link
-        to={`/profile/${routeFormat(comment.account.fullName)}`}
+        to={`/${routeFormat(comment.account.fullName)}`}
         className="w-10 h-10 rounded-full bg-red-500"
       >
         <img
@@ -18,7 +18,7 @@ function ReceivedCommentCard({ comment }) {
         <header className=" mb-0.5 relative flex items-center justify-between">
           <div className="leading-5 flex items-center gap-2">
             <Link
-              to={`/profile/${routeFormat(comment.account.fullName)}`}
+              to={`/${routeFormat(comment.account.fullName)}`}
               className="hover:underline flex items-center font-bold"
             >
               {comment.account.fullName}

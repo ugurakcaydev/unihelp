@@ -3,13 +3,12 @@ import PropTypes from "prop-types";
 import CalculateRemainingText from "../CalculateRemainingText";
 import { PhotoIcon } from "../../icons";
 
-function TextInputBottom({ textLength, setType }) {
+function TextInputBottom({ submit, textLength, setType }) {
   const maxTextLength = 200;
   const remaining = maxTextLength - textLength;
   return (
-    <div className="w-full my-3 -ml-1.5 flex items-center justify-between">
+    <div className="w-full -ml-1.5 flex items-center justify-between border-t border-[color:var(--background-third)] py-3">
       <div className="flex gap-x-.5 items-center">
-
         <button className=" group flex items-center">
           <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
             <PhotoIcon className={"text-[color:var(--color-primary)] "} />
@@ -60,6 +59,7 @@ function TextInputBottom({ textLength, setType }) {
           </div>
         )}
         <button
+          onClick={submit}
           className={classNames(
             " bg-[color:var(--color-base)] px-5 py-1.5 rounded-full text-white pointer-events-auto cursor-pointer",
             {

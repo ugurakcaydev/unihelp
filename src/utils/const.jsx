@@ -1,8 +1,3 @@
-import store from "../store";
-import { routeFormat } from "./routeFormat";
-
-const states = store.getState();
-
 export const footer = [
   "Hakkımızda",
   "Yardım Merkezi",
@@ -135,9 +130,6 @@ export const mainMenu = [
   },
 
   {
-    path: `/profile/${routeFormat(
-      states?.auth?.currentAccount?.authorizedAccount?.username
-    )}`,
     title: "Profil",
     icon: {
       active: (

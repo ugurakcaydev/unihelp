@@ -1,13 +1,24 @@
 import classNames from "classnames";
 import { NavLink } from "react-router-dom";
 import { mainMenu } from "../../../../utils/const";
+import { routeFormat } from "../../../../utils/format";
+import { useAccount } from "../../../../store/auth/hooks";
 
 function Menu() {
+  const { authorizedAccount } = useAccount();
   return (
     <nav className="mt-1.5 w-full">
       {mainMenu.map((menu, index) => {
         return (
-          <NavLink to={menu?.path} className="py-[3px] block group" key={index}>
+          <NavLink
+            to={
+              menu.title === "Profil"
+                ? `${routeFormat(authorizedAccount?.username)}`
+                : menu?.path
+            }
+            className="py-[3px] block group"
+            key={index}
+          >
             {({ isActive }) => (
               <div
                 className={classNames(
@@ -32,8 +43,6 @@ function Menu() {
           </NavLink>
         );
       })}
-
-     
     </nav>
   );
 }

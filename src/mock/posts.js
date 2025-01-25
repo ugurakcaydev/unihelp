@@ -31,7 +31,7 @@ export const posts = [
     },
     stats: {
       comments: 43535,
-      like: 96946,
+      like: 9466,
       bookmark: false,
     },
   },
