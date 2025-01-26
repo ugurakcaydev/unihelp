@@ -1,23 +1,69 @@
-import { posts as postData } from "../../../mock/posts";
-
+import { useEffect, useState } from "react";
 import Post from "../../../components/post";
-import { useState } from "react";
+import useGetAllPosts from "../../../hooks/useGetAllPosts";
+import InfiniteScroll from "react-infinite-scroll-component";
+import LayoutLoder from "../../../components/loader/layoutLoader";
 import { WindowVirtualizer } from "virtua";
 
 export default function ForYou() {
-  const [posts, setPosts] = useState(postData);
-  return (
-    <WindowVirtualizer
-      onRangeChange={async (start, end) => {
-        if (end + 1 === posts.length) {
-          setPosts((prev) => [...prev, ...postData]);
+  const [posts, setPosts] = useState([]);
+  const [skip, setSkip] = useState(0); // Skip burada tutuluyor
+  const [hasMore, setHasMore] = useState(true);
+
+  // React Query'den veri çekmek için useQuery hook'u
+  const { data, isLoading, isFetching, error } = useGetAllPosts({
+    skip,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setPosts((prevPosts) => {
+        if (skip === 0) {
+          return data; // Skip sıfırsa, yeni gelen veriyi başa ekleyin
         }
-      }}
-      onScroll={(s, e) => {}}
-    >
-      {posts.map((post, key) => (
-        <Post post={post} key={post.id + key} />
-      ))}
-    </WindowVirtualizer>
+        return [...prevPosts, ...data]; // Skip sıfır değilse, yeni veriyi mevcut verinin sonuna ekleyin
+      });
+
+      if (data.length < 10) {
+        setHasMore(false); // Gelen veri azsa daha fazla veri olmadığını belirt
+      }
+    }
+  }, [data, skip]);
+
+  // Yeni veri çekme (fetchMore) fonksiyonu
+  const fetchMorePosts = () => {
+    if (!isFetching) {
+      setSkip((prevSkip) => prevSkip + 10); // Skip değerini artırarak bir sonraki sayfayı getir
+    }
+  };
+
+  if (isLoading && posts.length === 0) {
+    return <LayoutLoder />; // İlk yükleme sırasında gösterilecek loader
+  }
+
+  if (error) {
+    return <p>Bir hata oluştu: {error.message}</p>; // Hata mesajı
+  }
+
+  return (
+    <>
+      <WindowVirtualizer itemSize={100}>
+        {posts.map((post, index) => (
+          <Post post={post} key={index} />
+        ))}
+
+        <InfiniteScroll
+          dataLength={posts.length}
+          next={fetchMorePosts} // Kaydırma yapıldığında fetchMorePosts çağrılır
+          hasMore={hasMore} // Daha fazla veri olup olmadığını kontrol eder
+          loader={<LayoutLoder />} // Yüklenme sırasında gösterilecek loader
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! Tüm gönderileri gördünüz!</b>
+            </p>
+          }
+        />
+      </WindowVirtualizer>
+    </>
   );
 }

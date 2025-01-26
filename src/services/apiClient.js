@@ -57,6 +57,61 @@ export const apiClient = {
     }
   },
 
+  //Create Poll
+  createPoll: async (poll) => {
+    try {
+      const response = await api.post("/polls", poll);
+      return response;
+    } catch (error) {
+      console.error("Failed to create poll:", error);
+      throw error;
+    }
+  },
+
+  //Get All Posts
+  getAllPosts: async ({ skip }) => {
+    try {
+      const response = await api.get(`/posts?skip=${skip}&limit=${10}`);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get all posts:", error);
+      throw error;
+    }
+  },
+
+  //Get Post by id
+  getPostById: async (post_id) => {
+    try {
+      const response = await api.get(`/posts/${post_id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get post by id:", error);
+      throw error;
+    }
+  },
+
+  //Like Post
+  likePost: async (post_id) => {
+    try {
+      const response = await api.post(`/interactions/like/${post_id}`);
+      return response;
+    } catch (error) {
+      console.error("Failed to like post:", error);
+      throw error;
+    }
+  },
+
+  //Bookmark Post
+  bookmarkPost: async (post_id) => {
+    try {
+      const response = await api.post(`/interactions/bookmark/${post_id}`);
+      return response;
+    } catch (error) {
+      console.error("Failed to bookmark post:", error);
+      throw error;
+    }
+  },
+
   //get city
   getCity: async (name) => {
     try {

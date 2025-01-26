@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useAccount } from "../../../store/auth/hooks";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import CalculateRemainingText from "../../../components/CalculateRemainingText";
 
 function CommentPostDetail() {
@@ -11,15 +11,12 @@ function CommentPostDetail() {
 
   const checkTextLength = () => {
     const textarea = textareaRef.current;
-
     if (textarea) {
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-
     setTextLength(textarea.value.length);
   };
-  useEffect(() => {}, [textLength]);
 
   const maxTextLength = 200;
   const remaining = maxTextLength - textLength;
@@ -66,7 +63,7 @@ function CommentPostDetail() {
           )}
           <button
             className={classNames(
-              "absolute right-3 bottom-1/2 translate-y-1/2 w-fit bg-[color:var(--color-base)] px-5 py-1.5 rounded-full text-white duration-[1500ms] ease-in-out transition-all",
+              "absolute right-3 bottom-1/2 translate-y-1/2 min-w-[80px] min-h-[36px] w-fit bg-[color:var(--color-base)] px-5 py-1.5 rounded-full text-white duration-[1500ms] ease-in-out transition-all",
               {
                 "right-3 bottom-7": active,
                 "bg-black/50 cursor-not-allowed opacity-50 ":
@@ -74,6 +71,11 @@ function CommentPostDetail() {
               }
             )}
           >
+            {/* {isPending ? (
+              <Loader isLoading={isPending} color={"#fff"} />
+            ) : (
+              "Yanıtla"
+            )} */}
             Yanıtla
           </button>
         </div>

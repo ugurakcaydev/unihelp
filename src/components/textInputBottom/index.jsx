@@ -2,16 +2,29 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import CalculateRemainingText from "../CalculateRemainingText";
 import { PhotoIcon } from "../../icons";
+import Loader from "../loader";
 
-function TextInputBottom({ submit, textLength, setType }) {
+function TextInputBottom({ type, submit, textLength, setType, isPending }) {
   const maxTextLength = 200;
   const remaining = maxTextLength - textLength;
+
   return (
     <div className="w-full -ml-1.5 flex items-center justify-between border-t border-[color:var(--background-third)] py-3">
       <div className="flex gap-x-.5 items-center">
-        <button className=" group flex items-center">
-          <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
-            <PhotoIcon className={"text-[color:var(--color-primary)] "} />
+        <button disabled={type === "poll"} className="group flex items-center">
+          <div
+            className={classNames(
+              "size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)]  rounded-full group-hover:text-[#1d9bf0]",
+              {
+                "group-hover:bg-[#1d9bf01a]": type !== "poll",
+              }
+            )}
+          >
+            <PhotoIcon
+              className={classNames(`text-[color:var(--color-primary)] `, {
+                "text-slate-300": type === "poll",
+              })}
+            />
           </div>
         </button>
 
@@ -61,14 +74,18 @@ function TextInputBottom({ submit, textLength, setType }) {
         <button
           onClick={submit}
           className={classNames(
-            " bg-[color:var(--color-base)] px-5 py-1.5 rounded-full text-white pointer-events-auto cursor-pointer",
+            " bg-[color:var(--color-base)] min-w-[100px] min-h-[36px] flex items-center justify-center px-5 py-1.5 rounded-full text-white pointer-events-auto cursor-pointer",
             {
               "bg-black/50 !cursor-not-allowed opacity-50 !pointer-events-none":
-                remaining <= 0 || textLength == 0,
+                remaining < 0 || textLength == 0,
             }
           )}
         >
-          Gönder
+          {isPending ? (
+            <Loader isLoading={isPending} color={"#fff"} />
+          ) : (
+            "Gönder"
+          )}
         </button>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import { ClipLoader } from "react-spinners";
+import Loader from "./loader";
 
 function CustomButton({ label, className, isLoading, ...props }) {
   return (
@@ -18,14 +18,9 @@ function CustomButton({ label, className, isLoading, ...props }) {
       {...props}
     >
       {isLoading ? (
-        <ClipLoader
-          //pulseloader
+        <Loader
+          isLoading={isLoading}
           color={className === "primary" ? "#e7e9ea" : "#1d9bf0"}
-          loading={isLoading}
-          size={20}
-          speedMultiplier={0.8}
-          aria-label="Loading Spinner"
-          data-testid="loader"
         />
       ) : (
         label

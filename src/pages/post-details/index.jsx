@@ -1,8 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import OutletHeader from "../../components/OutletHeader";
-import { numberFormat } from "../../utils/format";
-import { useEffect, useState } from "react";
-import { posts } from "../../mock/posts";
 import Photo from "../../components/post/photo";
 import Poll from "../../components/post/poll";
 import CommentPostDetail from "./comment";
@@ -10,31 +7,21 @@ import GetBottomIcons from "../../components/post/bottomIcons";
 import ReceivedCommentCard from "./received-comments";
 import { comments } from "../../mock/comments";
 import { routeFormat } from "../../utils/format";
+import useGetPostById from "../../hooks/useGetCurrentPost";
+import LayoutLoder from "../../components/loader/layoutLoader";
 
 export default function PostDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { data: post, isLoading } = useGetPostById(id, {}, { enabled: !!id });
 
-  const [likePost, setLikePost] = useState(null);
+  if (isLoading) {
+    return <LayoutLoder />;
+  }
 
-  useEffect(() => {}, [setLikePost]);
-  const currentPost = posts.find((post) => post.id === id);
-
-  const commentsData = comments.filter(
-    (comment) => comment.comment.id === currentPost.id
-  );
-
-  const controlLikePost = (post) => {
-    const updatedPost = { ...post };
-    updatedPost.stats.like = likePost
-      ? post.stats.like - 1
-      : post.stats.like + 1;
-    setLikePost(!likePost);
-  };
-
-  if (!currentPost) {
+  if (!isLoading && !post) {
     return (
-      <div className="w-full h-auto py-6 flex items-center justify-center">
+      <div className="w-full h-auto py-6 flex items-center justify-center text-sm text-red-500">
         Aradığınız gönderi bulunamadı
       </div>
     );
@@ -46,29 +33,29 @@ export default function PostDetail() {
       <div className="w-full flex flex-col items-start justify-start p-3">
         <header className="w-full flex items-center justify-start gap-x-3">
           <Link
-            to={`/${routeFormat(currentPost.account.fullName)}`}
+            to={`/${routeFormat(post.account.fullName)}`}
             className="w-10 h-10 rounded-full "
           >
             <img
-              src={currentPost.account.avatar}
+              src={post.account.avatar || "https://placehold.co/40x40"}
               className="w-10 h-10 rounded-full  "
               alt=""
             />
           </Link>
           <Link
-            to={`/${routeFormat(currentPost.account.fullName)}`}
+            to={`/${routeFormat(post.account.fullName)}`}
             className="leading-5 flex items-center gap-2"
           >
             <button
               onClick={(e) => {
-                navigate(`/${currentPost.account.fullName}`);
+                navigate(`/${post.account.fullName}`);
                 e.stopPropagation();
                 e.preventDefault();
               }}
               className="hover:underline flex items-center font-bold"
             >
-              {currentPost.account.fullName}
-              {currentPost.account.verified && (
+              {post.account.fullName}
+              {post.account.verified && (
                 <svg
                   className="text-[#1d9bf0] ml-0.5 size-6 "
                   viewBox="0 0 22 22"
@@ -86,40 +73,32 @@ export default function PostDetail() {
         {/* Content */}
         <div className="w-full flex flex-col items-start justify-start mt-3 gap-y-3">
           <div
-            className="flex items-start justify-start text-left"
+            className="flex pl-2 items-start justify-start text-left"
             dangerouslySetInnerHTML={{
-              __html: currentPost.content.replace(/\n/g, "<br>"),
+              __html: post.content.replace(/\n/g, "<br>"),
             }}
           />
-          {currentPost.type === "photo" && (
-            <Photo photos={currentPost.photos} />
-          )}
-          {currentPost.type === "poll" && <Poll poll={currentPost.poll} />}
+          {!post.poll && <Photo photos={post.photos} />}
+          {post.poll && <Poll poll={post.poll} />}
+
           <div className="flex items-center justify-start text-[15px] gap-x-1 text-[#536471] px-2 ">
             <span>ÖS 6:58 · 13 Oca 2025</span>
-            <div>·</div>
-            <div className="flex items-center justify-start gap-x-1">
-              <div className="font-semibold text-[#0f1419]">
-                {numberFormat(534000)}
-              </div>
-              <span className="">Görüntülenme</span>
-            </div>
           </div>
           <div className="w-full border-y border-y-[#eff3f4] flex items-center justify-between p-1">
             <div className="flex items-center justify-start gap-x-4">
               {/* Like Post Icon */}
               <GetBottomIcons
                 name={"like"}
-                quantity={currentPost.stats.like}
-                isActive={likePost}
+                quantity={post.stats.likes}
+                isActive={post?.isLiked}
                 onClick={() => {
-                  controlLikePost(currentPost);
+                  // controlLikePost(currentPost);
                 }}
               />
               {/* Comment Post Icon */}
               <GetBottomIcons
                 name={"comment"}
-                quantity={currentPost.stats.comments}
+                quantity={post.stats.comments}
                 onClick={() => {}}
               />
 
@@ -127,8 +106,8 @@ export default function PostDetail() {
               <GetBottomIcons
                 name={"bookmark"}
                 onClick={() => {}}
-                isActive={currentPost?.stats?.bookmark || ""}
-                quantity={currentPost?.stats?.bookmark || 0}
+                isActive={post?.isBookmarked}
+                quantity={post?.stats?.bookmarks}
               />
             </div>
             {/* Share Post Icon */}
@@ -138,11 +117,11 @@ export default function PostDetail() {
       </div>
 
       {/* Kullanıcı Yanıtı ve Yorumlar */}
-      <div className="w-full h-full flex flex-col ">
+      {/* <div className="w-full h-full flex flex-col ">
         {/* Kullanıcı Yanıtı */}
-        <CommentPostDetail />
+      <CommentPostDetail />
 
-        {/* Yorumlar */}
+      {/* Yorumlar 
         <div className="w-full flex flex-col items-start justify-start  ">
           {commentsData.length === 0 && (
             <div className="w-full flex flex-col items-center justify-center gap-y-3 p-4 min-h-[100px]">
@@ -156,7 +135,7 @@ export default function PostDetail() {
             <ReceivedCommentCard key={index} comment={comment} />
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -4,24 +4,13 @@ import TextInputBottom from "../../../components/textInputBottom";
 import PollForm from "../../../components/commentPollForm";
 import CommentTags from "./tags";
 import { Days } from "../../../utils/times";
-import useCreatePost from "../../../hooks/useCreatePost";
+import useCreateComment from "../../../hooks/useCreatePost";
+import { showToast } from "../../../utils/toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Comment() {
-  const {
-    mutate: createPost,
-    data,
-    isLoading,
-    isError,
-    isSuccess,
-  } = useCreatePost({
-    onSuccess: (data) => {
-      console.log("Success! City data:", data);
-    },
-    onError: (error) => {
-      console.error("Error fetching city data:", error);
-    },
-  });
   const date = new Date();
+  const navigate = useNavigate();
   const currentAccount = useAccount();
   const textareaRef = useRef();
   const [type, setType] = useState("comment");
@@ -29,10 +18,30 @@ export default function Comment() {
   const [active, setActive] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const [pollData, setPollData] = useState({
-    options: ["", ""],
+    content: text,
+    answers: [{ text: "" }, { text: "" }], // Placeholder answers
     selectedDays: Days[date.toLocaleDateString("tr-TR", { day: "2-digit" })],
     selectedHour: date.getHours(),
     selectedMinute: date.getMinutes(),
+  });
+
+  const resetForm = () => {
+    setText("");
+    setType("comment");
+    setSelectedTags([]);
+    setActive(false);
+  };
+
+  const { mutate: createPost, isPending: isPendingComment } = useCreateComment({
+    onSuccess: () => {
+      showToast("success", "Başarıyla oluşturuldu");
+      navigate(0);
+      resetForm();
+    },
+    onError: (error) => {
+      showToast("error", "Error creating post");
+      console.error("Error creating post:", error);
+    },
   });
 
   const checkTextLength = () => {
@@ -50,9 +59,18 @@ export default function Comment() {
         tags: selectedTags,
         photos: [],
       };
-      createPost({ post: postData });
+      createPost({ commentData: postData, type: "comment" });
     } else if (type === "poll") {
-      console.log("Poll Data:", pollData);
+      // Prepare pollData in the required structure
+      const formattedPollData = {
+        content: text,
+        answers: pollData.answers.map((answer) => ({ text: answer })),
+        selectedDays: pollData.selectedDays,
+        selectedHour: pollData.selectedHour,
+        selectedMinute: pollData.selectedMinute,
+      };
+      createPost({ commentData: formattedPollData, type: "poll" });
+      console.log("Poll Data:", formattedPollData);
     }
   };
 
@@ -98,7 +116,9 @@ export default function Comment() {
           </div>
           <TextInputBottom
             submit={submitButton}
+            isPending={isPendingComment}
             textLength={text.length}
+            type={type}
             setType={setType}
           />
         </div>

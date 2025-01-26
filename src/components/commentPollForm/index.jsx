@@ -3,9 +3,9 @@ import ListBoxComponent from "../listbox";
 
 export default function PollForm({ setType, pollData, setPollData }) {
   const handleOptionChange = (index, value) => {
-    const newOptions = [...pollData.options];
-    newOptions[index] = value;
-    setPollData({ ...pollData, options: newOptions });
+    const newAnswers = [...pollData.answers];
+    newAnswers[index] = value;
+    setPollData({ ...pollData, answers: newAnswers });
   };
 
   const handleDayChange = (newDay) => {
@@ -21,8 +21,8 @@ export default function PollForm({ setType, pollData, setPollData }) {
   };
 
   const addOption = () => {
-    if (pollData.options.length < 4) {
-      setPollData((prev) => ({ ...prev, options: [...prev.options, ""] }));
+    if (pollData.answers.length < 4) {
+      setPollData((prev) => ({ ...prev, answers: [...prev.answers, ""] }));
     }
   };
 
@@ -31,7 +31,7 @@ export default function PollForm({ setType, pollData, setPollData }) {
       <div className="group border-[1px] border-[#38444d] rounded-2xl">
         <div className="flex w-full items-end justify-start p-3">
           <div className="flex flex-1 flex-col gap-y-3">
-            {pollData.options.map((option, index) => (
+            {pollData.answers.map((option, index) => (
               <div
                 key={index}
                 className="relative flex px-3 pt-3 pb-2 border-[1px] border-[#38444d] rounded bg-[color:var(--background-primary)]"
@@ -39,8 +39,10 @@ export default function PollForm({ setType, pollData, setPollData }) {
                 <input
                   className="w-full mt-1 text-[18px]  bg-[color:var(--background-primary)] outline-none transition-all peer"
                   type="text"
-                  value={option}
-                  onChange={(e) => handleOptionChange(index, e.target.value)}
+                  value={option.text}
+                  onChange={(e) => {
+                    handleOptionChange(index, e.target.value);
+                  }}
                 />
                 <label
                   className={`absolute left-3 top-1/2 -translate-y-1/2  text-[color:var(--color-base-secondary)] transition-all duration-100 transform ${
@@ -54,9 +56,9 @@ export default function PollForm({ setType, pollData, setPollData }) {
               </div>
             ))}
           </div>
-          {pollData.options.length < 4 && (
+          {pollData.answers.length < 4 && (
             <div className="w-10 flex items-center justify-center py-3">
-              {pollData.options.length > 1 && pollData.options.length < 4 && (
+              {pollData.answers.length > 1 && pollData.answers.length < 4 && (
                 <button
                   className="text-[color:var(--color-primary)] hover:text-[color:var(--color-secondary)]"
                   onClick={addOption}
