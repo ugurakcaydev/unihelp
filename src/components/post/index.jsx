@@ -6,8 +6,10 @@ import Photo from "./photo";
 import GetBottomIcons from "./bottomIcons";
 import { calculateTime, routeFormat } from "../../utils/format";
 import { VerifiedIcon } from "../../icons";
+import { useLikePost } from "../../hooks/interactions/likePost";
 
 export default function Post({ post }) {
+  const {mutate:likePosts}=useLikePost({onSuccess:()=>{console.log("Post gönderildi")}});
   const [likePost, setLikePost] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {}, [setLikePost]);
@@ -77,10 +79,10 @@ export default function Post({ post }) {
               {/* Like Post Icon */}
               <GetBottomIcons
                 name={"like"}
-                quantity={post.likesCount}
+                quantity={post.stats.likes}
                 isActive={post.isLiked}
                 onClick={() => {
-                  controlLikePost(post);
+                  likePosts({postId:post.id})
                 }} 
               />
               {/* Comment Post Icon */}
