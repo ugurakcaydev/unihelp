@@ -10,7 +10,7 @@ function HomePage() {
     <Tab activeTab="for-you">
       <StickyHeader>
         <Tab.Items>
-          <Tab.Item id="for-you">UNIHELP</Tab.Item>
+          <Tab.Item id="for-you">Anasayfa</Tab.Item>
           {/* <Tab.Item id="following">Takip edilenler</Tab.Item> */}
         </Tab.Items>
       </StickyHeader>

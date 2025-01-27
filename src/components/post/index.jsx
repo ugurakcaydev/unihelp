@@ -5,31 +5,14 @@ import Photo from "./photo";
 import GetBottomIcons from "./bottomIcons";
 import { calculateTime, routeFormat } from "../../utils/format";
 import { VerifiedIcon } from "../../icons";
-import { useLikePost } from "../../hooks/interactions/likePost";
-import { useBookmarksPost } from "../../hooks/interactions/bookmarkPost";
 
 export default function Post({ post }) {
-  const { mutate: likePosts } = useLikePost();
-  const { mutate: bookmarkPosts } = useBookmarksPost();
   const navigate = useNavigate();
-
-  const handleInteraction = ({ post_id, interactionName }) => {
-    switch (interactionName) {
-      case "like":
-        likePosts(post_id);
-        break;
-      case "bookmark":
-        bookmarkPosts(post_id);
-        break;
-      default:
-        break;
-    }
-  };
 
   return (
     <Link
       to={`/${routeFormat(post.account.username)}/status/${post.id}`}
-      className=" flex relative p-3 gap-3 border-b border-[color:var(--background-third)]  before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]"
+      className="flex relative p-3 gap-3 border-b border-[color:var(--background-third)] before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]"
     >
       <div className="w-10 h-10 rounded-full">
         <button
@@ -41,13 +24,13 @@ export default function Post({ post }) {
         >
           <img
             src={post.account.avatar || "https://placehold.co/40x40"}
-            className="w-10 h-10 rounded-full object-cover "
+            className="w-10 h-10 rounded-full object-cover"
             alt=""
           />
         </button>
       </div>
       <div className="flex-1">
-        <header className=" mb-0.5 relative flex items-center justify-between">
+        <header className="mb-0.5 relative flex items-center justify-between">
           <div className="leading-5 flex items-center gap-2">
             <button
               onClick={(e) => {
@@ -83,38 +66,15 @@ export default function Post({ post }) {
           <div className="flex items-center justify-between -ml-1.5 mt-1.5">
             <div className="flex items-center justify-start gap-x-2">
               {/* Like Post Icon */}
-              <GetBottomIcons
-                name={"like"}
-                quantity={post.stats.likes}
-                isActive={post.isLiked}
-                onClick={() => {
-                  handleInteraction({
-                    post_id: post.id,
-                    interactionName: "like",
-                  });
-                }}
-              />
+              <GetBottomIcons name="like" post={post} />
               {/* Comment Post Icon */}
-              <GetBottomIcons
-                name={"comment"}
-                quantity={post.stats.comments}
-                onClick={() => {}}
-              />
+              <GetBottomIcons name="comment" quantity={post.stats.comments} />
             </div>
             <div className="flex items-center justify-end gap-x-1">
               {/* Share Post Icon */}
-              <GetBottomIcons name={"share"} onClick={() => {}} />
+              <GetBottomIcons name="share" />
               {/* Bookmark Post Icon */}
-              <GetBottomIcons
-                name={"bookmark"}
-                onClick={() => {
-                  handleInteraction({
-                    post_id: post.id,
-                    interactionName: "bookmark",
-                  });
-                }}
-                isActive={post.isBookmarked}
-              />
+              <GetBottomIcons name="bookmark" post={post} />
             </div>
           </div>
         </div>
