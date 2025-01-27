@@ -17,11 +17,11 @@ function Search() {
   useEffect(() => {
     if (query.length > 0) {
       const debounceId = setTimeout(() => {
-        setDebouncedSearchTerm(query); // Update debounced search term
+        setDebouncedSearchTerm(query);
       }, 800);
 
       return () => {
-        clearTimeout(debounceId); // Cleanup debounce
+        clearTimeout(debounceId);
       };
     }
   }, [query]);
@@ -37,7 +37,6 @@ function Search() {
       setTags((data.tags || []).slice(0, 3));
     }
   }, [data, isLoading]);
-  
 
   const ref = useRef();
   useClickAway(ref, () => {

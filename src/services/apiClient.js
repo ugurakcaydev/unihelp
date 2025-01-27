@@ -112,6 +112,17 @@ export const apiClient = {
     }
   },
 
+  //Dislike Post
+  dislikePost: async (post_id) => {
+    try {
+      const response = await api.delete(`/interactions/like/${post_id}`);
+      return response;
+    } catch (error) {
+      console.error("Failed to dislike post:", error);
+      throw error;
+    }
+  },
+
   //Bookmark Post
   bookmarkPost: async (post_id) => {
     try {
@@ -119,6 +130,17 @@ export const apiClient = {
       return response;
     } catch (error) {
       console.error("Failed to bookmark post:", error);
+      throw error;
+    }
+  },
+
+  //Unbookmark Post
+  unbookmarkPost: async (post_id) => {
+    try {
+      const response = await api.delete(`/interactions/bookmark/${post_id}`);
+      return response;
+    } catch (error) {
+      console.error("Failed to unbookmark post:", error);
       throw error;
     }
   },

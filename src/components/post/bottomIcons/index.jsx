@@ -8,46 +8,67 @@ import {
   ShareIcon,
 } from "../../../icons";
 import classNames from "classnames";
+import { useLikePost } from "../../../hooks/interactions/likePost";
+import { useBookmarksPost } from "../../../hooks/interactions/bookmarkPost";
+import { useState } from "react";
 
-function GetBottomIcons({ name, quantity, isActive, onClick }) {
+function GetBottomIcons({ name, quantity, post }) {
+  const { mutate: likePosts } = useLikePost();
+  const { mutate: bookmarkPosts } = useBookmarksPost();
+  const [isLiked, setIsLiked] = useState(post?.isLiked);
+  const [likeCount, setLikeCount] = useState(post?.stats?.likes);
+  const [isBookmarked, setIsBookmarked] = useState(post?.isBookmarked);
+
+  const handleLike = () => {
+    if (isLiked) {
+      setLikeCount((prev) => prev - 1);
+      likePosts({ postId: post.id, type: "dislike" });
+    } else {
+      setLikeCount((prev) => prev + 1);
+      likePosts({ postId: post.id, type: "like" });
+    }
+    setIsLiked((prev) => !prev);
+  };
+
+  const handleBookmark = () => {
+    if (isBookmarked) {
+      bookmarkPosts({ postId: post.id, type: "unbookmark" });
+    } else {
+      bookmarkPosts({ postId: post.id, type: "bookmark" });
+    }
+    setIsBookmarked((prev) => !prev);
+  };
+
   switch (name) {
     case "like":
       return (
         <button
           onClick={(e) => {
-            onClick();
+            handleLike();
             e.preventDefault();
             e.stopPropagation();
           }}
-          className=" group flex items-center gap-px hover:cursor-pointer"
+          className="group flex items-center gap-px hover:cursor-pointer"
         >
           <div
             className={classNames(
               "size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#f918801a] rounded-full group-hover:text-[#f91880]"
             )}
           >
-            {isActive ? <FillHeartIcon /> : <HeartIcon />}
+            {isLiked ? <FillHeartIcon /> : <HeartIcon />}
           </div>
           <span
             className={classNames(
-              "text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#f91880]",
-              {
-                "!text-[#f91880]": isActive,
-              }
+              "text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#f91880]"
             )}
           >
-            {numberFormat(quantity)}
+            {numberFormat(likeCount)}
           </span>
         </button>
       );
     case "comment":
       return (
-        <button
-          onClick={() => {
-            onClick();
-          }}
-          className="group flex items-center gap-px hover:cursor-pointer"
-        >
+        <button className="group flex items-center gap-px hover:cursor-pointer">
           <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
             <CommentIcon />
           </div>
@@ -60,36 +81,25 @@ function GetBottomIcons({ name, quantity, isActive, onClick }) {
       return (
         <button
           onClick={(e) => {
-            onClick();
+            handleBookmark();
             e.preventDefault();
             e.stopPropagation();
           }}
-          className=" group flex items-center gap-px hover:cursor-pointer"
+          className="group flex items-center gap-px hover:cursor-pointer"
         >
           <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
-            {isActive ? <FillBookmarkIcon /> : <BookmarkIcon />}
+            {isBookmarked ? <FillBookmarkIcon /> : <BookmarkIcon />}
           </div>
-          {quantity && (
-            <span className="text-[1rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
-              {numberFormat(quantity)}
-            </span>
-          )}
         </button>
       );
     case "share":
       return (
-        <button
-          onClick={(e) => {
-            onClick();
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] hover:bg-[#1d9bf01a] rounded-full hover:text-[#1d9bf0] hover:cursor-pointer"
-        >
+        <button className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] hover:bg-[#1d9bf01a] rounded-full hover:text-[#1d9bf0] hover:cursor-pointer">
           <ShareIcon />
         </button>
       );
     default:
+      return null;
   }
 }
 

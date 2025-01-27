@@ -11,6 +11,7 @@ function SearchPage() {
   if (isLoading) {
     return <LayoutLoder />;
   }
+
   return (
     <div className="w-full p-3 flex flex-col items-start justify-start ">
       <div>

@@ -13,11 +13,7 @@ import LayoutLoder from "../../components/loader/layoutLoader";
 export default function PostDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: post, isLoading } = useGetPostById(
-    id,
-   
-    { enabled: !!id }
-  );
+  const { data: post, isLoading } = useGetPostById(id, { enabled: !!id });
 
   if (isLoading) {
     return <LayoutLoder />;
@@ -91,14 +87,7 @@ export default function PostDetail() {
           <div className="w-full border-y border-y-[#eff3f4] flex items-center justify-between p-1">
             <div className="flex items-center justify-start gap-x-4">
               {/* Like Post Icon */}
-              <GetBottomIcons
-                name={"like"}
-                quantity={post.stats.likes}
-                isActive={post?.isLiked}
-                onClick={() => {
-                  // controlLikePost(currentPost);
-                }}
-              />
+              <GetBottomIcons name={"like"} post={post} />
               {/* Comment Post Icon */}
               <GetBottomIcons
                 name={"comment"}
@@ -107,12 +96,7 @@ export default function PostDetail() {
               />
 
               {/* Bookmark Post Icon */}
-              <GetBottomIcons
-                name={"bookmark"}
-                onClick={() => {}}
-                isActive={post?.isBookmarked}
-                quantity={post?.stats?.bookmarks}
-              />
+              <GetBottomIcons name={"bookmark"} post={post} />
             </div>
             {/* Share Post Icon */}
             <GetBottomIcons name={"share"} onClick={() => {}} />
