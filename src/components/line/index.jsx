@@ -7,11 +7,14 @@ export default function Line({ size }) {
         "w-[50%]": size === 50,
         "w-[90%]": size === 90,
         "w-full": size === 100,
+        
       })}
+     
     ></div>
   );
 }
 
 Line.propTypes = {
   size: PropTypes.number,
+  
 };
