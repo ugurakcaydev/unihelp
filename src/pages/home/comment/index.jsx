@@ -6,11 +6,9 @@ import CommentTags from "./tags";
 import { Days } from "../../../utils/times";
 import useCreateComment from "../../../hooks/useCreatePost";
 import { showToast } from "../../../utils/toast";
-import { useNavigate } from "react-router-dom";
 
-export default function Comment() {
+export default function Comment({ commentAdd }) {
   const date = new Date();
-  const navigate = useNavigate();
   const currentAccount = useAccount();
   const textareaRef = useRef();
   const [type, setType] = useState("comment");
@@ -33,9 +31,9 @@ export default function Comment() {
   };
 
   const { mutate: createPost, isPending: isPendingComment } = useCreateComment({
-    onSuccess: () => {
+    onSuccess: async (data) => {
       showToast("success", "Başarıyla oluşturuldu");
-      navigate(0);
+      commentAdd(data.data);
       resetForm();
     },
     onError: (error) => {

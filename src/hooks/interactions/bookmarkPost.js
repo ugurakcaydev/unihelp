@@ -3,7 +3,7 @@ import { apiClient } from "../../services/apiClient";
 
 export const useBookmarksPost = (options) => {
   return useMutation({
-    mutationFn: ({ postId }) => apiClient.bookmarkPost(postId),
+    mutationFn: (postId) => apiClient.bookmarkPost(postId),
     ...options,
   });
 };

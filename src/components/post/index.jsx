@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Poll from "./poll";
 import Photo from "./photo";
@@ -7,29 +6,35 @@ import GetBottomIcons from "./bottomIcons";
 import { calculateTime, routeFormat } from "../../utils/format";
 import { VerifiedIcon } from "../../icons";
 import { useLikePost } from "../../hooks/interactions/likePost";
+import { useBookmarksPost } from "../../hooks/interactions/bookmarkPost";
 
 export default function Post({ post }) {
-  const {mutate:likePosts}=useLikePost({onSuccess:()=>{console.log("Post gönderildi")}});
-  const [likePost, setLikePost] = useState(null);
+  const { mutate: likePosts } = useLikePost();
+  const { mutate: bookmarkPosts } = useBookmarksPost();
   const navigate = useNavigate();
-  useEffect(() => {}, [setLikePost]);
-  console.log(post, "post");
-  const controlLikePost = (post) => {
-    const updatedPost = { ...post };
-    updatedPost.stats.like = likePost
-      ? post.stats.like - 1
-      : post.stats.like + 1;
-    setLikePost(!likePost);
+
+  const handleInteraction = ({ post_id, interactionName }) => {
+    switch (interactionName) {
+      case "like":
+        likePosts(post_id);
+        break;
+      case "bookmark":
+        bookmarkPosts(post_id);
+        break;
+      default:
+        break;
+    }
   };
+
   return (
     <Link
-      to={`/${routeFormat(post.account.fullName)}/status/${post.id}`}
+      to={`/${routeFormat(post.account.username)}/status/${post.id}`}
       className=" flex relative p-3 gap-3 border-b border-[color:var(--background-third)]  before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]"
     >
       <div className="w-10 h-10 rounded-full">
         <button
           onClick={(e) => {
-            navigate(`/${routeFormat(post.account.fullName)}`);
+            navigate(`/${routeFormat(post.account.username)}`);
             e.stopPropagation();
             e.preventDefault();
           }}
@@ -46,13 +51,13 @@ export default function Post({ post }) {
           <div className="leading-5 flex items-center gap-2">
             <button
               onClick={(e) => {
-                navigate(`/${routeFormat(post.account.fullName)}`);
+                navigate(`/${routeFormat(post.account.username)}`);
                 e.stopPropagation();
                 e.preventDefault();
               }}
               className="hover:underline flex items-center font-bold"
             >
-              {post.account.fullName}
+              {post.account.username}
               {post.account?.verified && <VerifiedIcon />}
             </button>
             <div className="text-[color:var(--color-base-secondary)] flex items-center gap-1.5">
@@ -60,6 +65,7 @@ export default function Post({ post }) {
               <div className="text-[#afaeae]">
                 {calculateTime(post.createdAt)}
               </div>
+              {`#${post.id}`}
             </div>
           </div>
         </header>
@@ -82,8 +88,11 @@ export default function Post({ post }) {
                 quantity={post.stats.likes}
                 isActive={post.isLiked}
                 onClick={() => {
-                  likePosts({postId:post.id})
-                }} 
+                  handleInteraction({
+                    post_id: post.id,
+                    interactionName: "like",
+                  });
+                }}
               />
               {/* Comment Post Icon */}
               <GetBottomIcons
@@ -91,7 +100,6 @@ export default function Post({ post }) {
                 quantity={post.stats.comments}
                 onClick={() => {}}
               />
-           
             </div>
             <div className="flex items-center justify-end gap-x-1">
               {/* Share Post Icon */}
@@ -99,7 +107,12 @@ export default function Post({ post }) {
               {/* Bookmark Post Icon */}
               <GetBottomIcons
                 name={"bookmark"}
-                onClick={() => {}}
+                onClick={() => {
+                  handleInteraction({
+                    post_id: post.id,
+                    interactionName: "bookmark",
+                  });
+                }}
                 isActive={post.isBookmarked}
               />
             </div>

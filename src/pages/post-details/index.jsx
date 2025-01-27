@@ -13,7 +13,11 @@ import LayoutLoder from "../../components/loader/layoutLoader";
 export default function PostDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: post, isLoading } = useGetPostById(id, {}, { enabled: !!id });
+  const { data: post, isLoading } = useGetPostById(
+    id,
+   
+    { enabled: !!id }
+  );
 
   if (isLoading) {
     return <LayoutLoder />;

@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../services/apiClient";
 
-const useGetAllPosts = ({ skip = 0 }, options) => {
+const useGetAllPosts = (skip = 0, options) => {
   return useQuery({
-    queryKey: ["getAllPosts", { skip }], // Sorgu anahtarı, benzersizliği sağlar
+    queryKey: ["getAllPosts", skip], // Sorgu anahtarı, benzersizliği sağlar
     queryFn: () => apiClient.getAllPosts({ skip }), // API çağrısı
+    retry: 1,
+    refetchOnWindowFocus: false,
     ...options, // Ek opsiyonlar (ör. staleTime, cacheTime)
   });
 };

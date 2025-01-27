@@ -1,20 +1,58 @@
 import classNames from "classnames";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useClickAway } from "react-use";
 import { VerifiedIcon } from "../../../../icons";
 import { Link } from "react-router-dom";
+import useSearch from "../../../../hooks/useSearch";
+import LayoutLoder from "../../../../components/loader/layoutLoader";
 
 function Search() {
   const [query, setQuery] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [tags, setTags] = useState([]);
+  const [accounts, setAccounts] = useState([]);
   const [focus, setFocus] = useState(false);
+
+  // Debounce query to limit API calls
+  useEffect(() => {
+    if (query.length > 0) {
+      const debounceId = setTimeout(() => {
+        setDebouncedSearchTerm(query); // Update debounced search term
+      }, 800);
+
+      return () => {
+        clearTimeout(debounceId); // Cleanup debounce
+      };
+    }
+  }, [query]);
+
+  const { data, isLoading } = useSearch(debouncedSearchTerm, {
+    enabled: !!debouncedSearchTerm, // Prevent API call when the search term is empty
+  });
+
+  // Fetch data when `debouncedSearchTerm` changes
+  useEffect(() => {
+    if (!isLoading && data) {
+      setAccounts((data.users || []).slice(0, 5));
+      setTags((data.tags || []).slice(0, 3));
+    }
+  }, [data, isLoading]);
+  
+
   const ref = useRef();
   useClickAway(ref, () => {
     setFocus(false);
   });
+
+  const clearInput = () => {
+    setQuery("");
+    setFocus(false);
+  };
+
   return (
     <div
       ref={ref}
-      className=" sticky top-0 bg-[color:var(--background-primary)] min-h-[32px] h-[53px] mb-3 flex items-center z-[2]"
+      className="sticky top-0 bg-[color:var(--background-primary)] min-h-[32px] h-[53px] mb-3 flex items-center z-[2]"
     >
       <label
         htmlFor=""
@@ -46,7 +84,7 @@ function Search() {
         {query && focus && (
           <button
             type="button"
-            onClick={() => setQuery("")}
+            onClick={clearInput}
             className="flex items-center justify-center size-5 p-1 absolute rounded-full text-black bg-[color:var(--color-primary)] top-1/2 -translate-y-1/2 right-3 "
           >
             <svg fill="#fff" width={10} height={10} viewBox="0 0 15 15">
@@ -56,102 +94,69 @@ function Search() {
         )}
       </label>
       {focus && (
-        <div className="w-[350px] absolute top-full -left-px -translate-y-1 bg-[color:var(--background-primary)] shadow-md  max-h-[calc(80vh-53px)] rounded-lg flex items-start justify-start  text-center min-h-[100px]">
+        <div className="w-[350px] absolute top-full -left-px -translate-y-1 bg-[color:var(--background-primary)] shadow-md  max-h-[calc(80vh-53px)] rounded-lg flex flex-col items-start justify-start  text-center min-h-[50px]">
           {query.length === 0 && (
             <p className=" px-4 py-8 text-[color:var(--color-base-secondary)] text-center leading-5 text-[15px]">
-              Kişileri, listeleri veya anahtar kelimeleri aramayı dene
+              Kişileri, tagları veya anahtar kelimeleri aramayı dene
             </p>
           )}
           {query.length > 0 && (
-            <div className="w-full h-full overflow-y-auto">
-              <div className="w-full h-auto *:text-left">
-                <Link to={`/search?q=${query}`}>
+            <>
+              <div className="w-full h-full overflow-y-auto flex flex-col  *:text-left">
+                <Link to={`/search?q=${query}`} onClick={clearInput}>
                   <div className="w-full text-[15px] hover:bg-[color:var(--background-secondary)] border-b-2 border-b-[color:var(--background-secondary)] p-4 text-[color:var(--color-base-secondary)]">
                     <span> {`"${query}" ara`}</span>
                   </div>
                 </Link>
-                <div className="w-full flex flex-col items-center justify-start max-h-[350px] overflow-y-auto ">
-                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
-                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
-                      <img
-                        src="https://placehold.co/40"
-                        alt=""
-                        className="rounded-full w-full h-full"
-                      />
-                    </div>
-                    <div className="flex items-center justify-start gap-x-1">
-                      <span className="text-sm font-semibold">
-                        Doğuş Üniversitesi (DOU)
-                      </span>
-                      <VerifiedIcon />
-                    </div>
-                  </button>
-                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
-                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
-                      <img
-                        src="https://placehold.co/40"
-                        alt=""
-                        className="rounded-full w-full h-full"
-                      />
-                    </div>
-                    <span className="text-sm font-semibold">
-                      Süleyman Akyasan
-                    </span>
-                  </button>
-                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
-                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
-                      <img
-                        src="https://placehold.co/40"
-                        alt=""
-                        className="rounded-full w-full h-full"
-                      />
-                    </div>
-                    <span className="text-sm font-semibold">
-                      Abdulkadir Demirkaya
-                    </span>
-                  </button>
-                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
-                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
-                      <img
-                        src="https://placehold.co/40"
-                        alt=""
-                        className="rounded-full w-full h-full"
-                      />
-                    </div>
-                    <span className="text-sm font-semibold">Uğur Akçay</span>
-                  </button>
-                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
-                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
-                      <img
-                        src="https://placehold.co/40"
-                        alt=""
-                        className="rounded-full w-full h-full"
-                      />
-                    </div>
-                    <div className="flex items-center justify-start gap-x-1">
-                      <span className="text-sm font-semibold">Mitat Uysal</span>
-                      <VerifiedIcon />
-                    </div>
-                  </button>
-                  <button className="w-full flex items-center justify-start gap-x-2  p-4 hover:bg-[color:var(--background-secondary)]">
-                    <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
-                      <img
-                        src="https://placehold.co/40"
-                        alt=""
-                        className="rounded-full w-full h-full"
-                      />
-                    </div>
-                    <div className="flex items-center justify-start gap-x-1">
-                      <span className="text-sm font-semibold">
-                        Berrin Aslan Öztezcan
-                      </span>
-                      <VerifiedIcon />
-                    </div>
-                  </button>
-                </div>
+                {isLoading && <LayoutLoder size={20} />}
+                {!isLoading && (
+                  <>
+                    {tags && tags.length > 0 && (
+                      <div className="w-full flex flex-col items-start justify-start *py-0.5 border-b-2 border-b-[color:var(--background-secondary)]  ">
+                        {tags.map((tag) => (
+                          <Link
+                            to={`/search?q=${tag.name}`}
+                            key={tag.id}
+                            onClick={clearInput}
+                            className="w-full text-[15px] hover:bg-[color:var(--background-secondary)]  p-4 text-[color:var(--color-base-secondary)]"
+                          >
+                            <span> {`#${tag.name}`}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                    {accounts && accounts.length > 0 && (
+                      <div className="w-full flex flex-col items-start justify-start *py-0.5 border-b-2  border-b-[color:var(--background-secondary)]  ">
+                        {accounts.map((account, index) => (
+                          <Link
+                            to={`/${account.username}`}
+                            key={`${account.username}-${index}`}
+                            onClick={clearInput}
+                            className="w-full text-[15px] hover:bg-[color:var(--background-secondary)]  p-4 text-[color:var(--color-base-secondary)]"
+                          >
+                            <div className="w-full flex items-center justify-start gap-x-2   hover:bg-[color:var(--background-secondary)]">
+                              <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
+                                <img
+                                  src="https://placehold.co/40"
+                                  alt=""
+                                  className="rounded-full w-full h-full"
+                                />
+                              </div>
+                              <div className="flex items-center justify-start gap-x-1">
+                                <span className="text-sm font-semibold">
+                                  {account.username}
+                                </span>
+                                {account.isVerified && <VerifiedIcon />}
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
-              {/* <SearchList query={query} /> */}
-            </div>
+            </>
           )}
         </div>
       )}

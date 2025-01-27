@@ -5,30 +5,26 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import LayoutLoder from "../../../components/loader/layoutLoader";
 import { WindowVirtualizer } from "virtua";
 
-export default function ForYou() {
+export default function ForYou({ commentAdd }) {
   const [posts, setPosts] = useState([]);
   const [skip, setSkip] = useState(0); // Skip burada tutuluyor
   const [hasMore, setHasMore] = useState(true);
 
   // React Query'den veri çekmek için useQuery hook'u
-  const { data, isLoading, isFetching, error } = useGetAllPosts({
-    skip,
-  });
-
-  useEffect(() => {
-    if (data) {
-      setPosts((prevPosts) => {
-        if (skip === 0) {
-          return data; // Skip sıfırsa, yeni gelen veriyi başa ekleyin
-        }
-        return [...prevPosts, ...data]; // Skip sıfır değilse, yeni veriyi mevcut verinin sonuna ekleyin
-      });
-
+  const { isLoading, isFetching, error } = useGetAllPosts(skip, {
+    onSuccess: (data) => {
+      setPosts((prevPosts) => [...prevPosts, ...data]);
       if (data.length < 10) {
         setHasMore(false); // Gelen veri azsa daha fazla veri olmadığını belirt
       }
+    },
+  });
+
+  useEffect(() => {
+    if (commentAdd) {
+      setPosts((prevPosts) => [commentAdd, ...prevPosts]);
     }
-  }, [data, skip]);
+  }, [commentAdd]);
 
   // Yeni veri çekme (fetchMore) fonksiyonu
   const fetchMorePosts = () => {

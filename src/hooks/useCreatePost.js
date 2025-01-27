@@ -19,7 +19,7 @@ const useCreateComment = (options) => {
         throw error; // Hata fırlatılarak, üst seviyeye iletilebilir.
       }
     },
-    
+
     ...options,
   });
 };

@@ -46,6 +46,17 @@ export const apiClient = {
     }
   },
 
+  //Search
+  search: async (q) => {
+    try {
+      const response = await api.get(`/search?q=${q}`);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to search:", error);
+      throw error;
+    }
+  },
+
   //Create Post
   createPost: async (post) => {
     try {
