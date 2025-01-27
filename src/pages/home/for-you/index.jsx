@@ -29,12 +29,12 @@ export default function ForYou({ commentAdd }) {
   // Yeni veri çekme (fetchMore) fonksiyonu
   const fetchMorePosts = () => {
     if (!isFetching) {
-      setSkip((prevSkip) => prevSkip + 10); // Skip değerini artırarak bir sonraki sayfayı getir
+      setSkip((prevSkip) => prevSkip + 10);
     }
   };
 
   if (isLoading && posts.length === 0) {
-    return <LayoutLoder />; // İlk yükleme sırasında gösterilecek loader
+    return <LayoutLoder />;
   }
 
   if (error) {
@@ -44,8 +44,8 @@ export default function ForYou({ commentAdd }) {
   return (
     <>
       <WindowVirtualizer itemSize={100}>
-        {posts.map((post, index) => (
-          <Post post={post} key={index} />
+        {posts.map((post) => (
+          <Post post={post} key={post.id} />
         ))}
 
         <InfiniteScroll
@@ -53,11 +53,11 @@ export default function ForYou({ commentAdd }) {
           next={fetchMorePosts} // Kaydırma yapıldığında fetchMorePosts çağrılır
           hasMore={hasMore} // Daha fazla veri olup olmadığını kontrol eder
           loader={<LayoutLoder />} // Yüklenme sırasında gösterilecek loader
-          endMessage={
-            <p style={{ textAlign: "center" }}>
-              <b>Yay! Tüm gönderileri gördünüz!</b>
-            </p>
-          }
+          // endMessage={
+          //   <p style={{ textAlign: "center" }}>
+          //     <b>Yay! Tüm gönderileri gördünüz!</b>
+          //   </p>
+          // }
         />
       </WindowVirtualizer>
     </>

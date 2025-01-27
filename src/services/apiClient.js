@@ -90,6 +90,17 @@ export const apiClient = {
     }
   },
 
+  //Get All Bookmarks
+  getAllBookmarks: async () => {
+    try {
+      const response = await api.get("/interactions/bookmarks");
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get all bookmarks:", error);
+      throw error;
+    }
+  },
+
   //Get Post by id
   getPostById: async (post_id) => {
     try {
@@ -154,6 +165,34 @@ export const apiClient = {
       return response.data;
     } catch (error) {
       console.error("Failed to get city:", error);
+      throw error;
+    }
+  },
+
+  //Post comment on post
+  commentOnPost: async ({ post_id, comment }) => {
+    try {
+      const response = await api.post(`/comments`, {
+        content: comment,
+        post_id,
+        parent_id: 0,
+      });
+      return response;
+    } catch (error) {
+      console.error("Failed to comment on post:", error);
+      throw error;
+    }
+  },
+
+  //Received comments on post
+  getReceivedCommentsOnPost: async ({ post_id, skip }) => {
+    try {
+      const response = await api.get(
+        `/comments/post/${post_id}?skip=${skip}&limit=${10}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get received comments:", error);
       throw error;
     }
   },

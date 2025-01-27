@@ -2,13 +2,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import OutletHeader from "../../components/OutletHeader";
 import Photo from "../../components/post/photo";
 import Poll from "../../components/post/poll";
-import CommentPostDetail from "./comment";
 import GetBottomIcons from "../../components/post/bottomIcons";
-import ReceivedCommentCard from "./received-comments";
-import { comments } from "../../mock/comments";
 import { routeFormat } from "../../utils/format";
 import useGetPostById from "../../hooks/useGetCurrentPost";
 import LayoutLoder from "../../components/loader/layoutLoader";
+
+import CommentSide from "./commentSide";
 
 export default function PostDetail() {
   const { id } = useParams();
@@ -26,7 +25,6 @@ export default function PostDetail() {
       </div>
     );
   }
-
   return (
     <div className="w-full flex flex-col">
       <OutletHeader title="Gönderi" returnButton={true} />
@@ -85,15 +83,11 @@ export default function PostDetail() {
             <span>ÖS 6:58 · 13 Oca 2025</span>
           </div>
           <div className="w-full border-y border-y-[#eff3f4] flex items-center justify-between p-1">
-            <div className="flex items-center justify-start gap-x-4">
+            <div className="flex items-center justify-start gap-x-1">
               {/* Like Post Icon */}
               <GetBottomIcons name={"like"} post={post} />
               {/* Comment Post Icon */}
-              <GetBottomIcons
-                name={"comment"}
-                quantity={post.stats.comments}
-                onClick={() => {}}
-              />
+              <GetBottomIcons name={"comment"} onClick={() => {}} />
 
               {/* Bookmark Post Icon */}
               <GetBottomIcons name={"bookmark"} post={post} />
@@ -104,26 +98,8 @@ export default function PostDetail() {
         </div>
       </div>
 
-      {/* Kullanıcı Yanıtı ve Yorumlar */}
-      {/* <div className="w-full h-full flex flex-col ">
-        {/* Kullanıcı Yanıtı */}
-      <CommentPostDetail />
-
-      {/* Yorumlar 
-        <div className="w-full flex flex-col items-start justify-start  ">
-          {commentsData.length === 0 && (
-            <div className="w-full flex flex-col items-center justify-center gap-y-3 p-4 min-h-[100px]">
-              <h2 className="text-lg font-semibold">
-                Buralar boş görünüyor...
-              </h2>
-              <span>İlk yorumu sen yap.</span>
-            </div>
-          )}
-          {commentsData.map((comment, index) => (
-            <ReceivedCommentCard key={index} comment={comment} />
-          ))}
-        </div>
-      </div> */}
+      {/* Kullanıcı Yanıtı */}
+      <CommentSide post_id={post.id} />
     </div>
   );
 }

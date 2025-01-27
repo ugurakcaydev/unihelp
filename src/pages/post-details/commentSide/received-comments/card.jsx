@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
-import { routeFormat } from "../../../utils/format";
+import { calculateTime, routeFormat } from "../../../../utils/format";
 
 function ReceivedCommentCard({ comment }) {
   return (
     <div className="flex relative px-3 py-4 gap-x-3 border-b border-[color:var(--background-third)]  before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]">
       <Link
-        to={`/${routeFormat(comment.account.fullName)}`}
-        className="w-10 h-10 rounded-full bg-red-500"
+        to={`/${routeFormat(comment.author_username)}`}
+        className="w-10 h-10 rounded-full "
       >
         <img
-          src={comment.account.avatar}
+          src={comment.author_avatar || "https://placehold.co/40x40"}
           className="w-10 h-10 rounded-full object-cover "
           alt=""
         />
@@ -18,10 +18,10 @@ function ReceivedCommentCard({ comment }) {
         <header className=" mb-0.5 relative flex items-center justify-between">
           <div className="leading-5 flex items-center gap-2">
             <Link
-              to={`/${routeFormat(comment.account.fullName)}`}
+              to={`/${routeFormat(comment.author_username)}`}
               className="hover:underline flex items-center font-bold"
             >
-              {comment.account.fullName}
+              {comment.author_username}
               {comment.account?.verified && (
                 <svg
                   className="text-[#1d9bf0] ml-0.5 size-5 "
@@ -36,16 +36,16 @@ function ReceivedCommentCard({ comment }) {
             </Link>
             <div className="text-[color:var(--color-base-secondary)] flex items-center gap-1.5">
               <div className="w-0.5 h-0.5 rounded-full bg-[color:var(--color-base-secondary)]" />
-              <div>17s</div>
+              <div>{calculateTime(comment.created_at)}</div>
             </div>
           </div>
         </header>
         <div>
-          {/* Content */}
+          {/* Content  */}
           <div
             className="flex items-start justify-start text-left"
             dangerouslySetInnerHTML={{
-              __html: comment.comment.text.replace(/\n/g, "<br>"),
+              __html: comment.content.replace(/\n/g, "<br>"),
             }}
           />
         </div>

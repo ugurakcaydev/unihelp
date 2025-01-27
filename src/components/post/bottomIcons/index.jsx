@@ -12,12 +12,14 @@ import { useLikePost } from "../../../hooks/interactions/likePost";
 import { useBookmarksPost } from "../../../hooks/interactions/bookmarkPost";
 import { useState } from "react";
 
-function GetBottomIcons({ name, quantity, post }) {
+function GetBottomIcons({ name, post, showQuantity = true }) {
   const { mutate: likePosts } = useLikePost();
   const { mutate: bookmarkPosts } = useBookmarksPost();
   const [isLiked, setIsLiked] = useState(post?.isLiked);
   const [likeCount, setLikeCount] = useState(post?.stats?.likes);
+
   const [isBookmarked, setIsBookmarked] = useState(post?.isBookmarked);
+  const [bookmarkCount, setBookmarkCount] = useState(post?.stats?.bookmarks);
 
   const handleLike = () => {
     if (isLiked) {
@@ -33,8 +35,10 @@ function GetBottomIcons({ name, quantity, post }) {
   const handleBookmark = () => {
     if (isBookmarked) {
       bookmarkPosts({ postId: post.id, type: "unbookmark" });
+      setBookmarkCount((prev) => prev - 1);
     } else {
       bookmarkPosts({ postId: post.id, type: "bookmark" });
+      setBookmarkCount((prev) => prev + 1);
     }
     setIsBookmarked((prev) => !prev);
   };
@@ -57,13 +61,15 @@ function GetBottomIcons({ name, quantity, post }) {
           >
             {isLiked ? <FillHeartIcon /> : <HeartIcon />}
           </div>
-          <span
-            className={classNames(
-              "text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#f91880]"
-            )}
-          >
-            {numberFormat(likeCount)}
-          </span>
+          {showQuantity && (
+            <span
+              className={classNames(
+                "text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#f91880]"
+              )}
+            >
+              {numberFormat(likeCount)}
+            </span>
+          )}
         </button>
       );
     case "comment":
@@ -72,9 +78,11 @@ function GetBottomIcons({ name, quantity, post }) {
           <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
             <CommentIcon />
           </div>
-          <span className="text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
-            {numberFormat(quantity)}
-          </span>
+          {showQuantity && (
+            <span className="text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
+              {numberFormat(post?.stats?.comment || 0)}
+            </span>
+          )}
         </button>
       );
     case "bookmark":
@@ -90,6 +98,11 @@ function GetBottomIcons({ name, quantity, post }) {
           <div className="size-10 transition-colors flex items-center justify-center text-[color:var(--color-base-secondary)] group-hover:bg-[#1d9bf01a] rounded-full group-hover:text-[#1d9bf0]">
             {isBookmarked ? <FillBookmarkIcon /> : <BookmarkIcon />}
           </div>
+          {showQuantity && (
+            <span className="text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
+              {numberFormat(bookmarkCount)}
+            </span>
+          )}
         </button>
       );
     case "share":

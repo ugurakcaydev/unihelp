@@ -4,8 +4,8 @@ import Post from "../../../components/post";
 function ProfilePostsTab() {
   return (
     <div>
-      {postData.map((post, key) => (
-        <Post post={post} key={post.id + key} />
+      {postData.map((post) => (
+        <Post post={post} key={post.id} />
       ))}
     </div>
   );

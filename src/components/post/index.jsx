@@ -29,8 +29,8 @@ export default function Post({ post }) {
           />
         </button>
       </div>
-      <div className="flex-1">
-        <header className="mb-0.5 relative flex items-center justify-between">
+      <div className="flex-1 ">
+        <header className="mb-1 relative flex items-center justify-between pl-1 ">
           <div className="leading-5 flex items-center gap-2">
             <button
               onClick={(e) => {
@@ -52,10 +52,10 @@ export default function Post({ post }) {
             </div>
           </div>
         </header>
-        <div>
+        <div className="flex flex-col gap-y-2">
           {/* Content */}
           <div
-            className="flex items-start justify-start text-left"
+            className="flex items-start justify-start text-left pl-1"
             dangerouslySetInnerHTML={{
               __html: post.content.replace(/\n/g, "<br>"),
             }}
@@ -64,17 +64,21 @@ export default function Post({ post }) {
           {post.poll && <Poll poll={post.poll} />}
 
           <div className="flex items-center justify-between -ml-1.5 mt-1.5">
-            <div className="flex items-center justify-start gap-x-2">
+            <div className="flex items-center justify-start gap-x-1">
               {/* Like Post Icon */}
               <GetBottomIcons name="like" post={post} />
               {/* Comment Post Icon */}
-              <GetBottomIcons name="comment" quantity={post.stats.comments} />
+              <GetBottomIcons name="comment" post={post} />
             </div>
             <div className="flex items-center justify-end gap-x-1">
               {/* Share Post Icon */}
               <GetBottomIcons name="share" />
               {/* Bookmark Post Icon */}
-              <GetBottomIcons name="bookmark" post={post} />
+              <GetBottomIcons
+                name="bookmark"
+                post={post}
+                showQuantity={false}
+              />
             </div>
           </div>
         </div>

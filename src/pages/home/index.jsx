@@ -16,7 +16,7 @@ function HomePage() {
       </StickyHeader>
 
       <Tab.Content id="for-you">
-        <Comment commentAdd={(comment) => setCommentAdd(comment)} />{" "}
+        <Comment commentAdd={(comment) => setCommentAdd(comment)} />
         {/* post gönderme kısmının komponenti */}
         <ForYou commentAdd={commentAdd} />
       </Tab.Content>

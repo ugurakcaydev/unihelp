@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import OutletHeader from "../../components/OutletHeader";
 import { posts } from "../../mock/posts";
 import Post from "../../components/post";
+import useGetAllBookmarks from "../../hooks/interactions/getBookmarks";
 
 function MarksPage() {
+  const { data, isLoading } = useGetAllBookmarks();
+
   const markedPosts = posts.filter((book) => book.stats.bookmark === true);
   return (
     <div>
@@ -21,8 +24,8 @@ function MarksPage() {
           </div>
         ) : (
           <div className="w-full flex flex-col items-start justify-start">
-            {markedPosts.map((post, index) => {
-              return <Post post={post} key={index} />;
+            {markedPosts.map((post) => {
+              return <Post post={post} key={post.id} />;
             })}
           </div>
         )}
