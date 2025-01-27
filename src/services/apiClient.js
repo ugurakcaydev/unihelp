@@ -89,6 +89,16 @@ export const apiClient = {
       throw error;
     }
   },
+  // Get User Likes 
+  getUserLikes: async () => {
+    try{
+      const response =await api.get(`/interactions/likes`)
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get all posts:", error);
+      throw error;
+    }
+  },
 
   //Get Post by id
   getPostById: async (post_id) => {
