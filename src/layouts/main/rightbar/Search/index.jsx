@@ -136,7 +136,9 @@ function Search() {
                             <div className="w-full flex items-center justify-start gap-x-2   hover:bg-[color:var(--background-secondary)]">
                               <div className="w-10 h-10 rounded-full bg-zinc-300 overflow-hidden">
                                 <img
-                                  src="https://placehold.co/40"
+                                  src={
+                                    account?.avatar || "https://placehold.co/40"
+                                  }
                                   alt=""
                                   className="rounded-full w-full h-full"
                                 />
