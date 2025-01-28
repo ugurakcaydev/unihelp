@@ -17,7 +17,6 @@ function GetBottomIcons({ name, post, showQuantity = true }) {
   const { mutate: bookmarkPosts } = useBookmarksPost();
   const [isLiked, setIsLiked] = useState(post?.isLiked);
   const [likeCount, setLikeCount] = useState(post?.stats?.likes);
-
   const [isBookmarked, setIsBookmarked] = useState(post?.isBookmarked);
   const [bookmarkCount, setBookmarkCount] = useState(post?.stats?.bookmarks);
 
@@ -31,6 +30,8 @@ function GetBottomIcons({ name, post, showQuantity = true }) {
     }
     setIsLiked((prev) => !prev);
   };
+
+ 
 
   const handleBookmark = () => {
     if (isBookmarked) {
@@ -80,7 +81,7 @@ function GetBottomIcons({ name, post, showQuantity = true }) {
           </div>
           {showQuantity && (
             <span className="text-[0.9rem] transition-colors text-[color:var(--color-base-secondary)] group-hover:text-[#1d9bf0]">
-              {numberFormat(post?.stats?.comment || 0)}
+              {numberFormat(post?.stats?.comments)}
             </span>
           )}
         </button>

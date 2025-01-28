@@ -7,6 +7,8 @@ const useReceivedCommentsOnPost = ({ post_id, skip = 0 }, options) => {
     queryFn: () => apiClient.getReceivedCommentsOnPost({ post_id, skip }),
     retry: 1,
     refetchOnWindowFocus: false,
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
     ...options, // Ek opsiyonlar (ör. staleTime, cacheTime)
   });
 };

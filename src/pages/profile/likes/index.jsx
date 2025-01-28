@@ -1,38 +1,64 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import useGetLikes from "../../../hooks/interactions/getUserLikes";
-import LayoutLoader from "../../../components/loader/layoutLoader";
-import { calculateTime } from "../../../utils/format";
+import { useState } from "react";
+import useGetLikesByUserId from "../../../hooks/profileTabs/useGetLikesByUserId";
+import LayoutLoder from "../../../components/loader/layoutLoader";
+import { WindowVirtualizer } from "virtua";
 import Post from "../../../components/post";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-function ProfileLikesTab() {
-  const { data, isLoading, isError, error } = useGetLikes();
-  const likedPosts = data || [];
+function ProfileLikesTab({ userId }) {
+  const [skip, setSkip] = useState(0);
+  const [userLikesData, setUserLikesData] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const { isLoading, isFetching, error } = useGetLikesByUserId(
+    {
+      user_id: userId,
+      skip: skip,
+    },
+    {
+      onSuccess: (data) => {
+        setUserLikesData((prevPosts) => [...prevPosts, ...data]);
+        if (data.length < 10) {
+          setHasMore(false); // Gelen veri azsa daha fazla veri olmadığını belirt
+        }
+      },
+    }
+  );
 
-  if (isLoading) {
-    return <LayoutLoader />;
+  const fetchMoreComment = () => {
+    if (!isFetching) {
+      setSkip((prevSkip) => prevSkip + 10);
+    }
+  };
+
+  if (isLoading && userLikesData.length === 0) {
+    return <LayoutLoder />;
   }
 
-  if (isError) {
-    return <p className="text-red-500">Hata: {error.message}</p>;
+  if (error) {
+    return <p>Bir hata oluştu: {error.message}</p>; // Hata mesajı
+  }
+
+  if (!isFetching && userLikesData.length === 0) {
+    return (
+      <div className="w-full h-auto p-3 text-[color:var(--color-primary)] font-semibold ">
+        Buralar boş gözüküyor...
+      </div>
+    );
   }
 
   return (
-    <div className="p-3">
-      {likedPosts.length > 0 ? (
-        <div className="space-y-4">
-          {likedPosts.map((post) => (
-            <Post
-              key={post.id}
-              post={post}
-            />
-          ))}
-        </div>
-      ) : (
-        <p className="text-gray-500 text-center">
-          Henüz beğendiğiniz gönderi bulunmuyor.
-        </p>
-      )}
+    <div className="w-full">
+      <WindowVirtualizer itemSize={100}>
+        {userLikesData.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
+        <InfiniteScroll
+          dataLength={userLikesData.length}
+          next={fetchMoreComment}
+          hasMore={hasMore}
+          loader={<LayoutLoder />}
+        />
+      </WindowVirtualizer>
     </div>
   );
 }

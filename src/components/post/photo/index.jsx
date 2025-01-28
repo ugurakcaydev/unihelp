@@ -4,7 +4,7 @@ export default function Photo({ photos }) {
       return (
         <div className="w-full mt-3">
           <img
-            src={photos[0]}
+            src={photos[0] || "https://placehold.co/300x300"}
             alt=""
             className="w-full border max-h-[510px] object-cover border-[color:var(--background-third)] rounded-2xl"
           />
@@ -15,7 +15,12 @@ export default function Photo({ photos }) {
       return (
         <div className="w-full mt-3 grid grid-cols-2 gap-0.5 h-[288px] border border-[color:var(--background-third)] rounded-2xl overflow-hidden">
           <img
-            src={photos[0]}
+            src={
+              photos[0] || [
+                "https://placehold.co/300x300",
+                "https://placehold.co/300x300",
+              ]
+            }
             alt=""
             className=" h-full w-full object-cover "
           />

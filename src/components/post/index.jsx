@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Poll from "./poll";
 import Photo from "./photo";
 import GetBottomIcons from "./bottomIcons";
@@ -10,14 +10,13 @@ export default function Post({ post }) {
   const navigate = useNavigate();
 
   return (
-    <Link
-      to={`/${routeFormat(post.account.username)}/status/${post.id}`}
-      className="flex relative p-3 gap-3 border-b border-[color:var(--background-third)] before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]"
-    >
+    <div className="flex relative p-3 gap-3 border-b border-[color:var(--background-third)] before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[color:var(--background-secondary)]">
       <div className="w-10 h-10 rounded-full">
         <button
           onClick={(e) => {
-            navigate(`/${routeFormat(post.account.username)}`);
+            navigate(`/${routeFormat(post?.account?.username)}`, {
+              state: { userId: "2" },
+            });
             e.stopPropagation();
             e.preventDefault();
           }}
@@ -33,15 +32,13 @@ export default function Post({ post }) {
         <header className="mb-1 relative flex items-center justify-between pl-1 ">
           <div className="leading-5 flex items-center gap-2">
             <button
-              onClick={(e) => {
-                navigate(`/${routeFormat(post.account.username)}`);
-                e.stopPropagation();
-                e.preventDefault();
+              onClick={() => {
+                navigate(`/${routeFormat(post?.account?.username)}`);
               }}
               className="hover:underline flex items-center font-bold"
             >
-              {post.account.username}
-              {post.account?.verified && <VerifiedIcon />}
+              {post?.account?.username}
+              {post?.account?.verified && <VerifiedIcon />}
             </button>
             <div className="text-[color:var(--color-base-secondary)] flex items-center gap-1.5">
               <div className="size-[3px] rounded-full bg-[color:var(--color-base-secondary)]" />
@@ -55,6 +52,11 @@ export default function Post({ post }) {
         <div className="flex flex-col gap-y-2">
           {/* Content */}
           <div
+            onClick={() => {
+              navigate(
+                `/${routeFormat(post?.account?.username)}/status/${post.id}`
+              );
+            }}
             className="flex items-start justify-start text-left pl-1"
             dangerouslySetInnerHTML={{
               __html: post.content.replace(/\n/g, "<br>"),
@@ -83,7 +85,7 @@ export default function Post({ post }) {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

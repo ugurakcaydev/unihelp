@@ -1,72 +1,66 @@
-import { useState, useEffect } from "react"; // useState ve useEffect importları
-import { useMutation } from "@tanstack/react-query"; // React Query hook'u
+import { useState } from "react";
 import OutletHeader from "../../components/OutletHeader";
 import Post from "../../components/post";
+import useGetUserBookmarks from "../../hooks/interactions/getBookmarks";
+import LayoutLoder from "../../components/loader/layoutLoader";
+import { WindowVirtualizer } from "virtua";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function MarksPage() {
-  const [posts, setPosts] = useState([]);  
+  const [skip, setSkip] = useState(0);
+  const [markedPosts, setMarkedPosts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
 
-  
-  useEffect(() => {
-    
-   
-    const fetchPosts = async () => {
-     
-      const response = await api.get(`/interactions/bookmarks`); 
-      setPosts(response.data); 
-    };
-    fetchPosts();
-  }, []);
-
-
-  const { mutate: bookmarkPost } = useBookmarksPost({
-    onSuccess: (data, variables) => {
-     
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === variables.postId
-            ? { ...post, isBookmarked: variables.type === "bookmark" }
-            : post
-        )
-      );
+  const { isFetching, error } = useGetUserBookmarks(skip, {
+    onSuccess: (data) => {
+      setMarkedPosts((prevPosts) => [...prevPosts, ...data]);
+      if (data.length < 10) {
+        setHasMore(false);
+      }
     },
     onError: (error) => {
       console.error("Bookmark işlemi sırasında hata oluştu:", error);
     },
   });
 
- 
-  const handleBookmarkToggle = (postId, currentBookmarkState) => {
-    const newType = currentBookmarkState ? "unbookmark" : "bookmark"; 
-    bookmarkPost({ postId, type: newType });
+  const fetchMorePosts = () => {
+    if (!isFetching) {
+      setSkip((prevSkip) => prevSkip + 10);
+    }
   };
 
-  
-  const markedPosts = posts.filter((post) => post.isBookmarked === true);
+  if (error) {
+    return <div className="w-full p-3 text-red-500">{`error:${error}`}</div>;
+  }
+
+  if (!isFetching && markedPosts.length === 0) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center p-3">
+        <h1 className=" text-[color:var(--color-primary)]">
+          Yer işaretleri boş görünüyor...
+        </h1>
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <>
       <OutletHeader title="Yer İşaretleri" returnButton={true} />
+      {isFetching && <LayoutLoder />}
       <div className="w-full flex flex-col items-start justify-start">
-        {markedPosts.length === 0 ? (
-          <div className="w-full flex flex-col items-center justify-center gap-y-3">
-            <h1 className="text-lg font-semibold">Buralar boş görünüyor...</h1>
-          </div>
-        ) : (
-          <div className="w-full flex flex-col items-start justify-start">
-            {markedPosts.map((post, index) => (
-              <Post
-                key={index}
-                post={post}
-                onBookmarkToggle={() =>
-                  handleBookmarkToggle(post.id, post.isBookmarked)
-                }
-              />
-            ))}
-          </div>
-        )}
+        <WindowVirtualizer itemSize={100}>
+          {markedPosts.map((post, index) => (
+            <Post key={index} post={post} />
+          ))}
+          <InfiniteScroll
+            dataLength={markedPosts.length}
+            next={fetchMorePosts}
+            hasMore={hasMore}
+            loader={markedPosts.length > 0 && <LayoutLoder />}
+          />
+        </WindowVirtualizer>
       </div>
-    </div>
+    </>
   );
 }
 

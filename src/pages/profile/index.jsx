@@ -1,5 +1,4 @@
 import OutletHeader from "../../components/OutletHeader";
-
 import Tab from "../../components/tab";
 import StickyHeader from "../../components/sticky-header";
 import { useAccount } from "../../store/auth/hooks";
@@ -9,24 +8,57 @@ import ProfilePostsTab from "./posts";
 import ProfileAnswersTab from "./answers";
 import ProfileLikesTab from "./likes";
 import { setModal } from "../../store/modal/actions";
-
 import { useParams } from "react-router-dom";
 import { capitalizeFullName } from "../../utils/format";
+import { apiClient } from "../../services/apiClient";
+import { useQuery } from "@tanstack/react-query";
+import LayoutLoder from "../../components/loader/layoutLoader";
 
 function ProfilePage() {
-  // const { authorizedAccount } = useAccount();
+  const { authorizedAccount } = useAccount();
   const { fullName } = useParams();
   const CapitalizeFullName = capitalizeFullName(fullName);
+
+  // React Query for fetching user ID
+  const {
+    data: userId,
+    isLoading,
+    isError,
+    error,
+  } = useQuery(
+    ["getIdByUsername", { username: fullName }],
+    () => apiClient.getIdByUsername(fullName),
+    {
+      enabled: !!fullName,
+      
+      retry: 2,
+      retryDelay: (attempt) => Math.min(800 * 2 ** attempt, 1800),
+    }
+  );
+
+  if (isLoading) {
+    return <LayoutLoder />;
+  }
+
+  if (isError) {
+    return (
+      <div className="w-full flex justify-center items-center min-h-screen">
+        <span className="text-red-500 font-semibold">
+          Kullanıcı bilgisi alınamadı: {error.message}
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
       <OutletHeader title="Profil" returnButton={true} />
-      <div className="flex flex-col items-center justify-center gap-y-4 min-h-[250px]">
-        <div className="w-28 h-28 group relative rounded-full bg-gray-600  border-2 border-[color:var(--color-secondary)] flex items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-y-4 min-h-[240px]">
+        <div className="w-28 h-28 group relative rounded-full bg-gray-600 border-2 border-[color:var(--color-secondary)] flex items-center justify-center">
           <img
-            src="https://placehold.co/150x150"
+            src={authorizedAccount?.avatar || "https://placehold.co/150x150"}
             alt="Profile avatar"
-            className="w-full h-full rounded-full"
+            className="w-full h-full rounded-full object-cover"
           />
           <button
             onClick={() => {
@@ -41,7 +73,6 @@ function ProfilePage() {
         </div>
         <div className="flex flex-col items-center justify-start gap-y-1">
           <h1 className="text-2xl font-bold">{CapitalizeFullName ?? "name"}</h1>
-          <p className="text-gray-400">@{CapitalizeFullName}</p>
         </div>
       </div>
       <div className="">
@@ -54,14 +85,15 @@ function ProfilePage() {
             </Tab.Items>
           </StickyHeader>
 
+          {/* `userId` prop olarak her üç bileşene gönderiliyor */}
           <Tab.Content id="posts">
-            <ProfilePostsTab />
+            <ProfilePostsTab userId={userId} />
           </Tab.Content>
           <Tab.Content id="answers">
-            <ProfileAnswersTab />
+            <ProfileAnswersTab userId={userId} />
           </Tab.Content>
           <Tab.Content id="likes">
-            <ProfileLikesTab />
+            <ProfileLikesTab userId={userId} />
           </Tab.Content>
         </Tab>
       </div>

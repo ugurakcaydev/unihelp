@@ -41,23 +41,19 @@ export default function ForYou({ commentAdd }) {
     return <p>Bir hata oluştu: {error.message}</p>; // Hata mesajı
   }
 
+  
+
   return (
     <>
       <WindowVirtualizer itemSize={100}>
         {posts.map((post) => (
           <Post post={post} key={post.id} />
         ))}
-
         <InfiniteScroll
           dataLength={posts.length}
-          next={fetchMorePosts} // Kaydırma yapıldığında fetchMorePosts çağrılır
-          hasMore={hasMore} // Daha fazla veri olup olmadığını kontrol eder
-          loader={<LayoutLoder />} // Yüklenme sırasında gösterilecek loader
-          // endMessage={
-          //   <p style={{ textAlign: "center" }}>
-          //     <b>Yay! Tüm gönderileri gördünüz!</b>
-          //   </p>
-          // }
+          next={fetchMorePosts}
+          hasMore={hasMore}
+          loader={<LayoutLoder />}
         />
       </WindowVirtualizer>
     </>

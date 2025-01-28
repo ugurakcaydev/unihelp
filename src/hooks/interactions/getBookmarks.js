@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../../services/apiClient";
 
-const useGetAllBookmarks = (options) => {
+const useGetUserBookmarks = (skip = 0, options) => {
   return useQuery({
-    queryKey: ["getAllBookmarks"], // Sorgu anahtarı, benzersizliği sağlar
-    queryFn: () => apiClient.getAllBookmarks(), // API çağrısı
-    retry: 1,
+    queryKey: ["getAllBookmarks", skip],
+    queryFn: () => apiClient.getAllBookmarks({ skip: skip }),
+    retry: 2,
     refetchOnWindowFocus: false,
-    ...options, // Ek opsiyonlar (ör. staleTime, cacheTime)
+    ...options,
   });
 };
 
-export default useGetAllBookmarks;
+export default useGetUserBookmarks;

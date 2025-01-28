@@ -9,7 +9,7 @@ import { showToast } from "../../../utils/toast";
 
 export default function Comment({ commentAdd }) {
   const date = new Date();
-  const currentAccount = useAccount();
+  const { authorizedAccount } = useAccount();
   const textareaRef = useRef();
   const [type, setType] = useState("comment");
   const [text, setText] = useState("");
@@ -75,9 +75,9 @@ export default function Comment({ commentAdd }) {
   return (
     <div className="w-full pt-1 border-b border-[color:var(--background-third)]">
       <div className="px-3 flex ">
-        <div className="mr-3 pt-3">
+        <div className="mr-3 pt-3 overflow-hidden">
           <img
-            src={currentAccount?.avatar || "https://placehold.co/40x40"}
+            src={authorizedAccount?.avatar || "https://placehold.co/40x40"}
             className="w-10 h-10 bg-gray-300 rounded-full object-cover"
             alt="avatar"
           />

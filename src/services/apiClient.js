@@ -46,6 +46,21 @@ export const apiClient = {
     }
   },
 
+  //Get Id by Username
+  getIdByUsername: async (name) => {
+    try {
+      const response = await api.get(`/accounts/getIdByUsername`, {
+        params: {
+          target_username: name,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get user id by name:", error);
+      throw error;
+    }
+  },
+
   //Search
   search: async (q) => {
     try {
@@ -79,6 +94,19 @@ export const apiClient = {
     }
   },
 
+  //Vote Poll
+  votePoll: async ({ poll_id, answer_index }) => {
+    try {
+      const response = await api.post(
+        `/polls/${poll_id}/vote?answer_index=${answer_index}`
+      );
+      return response;
+    } catch (error) {
+      console.error("Failed to vote poll:", error);
+      throw error;
+    }
+  },
+
   //Get All Posts
   getAllPosts: async ({ skip }) => {
     try {
@@ -89,21 +117,13 @@ export const apiClient = {
       throw error;
     }
   },
-  // Get User Likes 
-  getUserLikes: async () => {
-    try{
-      const response =await api.get(`/interactions/likes`)
-      return response.data;
-    } catch (error) {
-      console.error("Failed to get all posts:", error);
-      throw error;
-    }
-  },
 
   //Get All Bookmarks
-  getAllBookmarks: async () => {
+  getAllBookmarks: async ({ skip }) => {
     try {
-      const response = await api.get("/interactions/bookmarks");
+      const response = await api.get(
+        `/interactions/bookmarks?skip=${skip}&limit=${10}`
+      );
       return response.data;
     } catch (error) {
       console.error("Failed to get all bookmarks:", error);
@@ -118,6 +138,32 @@ export const apiClient = {
       return response.data;
     } catch (error) {
       console.error("Failed to get post by id:", error);
+      throw error;
+    }
+  },
+
+  //Get Posts by User Id
+  getPostsByUserId: async ({ skip, user_id }) => {
+    try {
+      const response = await api.get(
+        `/accounts/posts?skip=${skip}&limit=${10}&target_user_id=${user_id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get posts by user id:", error);
+      throw error;
+    }
+  },
+
+  //Get Likes by User Id
+  getLikesByUserId: async ({ skip, user_id }) => {
+    try {
+      const response = await api.get(
+        `/interactions/likes?skip=${skip}&limit=${10}&target_user_id=${user_id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get likes by user id:", error);
       throw error;
     }
   },

@@ -6,7 +6,7 @@ import useCommentOnPost from "../../../../hooks/useCommentOnPost";
 import Loader from "../../../../components/loader";
 
 function CommentPostDetail({ post_id, setCommentAdd }) {
-  const currentAccount = useAccount();
+  const { authorizedAccount } = useAccount();
   const [text, setText] = useState("");
   const [active, setActive] = useState(false);
   const textareaRef = useRef();
@@ -42,7 +42,7 @@ function CommentPostDetail({ post_id, setCommentAdd }) {
       <div className="px-3 flex ">
         <div className="mr-3 pt-3">
           <img
-            src={currentAccount?.avatar || "https://placehold.co/40x40"}
+            src={authorizedAccount?.avatar || "https://placehold.co/40x40"}
             className="w-10 h-10 bg-gray-300 rounded-full object-cover"
             alt="avatar"
           />

@@ -24,7 +24,7 @@ function Account() {
         >
           <div className="flex gap-x-2.5 items-center">
             <img
-              className="w-10 h-10 rounded-full bg-[color:var(--background-secondary)] "
+              className="w-10 h-10 rounded-full bg-[color:var(--background-secondary)] object-cover overflow-hidden "
               src={authorizedAccount?.avatar || "https://placehold.co/40x40"}
               alt=""
             />

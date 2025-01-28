@@ -13,7 +13,7 @@ function ReceivedComment({ post_id, commentAdd }) {
     { post_id: post_id, skip: skip },
     {
       onSuccess: (data) => {
-        console.log(data, hasMore, "dataa");
+        
         setCommentData((prevPosts) => [...prevPosts, ...data]);
         if (data.length < 10) {
           setHasMore(false); // Gelen veri azsa daha fazla veri olmadığını belirt
@@ -42,7 +42,7 @@ function ReceivedComment({ post_id, commentAdd }) {
     return <p>Bir hata oluştu: {error.message}</p>; // Hata mesajı
   }
 
-  if (commentData.length === 0) {
+  if (!isFetching && commentData.length === 0) {
     return (
       <div className="w-full h-auto p-3 text-[color:var(--color-primary)] font-semibold border-b-2 border-b-[color:var(--background-secondary)] ">
         Buralar boş gözüküyor...

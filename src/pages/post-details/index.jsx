@@ -25,6 +25,7 @@ export default function PostDetail() {
       </div>
     );
   }
+
   return (
     <div className="w-full flex flex-col">
       <OutletHeader title="Gönderi" returnButton={true} />
@@ -87,7 +88,7 @@ export default function PostDetail() {
               {/* Like Post Icon */}
               <GetBottomIcons name={"like"} post={post} />
               {/* Comment Post Icon */}
-              <GetBottomIcons name={"comment"} onClick={() => {}} />
+              <GetBottomIcons name={"comment"} post={post}/>
 
               {/* Bookmark Post Icon */}
               <GetBottomIcons name={"bookmark"} post={post} />

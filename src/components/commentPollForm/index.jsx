@@ -39,7 +39,7 @@ export default function PollForm({ setType, pollData, setPollData }) {
                 <input
                   className="w-full mt-1 text-[18px]  bg-[color:var(--background-primary)] outline-none transition-all peer"
                   type="text"
-                  value={option.text}
+                  value={option?.text}
                   onChange={(e) => {
                     handleOptionChange(index, e.target.value);
                   }}
