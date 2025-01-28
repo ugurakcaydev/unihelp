@@ -88,7 +88,7 @@ export default function PostDetail() {
               {/* Like Post Icon */}
               <GetBottomIcons name={"like"} post={post} />
               {/* Comment Post Icon */}
-              <GetBottomIcons name={"comment"} post={post}/>
+              <GetBottomIcons name={"comment"} post={post} />
 
               {/* Bookmark Post Icon */}
               <GetBottomIcons name={"bookmark"} post={post} />

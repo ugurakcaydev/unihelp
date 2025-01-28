@@ -31,6 +31,23 @@ function SearchPage() {
     <div className="w-full">
       <OutletHeader title="Arama" returnButton={true} />
       <div className=" flex flex-col bg-white text-black">
+        {/* Tags */}
+        {tags && tags.length > 0 && (
+          <div className="border-b-2 border-b-[color:var(--background-secondary)]">
+            <div className="flex flex-col text-left p-3  gap-y-3">
+              <h1 className="text-xl font-bold justify-start flex">
+                Etiketler
+              </h1>
+
+              {tags.map((tag, index) => (
+                <div
+                  className="font-semibold text-[color:var(--color-primary)]"
+                  key={index}
+                >{`#${tag.name}`}</div>
+              ))}
+            </div>
+          </div>
+        )}
         {/* Kullanıcılar */}
         {users && users.length > 0 && (
           <div className=" border-b-2 border-b-[color:var(--background-secondary)]">
@@ -57,7 +74,7 @@ function SearchPage() {
                     </div>
                   </Link>
                 ))}
-                {users.length >= 1 && (
+                {users.length >= 5 && (
                   <div className="w-full flex items-center justify-start p-3 hover:bg-zinc-50">
                     <button className="text-sm text-[color:var(--color-primary)] w-full h-full text-left">
                       Tümünü Görüntüle
@@ -65,22 +82,6 @@ function SearchPage() {
                   </div>
                 )}
               </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tags */}
-        {tags && tags.length > 0 && (
-          <div className="border-b-2 border-b-[color:var(--background-secondary)]">
-            <div className="flex flex-col pb-1">
-              <div className="w-full p-3">
-                <h1 className="text-xl font-bold justify-start flex">
-                  Etiketler
-                </h1>
-              </div>
-              {tags.map((tag, index) => (
-                <div key={index}>{tag}</div>
-              ))}
             </div>
           </div>
         )}
@@ -95,7 +96,7 @@ function SearchPage() {
                 </h1>
               </div>
               {posts.map((post) => (
-                 <Post post={post} key={post.id}  />
+                <Post post={post} key={post.id} />
               ))}
             </div>
           </div>

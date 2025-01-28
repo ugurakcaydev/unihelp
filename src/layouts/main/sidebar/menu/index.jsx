@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { NavLink } from "react-router-dom";
 import { mainMenu } from "../../../../utils/const";
-import { routeFormat } from "../../../../utils/format";
+// import { routeFormat } from "../../../../utils/format";
 import { useAccount } from "../../../../store/auth/hooks";
 
 function Menu() {
@@ -13,7 +13,7 @@ function Menu() {
           <NavLink
             to={
               menu.title === "Profil"
-                ? `${routeFormat(authorizedAccount?.username)}`
+                ? `${authorizedAccount?.username.trim()}`
                 : menu?.path
             }
             className="py-[3px] block group"

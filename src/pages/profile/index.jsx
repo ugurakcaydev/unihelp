@@ -1,7 +1,6 @@
 import OutletHeader from "../../components/OutletHeader";
 import Tab from "../../components/tab";
 import StickyHeader from "../../components/sticky-header";
-import { useAccount } from "../../store/auth/hooks";
 import classNames from "classnames";
 import { PenIcon } from "../../constant/icons";
 import ProfilePostsTab from "./posts";
@@ -12,33 +11,35 @@ import { useParams } from "react-router-dom";
 import { capitalizeFullName } from "../../utils/format";
 import { apiClient } from "../../services/apiClient";
 import { useQuery } from "@tanstack/react-query";
-import LayoutLoder from "../../components/loader/layoutLoader";
+import Loader from "../../components/loader";
 
 function ProfilePage() {
-  const { authorizedAccount } = useAccount();
   const { fullName } = useParams();
   const CapitalizeFullName = capitalizeFullName(fullName);
-
-  // React Query for fetching user ID
+  
   const {
     data: userId,
-    isLoading,
     isError,
     error,
   } = useQuery(
     ["getIdByUsername", { username: fullName }],
     () => apiClient.getIdByUsername(fullName),
     {
-      enabled: !!fullName,
-      
       retry: 2,
       retryDelay: (attempt) => Math.min(800 * 2 ** attempt, 1800),
     }
   );
 
-  if (isLoading) {
-    return <LayoutLoder />;
-  }
+  const { data: userData, isLoading: isUserDataLoading } = useQuery(
+    ["getUserById", { userId: userId }],
+    () => apiClient.getUserById(userId),
+    {
+      enabled: !!userId,
+      retry: 2,
+      select: (data) => data.authorizedAccount,
+      retryDelay: (attempt) => Math.min(800 * 2 ** attempt, 1800),
+    }
+  );
 
   if (isError) {
     return (
@@ -55,21 +56,27 @@ function ProfilePage() {
       <OutletHeader title="Profil" returnButton={true} />
       <div className="flex flex-col items-center justify-center gap-y-4 min-h-[240px]">
         <div className="w-28 h-28 group relative rounded-full bg-gray-600 border-2 border-[color:var(--color-secondary)] flex items-center justify-center">
-          <img
-            src={authorizedAccount?.avatar || "https://placehold.co/150x150"}
-            alt="Profile avatar"
-            className="w-full h-full rounded-full object-cover"
-          />
-          <button
-            onClick={() => {
-              setModal("profileEdit");
-            }}
-            className={classNames(
-              "w-9 h-9 rounded-full flex items-center justify-center bg-[color:var(--background-secondary)] border border-[color:var(--color-secondary)] opacity-0 absolute -top-1 -right-1 group-hover:opacity-100 duration-500 transition-all ease-in-out"
-            )}
-          >
-            <PenIcon className={"text-[color:var(--color-secondary)]"} />
-          </button>
+          {isUserDataLoading ? (
+            <Loader />
+          ) : (
+            <>
+              <img
+                src={userData?.avatar || "https://placehold.co/150x150"}
+                alt="Profile avatar"
+                className="w-full h-full rounded-full object-cover"
+              />
+              <button
+                onClick={() => {
+                  setModal("profileEdit");
+                }}
+                className={classNames(
+                  "w-9 h-9 rounded-full flex items-center justify-center bg-[color:var(--background-secondary)] border border-[color:var(--color-secondary)] opacity-0 absolute -top-1 -right-1 group-hover:opacity-100 duration-500 transition-all ease-in-out"
+                )}
+              >
+                <PenIcon className={"text-[color:var(--color-secondary)]"} />
+              </button>
+            </>
+          )}
         </div>
         <div className="flex flex-col items-center justify-start gap-y-1">
           <h1 className="text-2xl font-bold">{CapitalizeFullName ?? "name"}</h1>

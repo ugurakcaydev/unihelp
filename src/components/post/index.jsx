@@ -14,7 +14,7 @@ export default function Post({ post }) {
       <div className="w-10 h-10 rounded-full">
         <button
           onClick={(e) => {
-            navigate(`/${routeFormat(post?.account?.username)}`, {
+            navigate(`/${post?.account?.username?.trim()}`, {
               state: { userId: "2" },
             });
             e.stopPropagation();
@@ -45,7 +45,6 @@ export default function Post({ post }) {
               <div className="text-[#afaeae]">
                 {calculateTime(post.createdAt)}
               </div>
-              {`#${post.id}`}
             </div>
           </div>
         </header>

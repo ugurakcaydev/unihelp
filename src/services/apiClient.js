@@ -46,6 +46,17 @@ export const apiClient = {
     }
   },
 
+  //Get User by Id
+  getUserById: async (id) => {
+    try {
+      const response = await api.get(`/accounts/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to get user by id:", error);
+      throw error;
+    }
+  },
+
   //Get Id by Username
   getIdByUsername: async (name) => {
     try {
