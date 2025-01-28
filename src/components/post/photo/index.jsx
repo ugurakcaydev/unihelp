@@ -1,14 +1,25 @@
+import { setModal } from "../../../store/modal/actions";
+
 export default function Photo({ photos }) {
   switch (photos.length) {
     case 1:
       return (
-        <div className="w-full mt-3">
+        <button
+          onClick={() => {
+            setModal("imageDetail", photos);
+          }}
+          className="w-full mt-3"
+        >
           <img
-            src={photos[0] || "https://placehold.co/300x300"}
+            src={
+              photos[0]
+                ? `${photos[0]}?thumb=480x0`
+                : "https://placehold.co/300x300"
+            }
             alt=""
             className="w-full border max-h-[510px] object-cover border-[color:var(--background-third)] rounded-2xl"
           />
-        </div>
+        </button>
       );
 
     case 2:

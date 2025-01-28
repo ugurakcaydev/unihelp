@@ -12,8 +12,6 @@ export default function Poll({ poll: pollData }) {
     ), // Toplam oy sayısını hesapla
   });
 
-  console.log(pollData, "pollData", poll, "poll");
-
   const { mutate: votePoll } = useVotePoll({
     onSuccess: (data) => {
       console.log(data);

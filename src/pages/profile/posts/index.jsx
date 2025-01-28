@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useGetPostsByUserId from "../../../hooks/profileTabs/useGetPostsByUserId";
-import LayoutLoder from "../../../components/loader/layoutLoader";
+import LayoutLoader from "../../../components/loader/layoutLoader";
 import Post from "../../../components/post";
 import { WindowVirtualizer } from "virtua";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -9,29 +9,40 @@ function ProfilePostsTab({ userId }) {
   const [skip, setSkip] = useState(0);
   const [userPostData, setUserPostData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  console.log(userId, "profil");
   const { isLoading, isFetching, error } = useGetPostsByUserId(
     {
       user_id: userId,
       skip: skip,
     },
     {
+      enabled: !!userId, // userId mevcut olduğunda sorguyu çalıştır
       onSuccess: (data) => {
-        setUserPostData((prevPosts) => [...prevPosts, ...data]);
+        setUserPostData((prevPosts) =>
+          skip === 0 ? data : [...prevPosts, ...data]
+        ); // İlk sayfada verileri sıfırla
         if (data.length < 10) {
-          setHasMore(false); // Gelen veri azsa daha fazla veri olmadığını belirt
+          setHasMore(false); // Daha fazla veri yoksa yükleme durdur
         }
       },
     }
   );
 
-  const fetchMoreComment = () => {
+  // Kullanıcı değişimini takip et ve verileri sıfırla
+  useEffect(() => {
+    setUserPostData([]); // Gönderi verilerini temizle
+    setSkip(0); // Skip sıfırla
+    setHasMore(true); // Daha fazla veri olabileceğini varsay
+  }, [userId]);
+
+  const fetchMorePosts = () => {
     if (!isFetching) {
-      setSkip((prevSkip) => prevSkip + 10);
+      setSkip((prevSkip) => prevSkip + 10); // Skip değerini artır
     }
   };
 
   if (isLoading && userPostData.length === 0) {
-    return <LayoutLoder />;
+    return <LayoutLoader />;
   }
 
   if (error) {
@@ -54,9 +65,9 @@ function ProfilePostsTab({ userId }) {
         ))}
         <InfiniteScroll
           dataLength={userPostData.length}
-          next={fetchMoreComment}
+          next={fetchMorePosts}
           hasMore={hasMore}
-          loader={<LayoutLoder />}
+          loader={<LayoutLoader />}
         />
       </WindowVirtualizer>
     </div>

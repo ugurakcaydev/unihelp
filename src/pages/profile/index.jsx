@@ -4,7 +4,7 @@ import StickyHeader from "../../components/sticky-header";
 import classNames from "classnames";
 import { PenIcon } from "../../constant/icons";
 import ProfilePostsTab from "./posts";
-import ProfileAnswersTab from "./answers";
+
 import ProfileLikesTab from "./likes";
 import { setModal } from "../../store/modal/actions";
 import { useParams } from "react-router-dom";
@@ -16,7 +16,7 @@ import Loader from "../../components/loader";
 function ProfilePage() {
   const { fullName } = useParams();
   const CapitalizeFullName = capitalizeFullName(fullName);
-  
+
   const {
     data: userId,
     isError,
@@ -87,7 +87,6 @@ function ProfilePage() {
           <StickyHeader>
             <Tab.Items>
               <Tab.Item id="posts">Gönderiler</Tab.Item>
-              <Tab.Item id="answers">Cevaplar</Tab.Item>
               <Tab.Item id="likes">Beğeniler</Tab.Item>
             </Tab.Items>
           </StickyHeader>
@@ -96,9 +95,7 @@ function ProfilePage() {
           <Tab.Content id="posts">
             <ProfilePostsTab userId={userId} />
           </Tab.Content>
-          <Tab.Content id="answers">
-            <ProfileAnswersTab userId={userId} />
-          </Tab.Content>
+
           <Tab.Content id="likes">
             <ProfileLikesTab userId={userId} />
           </Tab.Content>

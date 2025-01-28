@@ -27,6 +27,24 @@ function SearchPage() {
     return <LayoutLoder />;
   }
 
+ 
+
+  if (posts.length == 0 && tags.length == 0 && users.length == 0) {
+    return (
+      <div className="w-full p-3 flex flex-col items-center justify-center gap-y-3 ">
+        <h1 className="font-bold flex justify-center items-center text-sm text-[color:var(--color-primary)]">
+          Sonuç yok
+        </h1>
+        <Link
+          to="/"
+          className="px-4 py-1 rounded-md bg-[#1d9bf0] w-fit text-white"
+        >
+          Diğer gönderilerimize bakabilirsiniz...
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       <OutletHeader title="Arama" returnButton={true} />
